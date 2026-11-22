@@ -1,0 +1,5 @@
+[
+	{"fact_id":"cum_co2_fossil","value":1882.3,"unit":"GtCO2","period":"1850-2025"},
+	{"fact_id":"cum_co2_land_use","value":897.6,"unit":"GtCO2","period":"1850-2025"},
+	{"fact_id":"cum_co2_total","value":2779.8,"unit":"GtCO2","period":"1850-2025"}
+]

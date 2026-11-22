@@ -1,0 +1,11 @@
+[
+	{"dataset_id":"edgar","label":"Methane, nitrous oxide and F-gas emissions","source":"EDGAR 2026 GHG (Crippa et al. 2026), JRC","source_url":"https://edgar.jrc.ec.europa.eu/dataset_ghg2026","licence":"CC BY 4.0"},
+	{"dataset_id":"era5_daily","label":"Daily global air temperature since 1940","source":"ERA5 via Copernicus Climate Pulse (C3S/ECMWF)","source_url":"https://pulse.climate.copernicus.eu/","licence":"CC BY 4.0"},
+	{"dataset_id":"gcb","label":"Global carbon budget: emissions, atmosphere, ocean and land sinks","source":"Global Carbon Budget 2026 v0.1 (Friedlingstein et al. 2026)","source_url":"https://doi.org/10.18160/GCP-2026","licence":"CC BY 4.0"},
+	{"dataset_id":"gcb_country","label":"Fossil CO2 emissions by country","source":"Global Carbon Project 2026v11","source_url":"https://doi.org/10.5281/zenodo.23667912","licence":"CC BY 4.0"},
+	{"dataset_id":"icecore","label":"CO2 in Antarctic ice cores, 800,000 years","source":"Bereiter et al. 2015, composite (NOAA Paleo)","source_url":"https://doi.org/10.1002/2014GL061957","licence":"open, citation requested"},
+	{"dataset_id":"mlo","label":"CO2 measured at Mauna Loa, annual means","source":"NOAA GML (Scripps before 1974), November 2026","source_url":"https://gml.noaa.gov/ccgg/trends/data.html","licence":"free to use, citation requested"},
+	{"dataset_id":"ncei_ohc","label":"Heat stored in the upper 2,000 m of the ocean","source":"NOAA NCEI global ocean heat content (Levitus et al. 2012, updated)","source_url":"https://www.ncei.noaa.gov/access/global-ocean-heat-content/basin_heat_data.html","licence":"public domain"},
+	{"dataset_id":"nsidc","label":"Arctic sea-ice extent in September","source":"NSIDC Sea Ice Index, version 4 (Fetterer et al.)","source_url":"https://nsidc.org/data/g02135","licence":"free to use with citation"},
+	{"dataset_id":"spm2","label":"Contributions to warming 2010-2019","source":"IPCC AR6 WGI Figure SPM.2 data (CEDA, v20210809)","source_url":"https://dap.ceda.ac.uk/badc/ar6_wg1/data/spm/spm_02/v20210809/panel_c/SPM2c_data.csv","licence":"Open Government Licence (CEDA)"}
+]

@@ -1,0 +1,20 @@
+[
+	{"driver_id":"observed","label":"Observed warming","panel":"observed","value_c":1.06,"low_c":0.88,"high_c":1.21,"sort":0},
+	{"driver_id":"human_total","label":"Total human influence","panel":"group","value_c":1.07,"low_c":0.8,"high_c":1.3,"sort":1},
+	{"driver_id":"ghg_wellmixed","label":"Well-mixed greenhouse gases","panel":"group","value_c":1.5,"low_c":1.0,"high_c":2.0,"sort":2},
+	{"driver_id":"other_human","label":"Other human drivers","panel":"group","value_c":-0.4,"low_c":-0.8,"high_c":0.0,"sort":3},
+	{"driver_id":"natural","label":"Solar and volcanic drivers","panel":"group","value_c":0.0,"low_c":-0.1,"high_c":0.1,"sort":4},
+	{"driver_id":"variability","label":"Internal variability","panel":"group","value_c":0.0,"low_c":-0.2,"high_c":0.2,"sort":5},
+	{"driver_id":"co2","label":"Carbon dioxide (CO₂)","panel":"substance","value_c":0.788,"low_c":0.522,"high_c":1.248,"sort":6},
+	{"driver_id":"ch4","label":"Methane (CH₄)","panel":"substance","value_c":0.513,"low_c":0.295,"high_c":0.841,"sort":7},
+	{"driver_id":"n2o","label":"Nitrous oxide (N₂O)","panel":"substance","value_c":0.092,"low_c":0.046,"high_c":0.155,"sort":8},
+	{"driver_id":"halogen","label":"Halogenated gases (CFCs, HCFCs, HFCs)","panel":"substance","value_c":0.099,"low_c":0.005,"high_c":0.203,"sort":9},
+	{"driver_id":"nox","label":"Nitrogen oxides (NOₓ)","panel":"substance","value_c":-0.137,"low_c":-0.299,"high_c":0.012,"sort":10},
+	{"driver_id":"voc_co","label":"Volatile organic compounds and carbon monoxide","panel":"substance","value_c":0.224,"low_c":0.094,"high_c":0.391,"sort":11},
+	{"driver_id":"so2","label":"Sulphur dioxide (SO₂)","panel":"substance","value_c":-0.486,"low_c":-0.931,"high_c":-0.104,"sort":12},
+	{"driver_id":"oc","label":"Organic carbon","panel":"substance","value_c":-0.069,"low_c":-0.155,"high_c":0.009,"sort":13},
+	{"driver_id":"bc","label":"Black carbon (soot)","panel":"substance","value_c":0.093,"low_c":-0.069,"high_c":0.257,"sort":14},
+	{"driver_id":"nh3","label":"Ammonia","panel":"substance","value_c":-0.015,"low_c":-0.023,"high_c":-0.009,"sort":15},
+	{"driver_id":"land_albedo","label":"Land use: reflectance and irrigation","panel":"substance","value_c":-0.08,"low_c":-0.139,"high_c":-0.036,"sort":16},
+	{"driver_id":"contrails","label":"Aviation contrails","panel":"substance","value_c":0.022,"low_c":0.008,"high_c":0.04,"sort":17}
+]

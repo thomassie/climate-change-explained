@@ -1,0 +1,7 @@
+[
+	{"sector_id":"energy_supply","label":"Energy supply (power and heat plants; fuel extraction and refining)","year":2019,"share_pct":34.0,"gtco2e":20.0,"note":"Electricity and heat counted where they are produced. Counted where they are used, industry rises to 34% and buildings to 16%; energy supply keeps 12%.","source_url":"https://www.ipcc.ch/report/ar6/wg3/downloads/report/IPCC_AR6_WGIII_SPM.pdf","location":"SPM B.2.1"},
+	{"sector_id":"industry","label":"Industry","year":2019,"share_pct":24.0,"gtco2e":14.0,"note":null,"source_url":"https://www.ipcc.ch/report/ar6/wg3/downloads/report/IPCC_AR6_WGIII_SPM.pdf","location":"SPM B.2.1"},
+	{"sector_id":"afolu","label":"Agriculture, forestry and other land use","year":2019,"share_pct":22.0,"gtco2e":13.0,"note":"About half from CO2 of land use, mostly deforestation (medium confidence); the rest mainly methane and nitrous oxide from farming.","source_url":"https://www.ipcc.ch/report/ar6/wg3/downloads/report/IPCC_AR6_WGIII_SPM.pdf","location":"SPM B.2.1-B.2.2"},
+	{"sector_id":"transport","label":"Transport","year":2019,"share_pct":15.0,"gtco2e":8.7,"note":null,"source_url":"https://www.ipcc.ch/report/ar6/wg3/downloads/report/IPCC_AR6_WGIII_SPM.pdf","location":"SPM B.2.1"},
+	{"sector_id":"buildings","label":"Buildings","year":2019,"share_pct":6.0,"gtco2e":3.3,"note":null,"source_url":"https://www.ipcc.ch/report/ar6/wg3/downloads/report/IPCC_AR6_WGIII_SPM.pdf","location":"SPM B.2.1"}
+]

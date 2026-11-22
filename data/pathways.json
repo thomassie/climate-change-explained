@@ -1,0 +1,10 @@
+[
+	{"target":"1.5 °C (>50%; no or limited overshoot)","gas":"ch4","year":2030,"reduction_pct":34.0,"low_pct":21.0,"high_pct":57.0,"source_url":"https://www.ipcc.ch/report/ar6/wg3/downloads/report/IPCC_AR6_WGIII_SPM.pdf","location":"SPM C.1.2"},
+	{"target":"1.5 °C (>50%; no or limited overshoot)","gas":"ch4","year":2040,"reduction_pct":44.0,"low_pct":31.0,"high_pct":63.0,"source_url":"https://www.ipcc.ch/report/ar6/wg3/downloads/report/IPCC_AR6_WGIII_SPM.pdf","location":"SPM C.1.2"},
+	{"target":"1.5 °C (>50%; no or limited overshoot)","gas":"co2","year":2030,"reduction_pct":48.0,"low_pct":36.0,"high_pct":69.0,"source_url":"https://www.ipcc.ch/report/ar6/wg3/downloads/report/IPCC_AR6_WGIII_SPM.pdf","location":"SPM C.1.2"},
+	{"target":"1.5 °C (>50%; no or limited overshoot)","gas":"co2","year":2040,"reduction_pct":80.0,"low_pct":61.0,"high_pct":109.0,"source_url":"https://www.ipcc.ch/report/ar6/wg3/downloads/report/IPCC_AR6_WGIII_SPM.pdf","location":"SPM C.1.2"},
+	{"target":"2 °C (>67%; immediate action)","gas":"ch4","year":2030,"reduction_pct":24.0,"low_pct":9.0,"high_pct":53.0,"source_url":"https://www.ipcc.ch/report/ar6/wg3/downloads/report/IPCC_AR6_WGIII_SPM.pdf","location":"SPM C.1.2"},
+	{"target":"2 °C (>67%; immediate action)","gas":"ch4","year":2040,"reduction_pct":37.0,"low_pct":20.0,"high_pct":60.0,"source_url":"https://www.ipcc.ch/report/ar6/wg3/downloads/report/IPCC_AR6_WGIII_SPM.pdf","location":"SPM C.1.2"},
+	{"target":"2 °C (>67%; immediate action)","gas":"co2","year":2030,"reduction_pct":27.0,"low_pct":11.0,"high_pct":46.0,"source_url":"https://www.ipcc.ch/report/ar6/wg3/downloads/report/IPCC_AR6_WGIII_SPM.pdf","location":"SPM C.1.2"},
+	{"target":"2 °C (>67%; immediate action)","gas":"co2","year":2040,"reduction_pct":52.0,"low_pct":36.0,"high_pct":70.0,"source_url":"https://www.ipcc.ch/report/ar6/wg3/downloads/report/IPCC_AR6_WGIII_SPM.pdf","location":"SPM C.1.2"}
+]

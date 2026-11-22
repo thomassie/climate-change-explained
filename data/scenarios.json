@@ -1,0 +1,5 @@
+[
+	{"scenario_id":"ssp126","code":"SSP1-2.6","label":"Low emissions","emissions":"CO₂ emissions fall to net zero around or after 2050, then below zero.","source_url":"https://www.ipcc.ch/report/ar6/wg1/downloads/report/IPCC_AR6_WGI_SPM.pdf","location":"Box SPM.1.1"},
+	{"scenario_id":"ssp245","code":"SSP2-4.5","label":"Medium emissions","emissions":"CO₂ emissions stay around current levels until the middle of the century.","source_url":"https://www.ipcc.ch/report/ar6/wg1/downloads/report/IPCC_AR6_WGI_SPM.pdf","location":"Box SPM.1.1"},
+	{"scenario_id":"ssp585","code":"SSP5-8.5","label":"Very high emissions","emissions":"CO₂ emissions roughly double from current levels by 2050.","source_url":"https://www.ipcc.ch/report/ar6/wg1/downloads/report/IPCC_AR6_WGI_SPM.pdf","location":"Box SPM.1.1"}
+]

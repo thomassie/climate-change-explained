@@ -1,0 +1,8 @@
+[
+	{"target_c":1.5,"likelihood_pct":50,"gtco2":130.0,"from_year":2026,"source_url":"https://doi.org/10.5194/essd-18-3889-2026","location":"Table 8"},
+	{"target_c":1.5,"likelihood_pct":67,"gtco2":80.0,"from_year":2026,"source_url":"https://doi.org/10.5194/essd-18-3889-2026","location":"Table 8"},
+	{"target_c":1.7,"likelihood_pct":50,"gtco2":500.0,"from_year":2026,"source_url":"https://doi.org/10.5194/essd-18-3889-2026","location":"Table 8"},
+	{"target_c":1.7,"likelihood_pct":67,"gtco2":390.0,"from_year":2026,"source_url":"https://doi.org/10.5194/essd-18-3889-2026","location":"Table 8"},
+	{"target_c":2.0,"likelihood_pct":50,"gtco2":1050.0,"from_year":2026,"source_url":"https://doi.org/10.5194/essd-18-3889-2026","location":"Table 8"},
+	{"target_c":2.0,"likelihood_pct":67,"gtco2":860.0,"from_year":2026,"source_url":"https://doi.org/10.5194/essd-18-3889-2026","location":"Table 8"}
+]

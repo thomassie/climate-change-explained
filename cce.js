@@ -66,7 +66,7 @@
         <p class="cce-dek">Where we come from, where we are, and where we are heading: Earth’s temperature from the last ice age to 2100.</p>
       </header>`}
       <nav class="cce-nav" id="cce-nav" aria-label="On this page">
-        <a href="#cce-lead">Warming so far and ahead</a><a href="#cce-timeline-h">24,000 years in one chart</a><a href="#cce-daily-h">Day by day</a><a href="#cce-causes-h">Why it warms</a><a href="#cce-drivers-h">What warms, what cools</a><a href="#cce-impacts-h">How it shows up</a><a href="#cce-life-h">Your lifetime</a><a href="#cce-local-h">Where you live</a>${places ? '<a href="#cce-places-h">${places.length} places</a>' : ''}<a href="#cce-decide-h">What decides it</a><a href="#cce-method-h">Sources and method</a>
+        <a href="#cce-lead">Warming so far and ahead</a><a href="#cce-timeline-h">24,000 years in one chart</a><a href="#cce-daily-h">Day by day</a><a href="#cce-causes-h">Why it warms</a><a href="#cce-drivers-h">What warms, what cools</a><a href="#cce-impacts-h">How it shows up</a><a href="#cce-life-h">Your lifetime</a><a href="#cce-local-h">Where you live</a>${places ? `<a href="#cce-places-h">${places.length} places</a>` : ''}<a href="#cce-decide-h">What decides it</a><a href="#cce-method-h">Sources and method</a>
       </nav>
       <section class="cce-lead" id="cce-lead" aria-labelledby="cce-lead-h">
         <h2 id="cce-lead-h">How much warmer</h2>
@@ -1346,7 +1346,10 @@
         const shakyNote = IND.filter(([id]) => shaky(p, id)).map(([id, label]) => { const s = shaky(p, id);
           return `${esc(label)}: ERA5 counts ${fmt(s.era5)} ${UNIT[id]} a year in 1991–2020, the models ${fmt(s.models)}`; });
         const n4 = Object.values(p.v).map((o) => (o['+4'] || [])[3]).filter(Number.isFinite), nM = Math.min(...n4), nX = Math.max(...n4);
-        root.querySelector('#cce-card').innerHTML = `<header><h3>${esc(p.name)}<span>${esc(p.country)}</span></h3><p>${esc(p.why)}</p></header>
+        const ll = (v, pos, neg) => `${fmt(Math.abs(v), 1)}° ${v >= 0 ? pos : neg}`;
+        root.querySelector('#cce-card').innerHTML = `<header><div><h3>${esc(p.name)}<span>${esc(p.country)}</span></h3><p>${esc(p.why)}</p></div>
+          <svg class="cce-card__map" role="img" data-label="${esc(`Locator map: ${p.name}, ${ll(p.lat, 'N', 'S')}, ${ll(p.lon, 'E', 'W')}`)}"
+            aria-label="${esc(`Locator map: ${p.name}`)}"></svg></header>
           <div class="cce-card__story"><h4>What happens there if the world is ${esc(hl.slice(1))} °C warmer than in 1850–1900</h4>
           <ul>${story(p, hl).map((s) => `<li>${s}</li>`).join('')}</ul>
           <p class="cce-note">Compared with 1991–2020; median of the climate models. Choose another path at the top of the page to see another warming level.</p></div>
@@ -1367,9 +1370,20 @@
         take their change in percent; a warming level is the 20 years around the year each model first reaches it.
         The model cells are about 100 km across and ERA5’s about 25 km, so a city’s own extra heat is not included, and the wettest day is lower than at a single station.
         Data: Copernicus Climate Change Service, <a href="https://doi.org/10.24381/cds.h35hb680">Gridded dataset underpinning the Copernicus Interactive Climate Atlas</a> (CC BY 4.0);
-        warming-level years: <a href="https://doi.org/10.5281/zenodo.3691645">IPCC AR6 Atlas</a>. Projections, not forecasts.`;
-      drawCard();
-      cardHook = drawCard;
+        warming-level years: <a href="https://doi.org/10.5281/zenodo.3691645">IPCC AR6 Atlas</a>; locator maps: <a href="https://www.naturalearthdata.com/">Natural Earth</a> 1:50m (public domain), a section of the globe centred on the place, its scale bar true at the centre. Projections, not forecasts.`;
+      // locator map in the card header (site/_shared/locator.js, Natural Earth 1:50m; same as Sea-level Cities)
+      let world = null;
+      const drawMap = () => { const el = root.querySelector('.cce-card__map'), p = places.find((q) => q.id === placeId);
+        if (el && world) FCC.locator(el, world, { lon: p.lon, lat: p.lat, cls: 'cce-loc' }); };
+      const drawAll = () => { drawCard(); drawMap(); };
+      pick.addEventListener('click', drawMap);   // after drawCard, which the first listener runs
+      (FCC.locator ? Promise.resolve() : new Promise((ok, no) => {   // embeds that list scripts by hand may not include locator.js: load it
+        const s = document.createElement('script'); s.src = `${base}locator.js`; s.onload = ok; s.onerror = no; document.head.append(s);
+      })).then(() => FCC.locatorWorld(base)).then((w) => { world = w; drawMap(); }).catch(() => { world = null; root.querySelector('#cce-card').classList.add('cce-card--nomap'); });
+      let wPrev = 0;
+      new ResizeObserver(() => { const el = root.querySelector('.cce-card__map'), w = el && el.clientWidth; if (w && w !== wPrev) { wPrev = w; drawMap(); } }).observe(root.querySelector('#cce-card'));
+      drawAll();
+      cardHook = drawAll;
     }
 
     // ================= What decides it =================

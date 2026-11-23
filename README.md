@@ -8,7 +8,7 @@ Published to `thomassie/climate-change-explained` (GitHub Pages) by `.github/scr
 | `index.html` | Standalone page |
 | `embed-example.html` | The page inside a stand-in host page with hostile styles and a fixed header (test only, noindex) |
 | `cce.js`, `cce.css` | The page: lead, timeline, day by day, why it warms (animated diagram), what warms and cools, how it shows up, your lifetime, where you live, what decides it, sources and method |
-| `scrolly.js`, `theme.css`, `block3d.js` | Shared code, copied from `site/_shared/` by `tools/sync_shared.py` (`block3d.js` is not used by this page) |
+| `scrolly.js`, `theme.css`, `block3d.js`, `locator.js`, `world-50m.json` | Shared code, copied from `site/_shared/` by `tools/sync_shared.py` (`block3d.js` is not used by this page; `locator.js` draws the card's locator map and is loaded on demand if the embed does not list it) |
 | `data/timeline.json`, `series.json`, `periods.json`, `scenarios.json`, `constants.json` | Temperature series (°C vs 1850-1900): reconstructions, measured land / sea surface / global, IPCC projections and our land/sea split; series metadata with sources; constants with sources |
 | `data/landmarks.json` | Landmarks on the timeline (nature, history, policy, science, industry), each with a source |
 | `data/daily.json` | ERA5 daily global air temperature per year since 1940 (Copernicus Climate Pulse), with each year's warming vs 1850-1900 |

@@ -298,6 +298,17 @@
 .cce .cce-card h3 { margin: 0; }
 .cce .cce-card h3 span { font-weight: 400; color: var(--muted); margin-left: 0.5rem; font-size: 0.9em; }
 .cce .cce-card header p { margin: 0.25rem 0 0.75rem; color: var(--muted); }
+.cce .cce-card > header { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 18rem); gap: 1rem; align-items: start; }
+.cce .cce-card--nomap .cce-card__map { display: none; }
+@media (max-width: 640px) { .cce .cce-card > header { grid-template-columns: minmax(0, 1fr); gap: 0.5rem; } .cce .cce-card__map { order: -1; } }
+.cce .cce-card__map { display: block; width: 100%; background: color-mix(in srgb, var(--blue) 10%, var(--paper)); }
+.cce .cce-loc__grat { fill: none; stroke: var(--rule); stroke-width: 0.5; }
+.cce .cce-loc__land { fill: color-mix(in srgb, var(--muted) 40%, var(--paper)); stroke: none; }
+.cce .cce-loc__border { fill: none; stroke: var(--paper); stroke-width: 0.75; }
+.cce .cce-loc__ring { fill: none; stroke: var(--red); stroke-width: 1.5; }
+.cce .cce-loc__dot { fill: var(--red); stroke: var(--paper); stroke-width: 1; }
+.cce .cce-loc__scale path { fill: none; stroke: var(--ink); stroke-width: 1.25; }
+.cce .cce-loc__scale text { font-family: var(--font-support); font-size: 11px; fill: var(--ink); paint-order: stroke; stroke: color-mix(in srgb, var(--blue) 10%, var(--paper)); stroke-width: 3px; stroke-linejoin: round; }
 .cce .cce-card__scroll { overflow-x: auto; }
 .cce .cce-card__flag { color: var(--muted); font-weight: 400; }
 .cce .cce-card table { border-collapse: collapse; width: 100%; min-width: 34rem; font-variant-numeric: tabular-nums; }

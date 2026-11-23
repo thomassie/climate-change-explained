@@ -87,12 +87,14 @@
         <div class="story">
           <div class="story__graphic">
             <div class="cce-tabs cce-graphic-tabs" role="group" aria-label="Emissions scenario" hidden></div>
+            <a class="cce-skip" href="#cce-lm-all">Skip the chart: all landmarks as a list</a>
             <div class="cce-chart" id="cce-chart"></div>
             <div class="cce-legend" aria-hidden="true"></div>
             <div class="cce-kinds" role="group" aria-label="Show landmarks"></div>
           </div>
           <div class="story__steps"></div>
         </div>
+        <details class="cce-lm-all" id="cce-lm-all"><summary></summary><div class="cce-lm-all__scroll"><table></table></div></details>
       </section>
       <section class="cce-daily" aria-labelledby="cce-daily-h">
         <a class="cce-top" href="#cce-nav">↑ Top</a>
@@ -236,7 +238,7 @@
     lead.querySelector('#cce-hero-now').innerHTML = `${sgn(g10)}<small> °C</small>`;
     lead.querySelector('#cce-hero-now-text').innerHTML = `Earth’s surface, on average over the last ten years, compared with 1850–1900.
       Over land it was <strong>${sgn(l10)} °C</strong>, at the sea surface <strong>${sgn(s10)} °C</strong>.
-      <span class="cce-src">(${src('obs_global', 'HadCRUT5')}; ${src('obs_land', 'Berkeley Earth')}; ${src('obs_sea', 'HadSST4')})</span>`;
+      <span class="cce-src">(${src('obs_global', 'HadCRUT5')}; ${src('obs_land', 'Berkeley Earth')}, a preliminary release, not yet peer reviewed, so values may change; ${src('obs_sea', 'HadSST4')})</span>`;
     function drawLead() {
       const sc = SC.get(cur), p = per(sc.code, '2081-2100'), sp = split(p.best_c);
       lead.querySelector('#cce-hero-2100').innerHTML = `${sgn(p.best_c)}<small> °C</small>`;
@@ -275,9 +277,9 @@
       { x: [-10500, 2100], y: [-2.5, 2.5], rank: 1, past: ['temp12k'], obs: true,
         alt: () => `Chart: the Holocene, global temperature within about ${fmt(holoRange, 1)} °C for 10,000 years.`,
         html: () => `<p><strong>A stable climate.</strong> For the last 10,000 years, the Holocene, global temperature stayed
-          within about <strong>${fmt(holoRange, 1)} °C</strong> (central estimate). In this stable climate, people began farming and built
-          the first cities.</p><p>Reconstructions differ on the details, for example whether the Holocene had a warm peak about
-          6,000 years ago. <span class="cce-src">(${src('temp12k')}, 5–95% range shaded)</span></p>` },
+          within about <strong>${fmt(holoRange, 1)} °C</strong> (central estimate). Farming began early in the Holocene, as the climate
+          settled after the ice age, and people later built the first cities.</p><p>Proxy records and climate models differ on
+          the details: the records show a warm peak about 6,000 years ago, the models steady warming. <span class="cce-src">(${src('temp12k')}, 5–95% range shaded)</span></p>` },
       { x: [1, 2100], y: [-1, 2.5], rank: 2, past: ['pages2k'], obs: true,
         alt: () => `Chart: the last 2,000 years; global temperature moved within about ${fmt(p2kRange, 1)} °C until 1850, then rose.`,
         html: () => `<p><strong>The last 2,000 years.</strong> Until industrialisation, global temperature moved within
@@ -291,15 +293,16 @@
           land was on average <strong>${sgn(l10)} °C</strong> warmer than in 1850–1900, the sea surface <strong>${sgn(s10)} °C</strong>.
           The warmest year so far on land was ${hl.y} (${sgn(hl.v)} °C), at sea ${hs.y} (${sgn(hs.v)} °C).</p>
           <p>The lines mark when scientists described the greenhouse effect, and when oil companies’ own experts
-          briefed them on it. <span class="cce-src">(${src('obs_land', 'Berkeley Earth')}; ${src('obs_sea', 'HadSST4')}; 95% uncertainty shaded)</span></p>`; } },
+          briefed them on it. <span class="cce-src">(${src('obs_land', 'Berkeley Earth')}, preliminary release, values may change; ${src('obs_sea', 'HadSST4')}; 95% uncertainty shaded)</span></p>`; } },
       { x: [1850, 2100], y: [-0.8, 8.5], rank: 2, obs: true, proj: ['land', 'sea'], tabs: true,
         alt: () => { const l = pEnd(`proj_land_${cur}`), s = pEnd(`proj_sea_${cur}`);
           return `Chart: measured warming and projections to 2100 with ${L(cur)}: land about ${sgn(l.v)} °C, sea surface ${sgn(s.v)} °C by 2081–2099.`; },
         html: () => { const l = pEnd(`proj_land_${cur}`), s = pEnd(`proj_sea_${cur}`);
           const others = SSPS.filter((x) => x !== cur).map((x) => `${L(x)} ${sgn(pEnd(`proj_land_${x}`).v)} °C`).join(', ');
           return `<p><strong>Where we are heading.</strong> With <span class="cce-cur">${esc(L(cur))}</span>, land would be about
-          <strong>${sgn(l.v)} °C</strong> warmer than in 1850–1900 by 2081–2099 (very likely ${fmt(l.lo, 1)} to ${fmt(l.hi, 1)} °C),
-          the sea surface about <strong>${sgn(s.v)} °C</strong> (${fmt(s.lo, 1)} to ${fmt(s.hi, 1)} °C).</p>
+          <strong>${sgn(l.v)} °C</strong> warmer than in 1850–1900 by 2081–2099 (range ${fmt(l.lo, 1)} to ${fmt(l.hi, 1)} °C, our estimate, see method),
+          the sea surface about <strong>${sgn(s.v)} °C</strong> (${fmt(s.lo, 1)} to ${fmt(s.hi, 1)} °C). The chart’s projections end in 2099;
+          the figures at the top of the page are the IPCC’s for 2081–2100, so they can differ by a tenth of a degree.</p>
           <p>The thin lines show the other paths for land: ${others}. Switch the path above the chart. Which path the world
           takes depends on its emissions; the IPCC gives no odds. <span class="cce-src">(IPCC global projection, ${src(`proj_global_${cur}`, 'SPM.8')};
           land and sea split with the IPCC’s land/ocean ratio, see method)</span></p>`; } },
@@ -318,10 +321,27 @@
     stepsEl.innerHTML = STEPS.map((s, i) => `<div class="step" data-i="${i}"><div class="step__text"></div></div>`).join('');
     function stepTexts() { stepsEl.querySelectorAll('.step__text').forEach((el, i) => { el.innerHTML = STEPS[i].html(); }); }
 
+    // ---------- landmarks: fixed numbers (chronological) shared by the chart and the list below it (review D1, F1) ----------
+    const KIND = { nature: 'Nature', history: 'History', policy: 'Policy', science: 'Science', industry: 'Industry' };
+    const lmSorted = landmarks.slice().sort((a, b) => a.year_start - b.year_start || a.rank - b.rank);
+    const NUM = new Map(lmSorted.map((l, i) => [l.id, i + 1]));
+    {
+      const det = root.querySelector('#cce-lm-all');
+      det.querySelector('summary').textContent = `All ${lmSorted.length} landmarks, with notes and sources`;
+      det.querySelector('table').innerHTML = `<thead><tr><th scope="col">No.</th><th scope="col">When</th><th scope="col">Kind</th>
+        <th scope="col">Landmark</th><th scope="col">Source</th></tr></thead><tbody>${lmSorted.map((l) => `<tr><td>${NUM.get(l.id)}</td>
+        <td>${esc(l.date_label)}</td><td>${esc(KIND[l.kind])}</td><td><b>${esc(l.label)}</b> ${esc(l.note || '')}</td>
+        <td><a href="${esc(l.source_url)}">Source</a></td></tr>`).join('')}</tbody>`;
+    }
+
     // ---------- the chart ----------
     const chart = timelineChart(root.querySelector('#cce-chart'));
     function timelineChart(host) {
-      const svg = d3.select(host).append('svg').attr('role', 'img');
+      // role group, not img: the landmark buttons inside must stay reachable for screen readers (review F1)
+      const svg = d3.select(host).append('svg').attr('role', 'group');
+      const descs = d3.select(host).append('div').attr('class', 'cce-sr');
+      descs.selectAll('span').data(landmarks).join('span').attr('id', (l) => `cce-lmd-${l.id}`)
+        .text((l) => `${KIND[l.kind]}. ${l.note || ''} Number ${NUM.get(l.id)} in the list of landmarks below the chart.`);
       const gFuture = svg.append('rect').attr('class', 'cce-future');
       const gLm = svg.append('g'), gThr = svg.append('g').attr('class', 'cce-thr');
       const gBands = svg.append('g'), gLines = svg.append('g'), gNow = svg.append('g').attr('class', 'cce-now');
@@ -399,34 +419,46 @@
         gThr.selectAll('*').remove();
         if (step.thr) [1.5, 2].forEach((t) => {
           gThr.append('line').attr('x1', M.l).attr('x2', W - M.r).attr('y1', y(t)).attr('y2', y(t));
-          gThr.append('text').attr('x', M.l + 4).attr('y', y(t) - 3).text(`${t} °C${t === 2 ? ': Paris limits, global mean' : ''}`);
+          gThr.append('text').attr('x', M.l + 4).attr('y', y(t) - 3).text(`${t} °C${t === 2 ? ': Paris, well below 2 °C (global mean)' : t === 1.5 ? ': Paris, efforts to limit to 1.5 °C' : ''}`);
         });
         landmarksDraw();
       }
+      // label widths measured, not guessed (review D1); cached per text
+      const meas = svg.append('g').attr('class', 'cce-lm').attr('aria-hidden', 'true').style('visibility', 'hidden').append('text');
+      const wCache = new Map();
+      const tw = (s) => { if (!wCache.has(s)) wCache.set(s, meas.text(s).node().getComputedTextLength() + 8); return wCache.get(s); };
       function landmarksDraw() {
         const [x0, x1] = x.domain();
-        const rows = narrow ? 3 : 4, rowH = 13, top = 10;
+        const rows = narrow ? 3 : 4, rowH = 15, top = 10;
         const cand = landmarks.filter((l) => kinds.has(l.kind) && l.rank <= step.rank && l.year_start <= x1 && (l.year_end ?? l.year_start) >= x0)
           .sort((a, b) => a.rank - b.rank || a.year_start - b.year_start);
         const occ = Array.from({ length: rows }, () => []), placed = new Map();
-        const tw = (s) => s.length * 6.4 + 10;
-        cand.forEach((l) => {
-          const px = x(Math.max(l.year_start, x0)), w = tw(l.label);
+        // first the full labels by rank; lines left without one get their number from the list below the chart
+        const place = (l, text) => {
+          const px = x(Math.max(l.year_start, x0)), w = tw(text);
           let start = px + 3, anchor = 'start';
           if (start + w > W - 4) { start = Math.max(2, px - 3 - w); anchor = start === 2 ? 'clamp' : 'end'; }
           for (let r = 0; r < rows; r++) {
-            if (occ[r].every(([a, b]) => start + w < a || start > b)) { occ[r].push([start, start + w]); placed.set(l.id, { r, anchor, px }); return; }
+            if (occ[r].every(([a, b]) => start + w < a || start > b)) { occ[r].push([start, start + w]); placed.set(l.id, { r, anchor, px, text }); return true; }
           }
-        });
+          return false;
+        };
+        const left = cand.filter((l) => !place(l, l.label));
+        left.forEach((l) => place(l, String(NUM.get(l.id))));
         const g = gLm.selectAll('g.cce-lm').data(cand, (l) => l.id).join((en) => {
           const e = en.append('g').attr('class', 'cce-lm').attr('tabindex', 0).attr('role', 'button');
           e.append('rect'); e.append('line').attr('class', 'cce-lm-v'); e.append('line').attr('class', 'cce-lm-hit'); e.append('text');
+          // keyboard: focus shows the note; Enter or Space keeps it open and moves to its Source link; Escape closes (review F1, F2)
           e.on('mouseenter', (ev, l) => show(l, ev)).on('mouseleave', () => hide(false)).on('click', (ev, l) => { ev.stopPropagation(); show(l, ev, true); })
-            .on('focus', (ev, l) => show(l, ev)).on('blur', () => hide(false))
-            .on('keydown', (ev) => { if (ev.key === 'Escape') hide(true); });
+            .on('focus', (ev, l) => show(l, ev)).on('blur', blurred)
+            .on('keydown', function (ev, l) {
+              if (ev.key === 'Escape') hide(true);
+              if (ev.key === 'Enter' || ev.key === ' ') { ev.preventDefault(); show(l, ev, true); back = this; tip.select('a').node().focus(); }
+            });
           return e;
         });
-        g.attr('data-kind', (l) => l.kind).attr('aria-label', (l) => `${l.date_label}: ${l.label}`);
+        g.attr('data-kind', (l) => l.kind).attr('aria-label', (l) => `${l.date_label}: ${l.label}`)
+          .attr('aria-describedby', (l) => `cce-lmd-${l.id}`);
         g.each(function (l) {
           const p = placed.get(l.id), sel = d3.select(this);
           const px = x(Math.max(l.year_start, x0)), ly = p ? top + p.r * rowH + rowH : M.t;
@@ -436,14 +468,18 @@
           sel.selectAll('line').attr('x1', px).attr('x2', px).attr('y1', p ? ly - rowH + 3 : M.t - 8).attr('y2', p ? H - M.b : M.t + 2);
           sel.select('text').attr('x', p ? (p.anchor === 'start' ? px + 3 : p.anchor === 'clamp' ? 2 : px - 3) : px).attr('y', ly - 3)
             .attr('text-anchor', p && p.anchor === 'end' ? 'end' : 'start')
-            .text(p ? l.label : '');
+            .classed('cce-lm-num', !!p && p.text !== l.label)
+            .text(p ? p.text : '');
         });
       }
-      let pinned = false;
+      let pinned = false, back = null;
+      // close the note only once focus has left both the line and its note, so Tab can reach the Source link
+      function blurred() { setTimeout(() => { if (!tip.node().contains(document.activeElement)) hide(true); }, 0); }
+      tip.on('focusout', blurred).on('keydown', (ev) => { if (ev.key === 'Escape') { hide(true); if (back) back.focus(); } });
       function show(l, ev, pin) {
         if (pinned && !pin) return;
         pinned = !!pin;
-        tip.attr('hidden', null).html(`<span class="cce-note">${esc(l.date_label)} · ${esc(KIND[l.kind])}</span><b>${esc(l.label)}</b>
+        tip.attr('hidden', null).html(`<span class="cce-note">${NUM.get(l.id)} · ${esc(l.date_label)} · ${esc(KIND[l.kind])}</span><b>${esc(l.label)}</b>
           ${l.note ? `${esc(l.note)} ` : ''}<a class="cce-src" href="${esc(l.source_url)}">Source</a>`);
         const px = x(Math.max(l.year_start, x.domain()[0])), tn = tip.node();
         const left = Math.min(Math.max(0, px - tn.offsetWidth / 2), W - tn.offsetWidth);
@@ -472,10 +508,9 @@
         if ((step.past || []).length) items.push(['var(--ink)', 'global, reconstructed']);
         if (step.obs) items.push(['var(--red)', 'land, measured'], ['var(--blue)', 'sea surface, measured']);
         if (step.obsGlobal) items.push(['var(--ink)', 'global, measured']);
-        if ((step.proj || []).length) items.push(['var(--muted)', `projected, ${L(cur)} (dashed; shaded: very likely range; dotted: other paths)`]);
+        if ((step.proj || []).length) items.push(['var(--muted)', `projected, ${L(cur)} (dashed; shaded: very likely range for the global line, our estimate for land and sea; dotted: other paths)`]);
         root.querySelector('.cce-legend').innerHTML = items.map(([c, t]) => `<span>${c ? `<i style="border-color:${c}"></i>` : ''}${esc(t)}</span>`).join('');
       }
-      const KIND = { nature: 'Nature', history: 'History', policy: 'Policy', science: 'Science', industry: 'Industry' };
       const kindsEl = root.querySelector('.cce-kinds');
       kindsEl.innerHTML = Object.entries(KIND).map(([k, t]) => `<label><input type="checkbox" checked value="${k}">
         <svg class="cce-lm" data-kind="${k}" aria-hidden="true"><line x1="0" x2="22" y1="4" y2="4"/></svg>${t}</label>`).join('');
@@ -490,8 +525,28 @@
     const DS = new Map(datasets.map((d) => [d.dataset_id, d]));
     const dsrc = (id, text) => { const d = DS.get(id); return d ? `<a href="${esc(d.source_url)}">${esc(text || d.source)}</a>` : ''; };
     const pct = (a, b) => (a / b) * 100;
+    // live figures carry the date they were last checked against their source (review E2)
+    const asOf = (row) => { if (!row.as_of) return '';
+      const [yy, mm, dd] = String(row.as_of).slice(0, 10).split('-').map(Number);
+      return `, as of ${dd} ${['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'][mm - 1]} ${yy}`; };
+    // The numbers behind a chart as a table, collapsed under the figure (review F4): for keyboard and screen-reader users
+    // and anyone who wants the values. head = column names, rows = arrays of cell text. Re-rendered on change.
+    function dataTable(fig, summary, head, rows) {
+      let det = fig.querySelector(':scope > details.cce-data');
+      if (!det) { det = document.createElement('details'); det.className = 'cce-data'; fig.append(det); }
+      const open = det.open;
+      det.innerHTML = `<summary>${esc(summary)}</summary><div class="cce-data__scroll" tabindex="0" role="region" aria-label="${esc(summary)}"><table>
+        <thead><tr>${head.map((h, i) => `<th scope="col"${i ? '' : ' class="l"'}>${esc(h)}</th>`).join('')}</tr></thead>
+        <tbody>${rows.map((r) => `<tr>${r.map((c, i) => (i ? `<td>${esc(c)}</td>` : `<th scope="row">${esc(c)}</th>`)).join('')}</tr>`).join('')}</tbody></table></div>`;
+      det.open = open;
+    }
     const NAMES = { USA: 'United States' };
     const cname = (c) => NAMES[c.name] || c.name;
+    // "the United States", "the Netherlands": names that take an article in running text
+    const THE = /^(United |Republic|Democratic|Dominican|Central African|Netherlands|Philippines|Bahamas|Gambia|Maldives|Solomon|Marshall|Comoros|Seychelles|Russian Federation)/;
+    const theName = (n, cap) => (THE.test(n) ? `${cap ? 'The' : 'the'} ${n}` : n);
+    // one naming list for both country charts (review B10): the emissions file's names by ISO3, Natural Earth's only where it has none
+    const CNAME = new Map(countries.map((c) => [c.iso3, cname(c)]));
 
     // a small tooltip shared by the static charts
     function tipFor(host) {
@@ -516,18 +571,18 @@
       surface gives off heat as infrared radiation. Some gases in the air (water vapour, carbon dioxide, methane, nitrous
       oxide and others) absorb part of that heat and send some of it back down. This natural greenhouse effect is why Earth is
       warm enough for life.</p>
-      <p>Adding more of these gases lets less heat escape to space. The surface warms until it gives off enough heat to
-      balance the sunlight again. Scientists described this in the 19th century, as the timeline above shows.</p>`;
+      <p>Adding more of these gases lets less heat escape to space. The surface and air warm until as much heat escapes to
+      space as sunlight comes in. Scientists described this in the 19th century, as the timeline above shows.</p>`;
     // Animated: one "energy dot" travels the path of the energy and changes colour with its form (sunlight yellow,
     // infrared heat red). Each info point appears when the dot reaches it and stays. Plays once when scrolled into view;
-    // "Play again" restarts; with reduced motion the finished diagram is shown at once.
+    // "Play again" restarts; with reduced motion the finished diagram is shown at once and the button plays it on request.
     const GHE = {
       steps: [   // id, short label (two lines), list text
         ['reflect', ['Clouds and ice reflect', 'some sunlight back to space'], 'Clouds, ice and particles reflect some sunlight straight back to space.'],
         ['sun', ['Sunlight passes', 'through the air'], 'Sunlight passes through the air.'],
         ['ground', ['The ground absorbs it and', 'gives off heat (infrared)'], 'The ground absorbs it, warms and gives off heat as infrared radiation.'],
         ['back', ['Greenhouse gases absorb heat', 'and send part of it back down'], 'Greenhouse gases absorb part of that heat and send some of it back down.'],
-        ['escape', ['The rest escapes', 'to space'], 'The rest escapes to space.'],
+        ['escape', ['Part of the heat', 'escapes to space'], 'Part of the heat escapes to space.'],
         ['more', ['More greenhouse gases: the ground', 'warms until enough heat escapes'], 'With more greenhouse gases, more heat is sent back; the ground warms until enough heat escapes again.'],
       ],
       lab: { reflect: [214, 34], sun: [104, 156], ground: [40, 262], back: [306, 100], escape: [482, 36], more: [350, 262] },
@@ -559,7 +614,7 @@
         <g id="cce-ghe-dots"></g>
         <g id="cce-ghe-labs"></g>
       </svg>
-      <div class="cce-ghe-bar"><button type="button" class="cce-ghe-play" id="cce-ghe-play">Play again</button></div>
+      <div class="cce-ghe-bar"><button type="button" class="cce-ghe-play" id="cce-ghe-play">${reduced ? 'Play the animation' : 'Play again'}</button></div>
       <ol class="cce-ghe-list" id="cce-ghe-list">${GHE.steps.map((s) => `<li data-s="${s[0]}">${s[2]}</li>`).join('')}</ol>
       <figcaption class="cce-note">Yellow dot: sunlight. Red dot: heat (infrared). A sketch of the mechanism, not to scale; real
         energy flows are many and in all directions.</figcaption>`;
@@ -636,7 +691,7 @@
           await Promise.all(runs); label('more');
         } catch (e) { /* stopped by a new run */ }
       }
-      ghe.querySelector('#cce-ghe-play').addEventListener('click', () => (reduced ? finished() : play()));
+      ghe.querySelector('#cce-ghe-play').addEventListener('click', () => play());   // with reduced motion it plays only on request (review F3)
       if (reduced || !('IntersectionObserver' in window)) { finished(); return; }
       reset();
       const io = new IntersectionObserver((es) => { if (es.some((e) => e.isIntersecting)) { io.disconnect(); play(); } }, { threshold: 0.6 });
@@ -658,6 +713,8 @@
       years it rose by about ${fmt(coRise10, 1)} ppm a year.</p>`;
     root.querySelector('#cce-co2-leg').innerHTML = `<span><i style="border-color:var(--ink)"></i>ice cores</span><span><i style="border-color:var(--red)"></i>measured at Mauna Loa</span><span>CO₂ in parts per million</span>`;
     root.querySelector('#cce-co2-cap').innerHTML = `${dsrc('icecore', 'Bereiter et al. 2015')}; ${dsrc('mlo', 'NOAA GML')}. Ice-core ages are gas ages; each core sample averages decades to centuries.`;
+    dataTable(root.querySelector('#cce-co2-cap').closest('figure'), 'Show the data as a table (CO₂, parts per million)', ['Year', 'Source', 'CO₂, ppm'],
+      co2.slice().sort((a, b) => b.y - a.y).map((r) => [r.y < 0 ? `${fmt(-r.y)} BCE` : String(r.y), r.d === 'mlo' ? 'Mauna Loa, yearly mean' : 'Antarctic ice cores', fmt(r.v, 1)]));
     function co2Chart(host, x0, x1, yd, title, ago) {
       const tip = tipFor(host);
       onSize(host, () => {
@@ -718,7 +775,7 @@
       land, warms more in its summer. Each line below is one year since ${DY[0].y}, coloured by how much warmer that year was than 1850–1900.
       The warmest day measured was <strong>${dDate(recDay.y, recDay.di)}, ${fmt(recDay.t, 2)} °C</strong>; the warmest year was
       <strong>${dyWarm.y}, ${sgn(dyWarm.a, 2)} °C</strong> above 1850–1900.</p>
-      <p>Up to ${lastStr}, ${dyLast.y} was ${sgn(dyLast.a, 2)} °C above 1850–1900 on average. On ${nWarmer} of its ${aboveLast} days it was warmer
+      <p>Up to ${lastStr}, ${dyLast.y} was about ${sgn(dyLast.a, 1)} °C above 1850–1900 on average (an approximation for a part-year). On ${nWarmer} of its ${aboveLast} days it was warmer
       than on the same day in any year from ${DY[0].y} to 2022.</p>`;
     (function dailyChart(host) {
       const tip = tipFor(host);
@@ -764,14 +821,19 @@
     })(root.querySelector('#cce-daily'));
     function dailyLegend() {
       const col = warmScale(d3.interpolateRgb(css('--paper'), css('--muted'))(0.45));
-      const stops = d3.range(0, 1.01, 0.1).map((k) => `${col(-0.5 + k * 2.5)} ${k * 100}%`).join(',');
-      root.querySelector('#cce-daily-leg').innerHTML = `<span>The year’s average compared with 1850–1900:</span>
-        <span class="cce-ramp"><b>−0.5</b><i style="background:linear-gradient(90deg,${stops})"></i><b>+2 °C</b></span>
+      // the same steps and ends as the stripes legend (review D4)
+      root.querySelector('#cce-daily-leg').innerHTML = `<span>The year’s average, °C compared with 1850–1900:</span>
+        ${[-1, 0, 1, 2, 3].map((v) => `<span><i class="cce-sq" style="background:${col(v)};outline:1px solid var(--rule)"></i>${v > 0 ? `+${v}` : v < 0 ? `−${-v}` : '0'}${v === 3 ? ' or more' : ''}</span>`).join('')}
         <span>Thick lines: ${dyWarm.y} (warmest year) and ${dyLast.y} (to ${lastStr})</span>`;
     }
     dailyLegend(); themeHooks.push(dailyLegend);
+    dataTable(root.querySelector('#cce-daily').closest('figure'), 'Show the data as a table (one row per year)',
+      ['Year', 'Days', 'Year’s average vs 1850–1900, °C', 'Warmest day', 'Its temperature, °C'],
+      DY.slice().reverse().map((r) => { const w = r.pts.reduce((m, q) => (q.t > m.t ? q : m));
+        return [r.c ? String(r.y) : `${r.y} (to ${dDate(r.y, r.pts[r.pts.length - 1].di).replace(/ \d{4}$/, '')})`, String(r.pts.length), sgn(r.a, 2), dDate(r.y, w.di), fmt(w.t, 2)]; }));
     root.querySelector('#cce-daily-cap').innerHTML = `Global mean air temperature 2 m above the surface, °C, daily average.
-      ${dsrc('era5_daily', 'ERA5, Copernicus Climate Change Service / ECMWF (Climate Pulse)')}; contains modified Copernicus Climate Change Service information.
+      ${dsrc('era5_daily', 'ERA5, Copernicus Climate Change Service / ECMWF (Climate Pulse)')} (CC BY 4.0); contains modified Copernicus Climate Change Service information 2026. Neither the European Commission nor ECMWF is
+      responsible for any use that may be made of the Copernicus information or data it contains.
       Final days only. Years are compared with 1850–1900 by adding ${fmt(offC.value, 2)} °C to the difference from 1991–2020, as
       <a href="${esc(offC.source_url)}">Copernicus does</a> for annual values; the current year’s colour uses the days so far. Colours follow the scale of the warming stripes below.
       ERA5 is a reanalysis that starts in ${DY[0].y}; it reads about the same as the measured series in the timeline above, not identically.`;
@@ -808,6 +870,9 @@
       uptake of CO₂ by cement. Emissions, sinks and the increase in the air are estimated separately, so line and dots differ a little
       (the budget imbalance: ${sgn(flow(cbYears[0], 'imbalance'), 1)} billion tonnes in ${cbYears[0]}, ${sgn(flow(cbLast - 1, 'imbalance'), 1)} in ${cbLast - 1},
       ${sgn(flow(cbLast, 'imbalance'), 1)} in ${cbLast}).`;
+    dataTable(root.querySelector('#cce-sinks').closest('figure'), 'Show the data as a table (billion tonnes of CO₂ a year)',
+      ['Year', 'Fossil fuels and cement', 'Land use', 'Ocean took up', 'Land took up', 'Cement carbonation', 'Rise in the air', 'Imbalance'],
+      cbYears.slice().reverse().map((yr) => [String(yr), ...['fossil', 'land_use', 'ocean', 'land', 'cement_carbonation', 'atmosphere'].map((f) => fmt(flow(yr, f), 1)), sgn(flow(yr, 'imbalance'), 1)]));
     (function sinkChart(host) {
       const tip = tipFor(host);
       onSize(host, () => {
@@ -844,25 +909,49 @@
     })(root.querySelector('#cce-sinks'));
 
     // ---------- horizontal bars, label above each bar (works at any width) ----------
+    // Horizontal bars. Labels wrap to the width; a value that does not fit right of its bar moves to the right end of the
+    // label line (review D3: nothing may run past the edge at 390 px).
     function bars(host, rows, { domain, fmtV, aria, refLine }) {
       onSize(host, () => {
-        const W = host.clientWidth, rowH = 38, H = rows.length * rowH + (refLine ? 18 : 4), padR = 64;
+        const W = host.clientWidth, padR = 64, lineH = 15, top = refLine ? 14 : 0;
         d3.select(host).select('svg').remove();
-        const svg = d3.select(host).append('svg').attr('viewBox', `0 0 ${W} ${H}`).attr('height', H).attr('role', 'img').attr('aria-label', aria);
+        const svg = d3.select(host).append('svg').attr('role', 'img').attr('aria-label', aria);
+        const mLab = svg.append('text').attr('class', 'cce-bar-lab'), mVal = svg.append('text').attr('class', 'cce-bar-val');
+        const wOf = (m, s) => m.text(s).node().getComputedTextLength();
         const dmin = domain ? domain[0] : Math.min(0, d3.min(rows, (r) => r.lo ?? r.v)), dmax = domain ? domain[1] : d3.max(rows, (r) => r.hi ?? r.v);
         const x = d3.scaleLinear([dmin, dmax], [dmin < 0 ? 64 : 2, W - padR]);
-        const g = svg.selectAll('g.cce-bar').data(rows).join('g').attr('class', (r) => `cce-bar${r.head ? ' cce-bar--head' : ''}`)
-          .attr('transform', (r, i) => `translate(0,${i * rowH + (refLine ? 14 : 0)})`);
-        g.append('title').text((r) => `${r.label}: ${fmtV(r.v)}${r.lo != null ? ` (range ${fmtV(r.lo)} to ${fmtV(r.hi)})` : ''}`);
-        g.append('text').attr('class', 'cce-bar-lab').attr('x', 0).attr('y', 13).text((r) => r.label);
-        g.append('rect').attr('x', (r) => x(Math.min(0, r.v))).attr('y', 19).attr('height', 11).attr('rx', 2)
-          .attr('width', (r) => Math.max(1, Math.abs(x(r.v) - x(0)))).attr('fill', (r) => `var(--${r.c})`);
-        g.filter((r) => r.lo != null).append('path').attr('class', 'cce-whisk')
-          .attr('d', (r) => `M${x(r.lo)} 20.5v8M${x(r.lo)} 24.5H${x(r.hi)}M${x(r.hi)} 20.5v8`);
-        g.append('text').attr('class', 'cce-bar-val').attr('y', 29)
-          .attr('x', (r) => (r.v < 0 ? Math.min(x(r.lo ?? r.v), x(r.v)) - 4 : Math.max(x(r.hi ?? r.v), x(r.v)) + 4))
-          .attr('text-anchor', (r) => (r.v < 0 ? 'end' : 'start')).text((r) => fmtV(r.v));
-        if (dmin < 0) g.append('line').attr('class', 'cce-zero').attr('x1', x(0)).attr('x2', x(0)).attr('y1', 17).attr('y2', 32);
+        let yAt = top;
+        const lay = rows.map((r) => {
+          const vw = wOf(mVal, fmtV(r.v));
+          const vx = r.v < 0 ? Math.min(x(r.lo ?? r.v), x(r.v)) - 4 : Math.max(x(r.hi ?? r.v), x(r.v)) + 4;
+          const fits = r.v < 0 ? vx - vw >= 0 : vx + vw <= W;
+          const maxW = fits ? W : W - vw - 10;
+          const lines = [];
+          r.label.split(' ').forEach((w) => {
+            const last = lines[lines.length - 1];
+            if (last != null && wOf(mLab, `${last} ${w}`) <= maxW) lines[lines.length - 1] = `${last} ${w}`; else lines.push(w);
+          });
+          const o = { r, lines, fits, vx, y: yAt };
+          yAt += lines.length * lineH + 23;
+          return o;
+        });
+        mLab.remove(); mVal.remove();
+        const H = yAt + (refLine ? 4 : 4);
+        svg.attr('viewBox', `0 0 ${W} ${H}`).attr('height', H);
+        const g = svg.selectAll('g.cce-bar').data(lay).join('g').attr('class', (o) => `cce-bar${o.r.head ? ' cce-bar--head' : ''}`)
+          .attr('transform', (o) => `translate(0,${o.y})`);
+        g.append('title').text(({ r }) => `${r.label}: ${fmtV(r.v)}${r.lo != null ? ` (range ${fmtV(r.lo)} to ${fmtV(r.hi)})` : ''}`);
+        g.append('text').attr('class', 'cce-bar-lab').attr('y', 13).selectAll('tspan').data((o) => o.lines).join('tspan')
+          .attr('x', 0).attr('dy', (s, i) => (i ? lineH : 0)).text((s) => s);
+        const by = (o) => (o.lines.length - 1) * lineH;
+        g.append('rect').attr('x', ({ r }) => x(Math.min(0, r.v))).attr('y', (o) => by(o) + 19).attr('height', 11)
+          .attr('width', ({ r }) => Math.max(1, Math.abs(x(r.v) - x(0)))).attr('fill', ({ r }) => `var(--${r.c})`);
+        g.filter(({ r }) => r.lo != null).append('path').attr('class', 'cce-whisk')
+          .attr('d', (o) => { const { r } = o, b = by(o); return `M${x(r.lo)} ${b + 20.5}v8M${x(r.lo)} ${b + 24.5}H${x(r.hi)}M${x(r.hi)} ${b + 20.5}v8`; });
+        g.append('text').attr('class', 'cce-bar-val')
+          .attr('y', (o) => (o.fits ? by(o) + 29 : 13)).attr('x', (o) => (o.fits ? o.vx : W))
+          .attr('text-anchor', (o) => (!o.fits ? 'end' : o.r.v < 0 ? 'end' : 'start')).text(({ r }) => fmtV(r.v));
+        if (dmin < 0) g.append('line').attr('class', 'cce-zero').attr('x1', x(0)).attr('x2', x(0)).attr('y1', (o) => by(o) + 17).attr('y2', (o) => by(o) + 32);
         if (refLine) {
           svg.append('line').attr('class', 'cce-thr-l').attr('x1', x(refLine.v)).attr('x2', x(refLine.v)).attr('y1', 10).attr('y2', H);
           svg.append('text').attr('class', 'cce-thr-t').attr('x', x(refLine.v) + 3).attr('y', 9).text(refLine.t);
@@ -897,7 +986,7 @@
       ...subs.slice().sort((a, b) => b.value_c - a.value_c).map((d) => ({ label: d.label, v: d.value_c, lo: d.low_c, hi: d.high_c, c: C2(d.value_c) })),
     ], { fmtV: (v) => `${sv(v)} °C`, aria: `Chart: contributions to warming in 2010–2019. Human influence ${fmt(hum.value_c, 2)} °C; carbon dioxide ${sv(co2d.value_c)} °C, methane ${sv(ch4d.value_c)} °C, sulphur dioxide ${sv(so2d.value_c)} °C.` });
     root.querySelector('#cce-drv-cap').innerHTML = `Warming in 2010–2019 compared with 1850–1900, °C. Red warms, blue cools. Bold rows sum up, the rest are single substances.
-      Whiskers: very likely range (5–95%), except for the bold rows below “Observed warming”: likely range, as the IPCC assesses them. ${dsrc('spm2', 'IPCC AR6 WGI, Figure SPM.2')}`;
+      Whiskers: very likely range (5–95%), except for the bold rows below “Observed warming”: likely range, as the IPCC assesses them. ${dsrc('spm2', 'IPCC AR6 WGI, Figure SPM.2 data')} (Szopa et al. 2021, CC BY 4.0).`;
 
     // ---------- emissions by gas and sector ----------
     const GAS = [['co2_fossil', 'CO₂ from fossil fuels and cement'], ['co2_land_use', 'CO₂ from land use (mostly deforestation)'],
@@ -910,7 +999,7 @@
       greenhouse gases, counted in CO₂-equivalents (each gas weighted by how much it warms over 100 years compared with CO₂).
       That is ${fmt(pct(gTot(gY) - gTot(g0), gTot(g0)))}% more than in ${g0}. CO₂ makes up about ${fmt(gShare('co2_fossil') + gShare('co2_land_use'))}%, methane
       ${fmt(gShare('ch4'))}%.</p>
-      <p>By sector, most comes from producing energy: power and heat plants, and the extraction and refining of fuels
+      <p>By sector (${sectors[0].year}, the IPCC’s latest assessment), most comes from producing energy: power and heat plants, and the extraction and refining of fuels
       (${fmt(sectors[0].share_pct)}%). Then come ${sectors.slice(1).map((s) => `${esc(s.label.toLowerCase())} (${fmt(s.share_pct)}%)`).join(', ')}. ${esc((sectors.find((s) => s.sector_id === 'energy_supply') || {}).note || '')}</p>`;
     root.querySelector('#cce-gas-t').textContent = `By gas, ${gY}, billion tonnes CO₂-equivalent`;
     bars(root.querySelector('#cce-gas'), GAS.map(([id, l]) => ({ label: l, v: gv(id, gY), c: id.startsWith('co2') ? 'ink' : 'muted' })),
@@ -922,7 +1011,8 @@
     bars(root.querySelector('#cce-sec'), sectors.map((s) => ({ label: s.label, v: s.share_pct, c: 'muted' })),
       { domain: [0, 40], fmtV: (v) => `${fmt(v)}%`, aria: `Chart: greenhouse-gas emissions by sector in ${sY}.` });
     root.querySelector('#cce-sec-cap').innerHTML = `Emissions counted where they are produced. <a href="${esc(sectors[0].source_url)}">IPCC AR6 WGIII, SPM ${esc(sectors[0].location.replace('SPM ', ''))}</a>
-      (latest assessed year; rounded, so the shares add up to ${fmt(d3.sum(sectors, (s) => s.share_pct))}%).`;
+      (latest assessed year; rounded, so the shares add up to ${fmt(d3.sum(sectors, (s) => s.share_pct))}%). The IPCC weights the gases as in its
+      Sixth Assessment, the chart by gas as in the Fifth, so the two are not exactly comparable.`;
 
     // ---------- countries ----------
     const cty = countries.filter((c) => c.kind === 'country'), cY = countries[0].year;
@@ -933,7 +1023,7 @@
     const big = top('mtco2', 15);
     const t1 = big[0], c1 = top('cum_gtco2', 1)[0], ppHi = big.slice().sort((a, b) => b.tco2_pp - a.tco2_pp)[0], ppLo = big.slice().sort((a, b) => a.tco2_pp - b.tco2_pp)[0];
     root.querySelector('#cce-cty-text').innerHTML = `<p>Where the CO₂ comes from depends on how you count. In ${cY}, ${esc(cname(t1))} emitted the most fossil CO₂,
-      <strong>${fmt(pct(t1.mtco2, wTot))}%</strong> of the world total. Counted since 1850, ${esc(cname(c1))} emitted the most,
+      <strong>${fmt(pct(t1.mtco2, wTot))}%</strong> of the world total. Counted since 1850, ${esc(theName(cname(c1)))} emitted the most,
       <strong>${fmt(pct(c1.cum_gtco2, wCum))}%</strong>, and it is the total since then that drives the warming. Per person, among the
       ${big.length} largest emitters, someone in ${esc(cname(ppHi))} emitted about ${fmt(ppHi.tco2_pp, 1)} tonnes in ${cY}, someone in
       ${esc(cname(ppLo))} about ${fmt(ppLo.tco2_pp, 1)}; the world average was ${fmt(wPP, 1)}.</p>`;
@@ -974,20 +1064,21 @@
       root.querySelector('#cce-ext-text').innerHTML = `<p>Each bit of warming makes extremes more frequent. Over land, a heat extreme that
         happened once in 50 years in 1850–1900 happens about <strong>${fmt(imv('heat50', 1), 1)} times</strong> as often at 1 °C of
         global warming; the 2010s averaged ${sgn(g2010s)} °C. At 2 °C it would be about ${fmt(imv('heat50', 2), 0)} times, at 4 °C about
-        ${fmt(imv('heat50', 4), 0)} times. Heavy rain and droughts grow more frequent too, though less steeply.</p>
+        ${fmt(imv('heat50', 4), 0)} times. Heavy rain grows more frequent too, and so do droughts in regions that are drying, though less steeply.</p>
         <p>Today, over ${yrs10}, the world was at about ${sgn(g10)} °C. With <span class="cce-cur">${esc(L(cur))}</span> it would reach about
         ${sgn(now2100())} °C by 2081–2100 (switch the path at the top of the page).</p>`;
     }
     (function extChart(host) {
       host.innerHTML = HAZ.map(([h, t, s]) => `<div class="cce-ext__p"><p class="cce-ext__t"><strong>${esc(t)}</strong> ${esc(s)}</p>
         <div class="cce-ext__bars" role="img" aria-label="${esc(`${t}, ${s}: ${LEVELS.map((l) => `${fmt(imv(h, l), 1)} times as often at ${l} °C`).join(', ')}`)}">
-        ${[[0, 1], ...LEVELS.map((l) => [l, imv(h, l)])].map(([l, v]) => { const mx = imv(h, 4);
+        ${[[0, 1], ...LEVELS.map((l) => [l, imv(h, l)])].map(([l, v], k) => { const mx = imv(h, 4);
           return `<div class="cce-ext__c${l === 0 ? ' cce-ext__c--base' : ''}"><span class="cce-ext__v">${l === 0 ? '1' : `×${fmt(v, 1)}`}</span>
-            <i style="--p:${(v / mx).toFixed(4)}"></i><span class="cce-ext__l">${l === 0 ? '1850–1900' : `+${l} °C`}</span></div>`; }).join('')}
+            <i style="--p:${(v / mx).toFixed(4)};--k:${k}"></i><span class="cce-ext__l">${l === 0 ? '1850–1900' : `+${l} °C`}</span></div>`; }).join('')}
         </div></div>`).join('');
     })(root.querySelector('#cce-ext'));
     root.querySelector('#cce-ext-cap').innerHTML = `How many times as often an extreme over land happens at each level of global warming, compared with
-      1850–1900 (median of climate models; each panel has its own scale). <a href="${esc(IM.get('heat50_1').source_url)}">IPCC AR6 WGI, Figure SPM.6 data</a>`;
+      1850–1900 (median of climate models; each panel has its own scale). The models’ ranges are wide, especially for drought: at 1 °C
+      some show no increase in farm drought. <a href="${esc(IM.get('heat50_1').source_url)}">IPCC AR6 WGI, Figure SPM.6 data</a> (Li &amp; Hauser 2021, CC BY 4.0).`;
 
     // observed: sea ice and ocean heat, computed from the yearly series
     const ice9 = IND.get('arctic_sept_extent') || [], ohc = IND.get('ocean_heat_2000m') || [];
@@ -1008,12 +1099,13 @@
     const card = (group, fig, label, text, src, extra = '') => `<article class="cce-card"><p class="cce-card__g">${esc(group)}</p>
       <p class="cce-card__fig">${fig}</p><p class="cce-card__l">${label}</p>${extra}<p class="cce-card__t">${text}</p><p class="cce-src">${src}</p></article>`;
     const r = (id) => IM.get(id) || {};
-    root.querySelector('#cce-obs-text').innerHTML = `<p>These changes have been measured, not projected. The IPCC attributes more frequent and
-      severe extremes, coral bleaching, drought-related tree deaths and more heat-related deaths to human-caused climate change.</p>`;
+    root.querySelector('#cce-obs-text').innerHTML = `<p>Most of what follows has been measured; one card looks ahead. The IPCC
+      attributes more frequent and severe extremes (high confidence), coral bleaching and drought-related tree deaths, and
+      more heat-related deaths (medium confidence) to human-caused climate change <span class="cce-src">(${lnk('https://doi.org/10.1017/9781009325844.001', 'IPCC AR6 WGII, SPM B.1.1')}; ${lnk('https://doi.org/10.1017/9781009157896.001', 'WGI, SPM A.3')})</span>.</p>`;
     root.querySelector('#cce-cards').innerHTML = [
       card('Sea level', `+${fmt(r('sl_1901').value, 2)} m`, `global mean, ${esc(r('sl_1901').period)}`, esc(r('sl_1901').statement),
         `${lnk(r('sl_1901').source_url, 'IPCC AR6 WGI, SPM A.1.7')}. More: <a href="https://thomassie.me/sea-level-cities/">Sea-level Cities</a>`),
-      card('Sea level', `+${fmt(r('sl_sat').value)} mm`, `measured by satellites, ${esc(r('sl_sat').period)}`, esc(r('sl_sat').statement), lnk(r('sl_sat').source_url, 'NASA')),
+      card('Sea level', `+${fmt(r('sl_sat').value)} mm`, `measured by satellites, ${esc(r('sl_sat').period)}`, esc(r('sl_sat').statement), lnk(r('sl_sat').source_url, `NASA${asOf(r('sl_sat'))}`)),
       card('Arctic sea ice', `${sgn(iceTrend, 0)}%`, `September extent per decade, ${ice9[0].y}–${ice9[ice9.length - 1].y}`,
         `Compared with the 1981–2010 average. The smallest extent on record was in ${iceLow.y}: ${fmt(iceLow.v, 2)} million km².`,
         lnk(DS.get('nsidc').source_url, 'NSIDC Sea Ice Index'), spark(ice9, 'cce-line--sea')),
@@ -1024,14 +1116,14 @@
       card('Ocean heat', `+${fmt(ohcN.v - ohc0.v)} ZJ`, `upper 2,000 m, ${ohc0.y}–${ohcN.y}`,
         `A zettajoule is 10²¹ joules. ${ohcRec >= 2 ? `Each of the last ${ohcRec} years set a new record.` : ohcRec === 1 ? `${ohcN.y} set a new record.` : ''}`,
         lnk(DS.get('ncei_ohc').source_url, 'NOAA NCEI'), spark(ohc, 'cce-line--land')),
-      card('Ocean acidity', 'pH', 'surface ocean', esc(r('ph').statement), lnk(r('ph').source_url, 'IPCC AR6 WGI, SPM A.2.4')),
+      card('Ocean acidity', 'pH', 'surface open ocean', esc(r('ph').statement), lnk(r('ph').source_url, 'IPCC AR6 WGI, SPM A.1.6 and A.2.4')),
       card('Coral reefs', `${fmt(r('coral_obs').value)}%`, `of reef area hit by bleaching-level heat, ${esc(r('coral_obs').period)}`, esc(r('coral_obs').statement),
-        lnk(r('coral_obs').source_url, 'NOAA Coral Reef Watch')),
+        lnk(r('coral_obs').source_url, `NOAA Coral Reef Watch${asOf(r('coral_obs'))}`)),
       card('Coral reefs, ahead', `${fmt(r('coral_proj').low)}–${fmt(r('coral_proj').high)}%`, 'further decline at 1.5 °C', esc(r('coral_proj').statement),
         lnk(r('coral_proj').source_url, 'IPCC SR1.5, SPM B.4.2')),
-      card('Heat deaths', `${fmt(r('heatdeaths').value)}%`, `of warm-season heat deaths caused by climate change, ${esc(r('heatdeaths').period)} (${fmt(r('heatdeaths').low)}–${fmt(r('heatdeaths').high)}%)`,
+      card('Heat deaths', `${fmt(r('heatdeaths').value)}%`, `of warm-season heat deaths caused by climate change, ${esc(r('heatdeaths').period)}`,
         esc(r('heatdeaths').statement), lnk(r('heatdeaths').source_url, 'Vicedo-Cabrera et al. 2021')),
-      card('Heatwaves', `≥${fmt(r('pnw').value)}×`, 'as likely as without climate change, at least: the Pacific Northwest heat of June 2021', esc(r('pnw').statement),
+      card('Heatwaves', `${fmt(r('pnw').value)}×`, 'at least as likely as without climate change: the Pacific Northwest heat of June 2021', esc(r('pnw').statement),
         lnk(r('pnw').source_url, 'Philip et al. 2022')),
       card('People', `${fmt(r('vulnerable').low, 1)}–${fmt(r('vulnerable').high, 1)} bn`, 'people highly vulnerable to climate change', esc(r('vulnerable').statement),
         lnk(r('vulnerable').source_url, 'IPCC AR6 WGII, SPM B.2')),
@@ -1049,11 +1141,15 @@
       const atBirth = around('obs_global', born), age80 = born + 80;
       const late = age80 > 2094;
       const paths = SSPS.map((s) => `${esc(L(s))} <strong>${sgn(projAt(s, age80))} °C</strong>`).join(', ');
+      // the 80th birthday may lie in the measured past (born up to lastObs - 80): then it is measured, not projected (review A6)
+      const past80 = age80 <= lastObs, recent = born > lastObs - 10;
       root.querySelector('#cce-life-text').innerHTML = `<p>Around ${born}, the world was about <strong>${sgn(atBirth)} °C</strong> warmer
-        than in 1850–1900 (the average of the eleven years around it). Over ${yrs10} it was <strong>${sgn(g10)} °C</strong>: about
-        ${fmt(Math.max(0, g10 - atBirth), 1)} °C of warming in your lifetime so far.</p>
-        <p>${late ? `By the 2090s, the end of the IPCC projections, you would be about ${2095 - born}` : `In ${age80}, when you turn 80`},
-        the world would be about: ${paths} (global mean; the very likely ranges are in the timeline above).</p>`;
+        than in 1850–1900 (the average of the measured years around it).${recent ? '' : ` Over ${yrs10} it was <strong>${sgn(g10)} °C</strong>: about
+        ${fmt(Math.max(0, g10 - atBirth), 1)} °C of warming in your lifetime so far.`}</p>
+        <p>${past80 ? `You turned 80 in ${age80}; by then the world was about <strong>${sgn(around('obs_global', age80))} °C</strong>
+          warmer than in 1850–1900 (measured).`
+        : `${late ? `By the 2090s, the end of the IPCC projections, you would be about ${2095 - born}` : `In ${age80}, when you turn 80`},
+        the world would be about: ${paths} (global mean; the very likely ranges are in the timeline above).`}</p>`;
       stripes();
     }
     function stripes() {
@@ -1084,8 +1180,8 @@
       root.querySelector('#cce-stripes-leg').innerHTML = `<span>°C compared with 1850–1900:</span>${[-1, 0, 1, 2, 3].map((v) => `<span><i class="cce-sq" style="background:${col(v)};outline:1px solid var(--rule)"></i>${v > 0 ? `+${v}` : v < 0 ? `−${-v}` : '0'}${v === 3 ? ' or more' : ''}</span>`).join('')}`;
     }
     root.querySelector('#cce-stripes-cap').innerHTML = `One stripe per year, global mean. Measured: ${src('obs_global', 'HadCRUT5')}; projected:
-      ${src(`proj_global_ssp245`, 'IPCC AR6 SPM.8')} (central estimate of the path chosen at the top of the page). Design after Ed Hawkins’
-      <a href="https://showyourstripes.info/">warming stripes</a>.`;
+      ${src(`proj_global_ssp245`, 'IPCC AR6 SPM.8')} (central estimate of the path chosen at the top of the page). Design after Ed Hawkins’ (University of Reading)
+      <a href="https://showyourstripes.info/">warming stripes</a> (CC BY 4.0).`;
     const bornEl = root.querySelector('#cce-born'), bornMsg = root.querySelector('#cce-born-msg');
     bornEl.min = BORN_MIN; bornEl.max = BORN_MAX;
     bornEl.addEventListener('input', () => {
@@ -1099,10 +1195,9 @@
     // ================= Where you live =================
     // Country land temperature is relative to 1951-1980 (the grid covers every country only from then);
     // world land is shifted to the same reference with the offset stored for the timeline series.
-    const LOC = local.map((c) => { const all = c.v.map((v, i) => ({ y: c.f + i, v })); return { ...c, all, pts: all.filter((r) => r.v != null) }; });
-    // "the United States", "the Netherlands": names that take an article in running text
-    const THE = /^(United |Republic|Democratic|Dominican|Czech|Central African|Netherlands|Philippines|Bahamas|Gambia|Maldives|Solomon|Marshall|Comoros|Seychelles|Russian Federation|Lao )/;
-    const theName = (n, cap) => (THE.test(n) ? `${cap ? 'The' : 'the'} ${n}` : n);
+    const LOC = local.map((c) => { const all = c.v.map((v, i) => ({ y: c.f + i, v }));
+      return { ...c, name: CNAME.get(c.iso3) || c.name, all, pts: all.filter((r) => r.v != null) }; })
+      .sort((a, b) => a.name.localeCompare(b.name));
     const landOff = SER.get('obs_land').offset_c;
     const wl = pts('obs_land').map((r) => ({ y: r.y, v: r.v - landOff }));
     const run10 = (a) => a.map((r, i) => { const w = a.filter((q) => q.y > r.y - 10 && q.y <= r.y); return w.length >= 8 ? { y: r.y, v: d3.mean(w, (q) => q.v) } : null; }).filter(Boolean);
@@ -1117,11 +1212,14 @@
     sel.addEventListener('change', () => { place = sel.value; drawLocal(); });
     function drawLocal() {
       const c = LOC.find((q) => q.iso3 === place), c10 = m10(c.pts), hot = c.pts.reduce((m, r) => (r.v > m.v ? r : m), { v: -Infinity });
+      dataTable(root.querySelector('#cce-local-chart').closest('figure'), `Show the data as a table (${c.name}, °C compared with 1951–1980)`,
+        ['Year', `${c.name}, land`, 'World land'],
+        c.all.slice().reverse().map((r) => { const w = wl.find((q) => q.y === r.y); return [String(r.y), r.v == null ? 'too few measurements' : sgn(r.v, 2), w ? sgn(w.v, 2) : '–']; }));
       const ratio = c10 / wl10;
       const pace = ratio > 1.1 ? 'faster than' : ratio < 0.9 ? 'slower than' : 'about as fast as';
       root.querySelector('#cce-local-text').innerHTML = `<p>Over ${yrs10}, land in <strong>${esc(theName(c.name))}</strong> was on average
         <strong>${sgn(c10)} °C</strong> warmer than in 1951–1980; land worldwide was ${sgn(wl10)} °C warmer. ${esc(theName(c.name, true))} warmed ${pace}
-        the world’s land: it ranks ${rankOf.get(c.iso3)} of ${LOC.length} countries here. Its warmest year on record was ${hot.y} (${sgn(hot.v)} °C).</p>
+        the world’s land: it ranks ${rankOf.get(c.iso3)} of the ${LOC.length} countries and territories here. Its warmest year on record was ${hot.y} (${sgn(hot.v)} °C).</p>
         <p>This section compares with 1951–1980, not 1850–1900, because measurements cover every country only from then. World land had
         already warmed by about ${fmt(wlPre, 1)} °C between 1850–1900 and 1951–1980.</p>`;
       const host = root.querySelector('#cce-local-chart');
@@ -1154,10 +1252,12 @@
     root.querySelector('#cce-local-leg').innerHTML = `<span>°C compared with 1951–1980</span><span><i style="border-color:var(--red);opacity:.5"></i>each year</span>
       <span><i style="border-color:var(--red)"></i>10-year average</span><span><i style="border-color:var(--ink);border-top-style:dashed"></i>world land, 10-year average</span>`;
     root.querySelector('#cce-local-cap').innerHTML = `Land only (air temperature over land). Our area-weighted averages of the
-      <a href="https://doi.org/10.5281/zenodo.20428381">Berkeley Earth High Resolution</a> 0.25° grid (April 2026, CC BY-NC 4.0) within
+      <a href="https://doi.org/10.5281/zenodo.20428381">Berkeley Earth High Resolution</a> 0.25° grid (April 2026, a preliminary release, not yet peer reviewed, so values may change; CC BY-NC 4.0) within
       <a href="https://www.naturalearthdata.com/">Natural Earth</a> borders; years shown only where measurements cover at least 90% of the country’s land.
       Too few measurements for: Ethiopia, Sudan, South Sudan, Somalia, Central African Republic, Solomon Islands; very small countries are left out.
-      Countries include their overseas territories as drawn by Natural Earth. The IPCC gives projections by region, not by country:
+      Units follow Natural Earth’s map: territories it draws on their own, such as Greenland, Puerto Rico and New Caledonia, and areas with
+      disputed status, such as Western Sahara, Somaliland and Kosovo, are listed separately; the Baikonur Cosmodrome and uninhabited
+      territories are left out. Names follow the emissions chart above. The IPCC gives projections by region, not by country:
       <a href="https://interactive-atlas.ipcc.ch/">IPCC Interactive Atlas</a>.`;
     new ResizeObserver(() => drawLocal()).observe(root.querySelector('#cce-local-chart'));
     themeHooks.push(drawLife, drawLocal);
@@ -1269,13 +1369,14 @@
     const hit15 = cbLast + (1.5 - hw.value) / (hwr.value / 10);
     root.querySelector('#cce-budget-text').innerHTML = `<p>How much warmer it gets depends above all on one number: the total
       amount of CO₂ people release. Every 1,000 billion tonnes adds about <strong>${fmt(tcre.value, 2)} °C</strong>
-      (likely ${fmt(tcre.low, 2)} to ${fmt(tcre.high, 2)} °C), and the warming stays for centuries (<a href="${esc(tcre.source_url)}">IPCC, ${esc(tcre.location)}</a>).
+      (likely ${fmt(tcre.low, 2)} to ${fmt(tcre.high, 2)} °C; <a href="${esc(tcre.source_url)}">IPCC, ${esc(tcre.location)}</a>). The warming does not
+      fade when emissions stop; it is reversed only if more CO₂ is removed from the air than emitted (SPM D.1.6).
       From 1850 to ${cbLast} people emitted about <strong>${fmt(Math.round(cumAll / 10) * 10)} billion tonnes</strong> of CO₂, about
       ${fmt(pct(F.get('cum_co2_land_use'), cumAll))}% of it from clearing land (${dsrc('gcb', 'Global Carbon Budget')}).</p>
       <p>For an even chance of keeping warming below 1.5 °C, about <strong>${fmt(b15.gtco2)} billion tonnes</strong> were left at the
       start of ${bFrom}: at ${cbLast}’s rate of ${fmt(eLast)} billion tonnes a year, that is <strong>about ${fmt(yrsLeft(b15))} years</strong> of emissions.
       For 2 °C, ${fmt(b20.gtco2)} billion tonnes were left, about ${fmt(yrsLeft(b20))} years. Human-caused warming stood at ${fmt(hw.value, 2)} °C in ${cbLast}
-      and rose by ${fmt(hwr.value, 2)} °C a decade (<a href="${esc(hw.source_url)}">Forster et al. 2026</a>); if that pace held, it would pass 1.5 °C
+      (range ${fmt(hw.low, 1)} to ${fmt(hw.high, 1)}) and rose by ${fmt(hwr.value, 2)} °C a decade (${fmt(hwr.low, 1)} to ${fmt(hwr.high, 1)}) (<a href="${esc(hw.source_url)}">Forster et al. 2026</a>); if that pace held, it would pass 1.5 °C
       around ${Math.round(hit15)}.</p>`;
     bars(root.querySelector('#cce-budget'), [
       { label: `Emitted 1850–${cbLast}`, v: cumAll, c: 'ink', head: true },
@@ -1300,16 +1401,17 @@
       that keep warming to 1.5 °C, net CO₂ emissions fall by about <strong>${fmt(cut(t15, 'co2', 2030).reduction_pct)}%</strong> by 2030
       and ${fmt(cut(t15, 'co2', 2040).reduction_pct)}% by 2040, compared with 2019; for 2 °C by ${fmt(cut(t20, 'co2', 2030).reduction_pct)}%
       and ${fmt(cut(t20, 'co2', 2040).reduction_pct)}%.</p>
-      <p><strong>Methane.</strong> Methane has caused about ${fmt(ch4w.value_c, 1)} °C of today’s warming, against ${fmt(co2w.value_c, 1)} °C
-      from CO₂ (${dsrc('spm2', 'IPCC SPM.2')}). Unlike CO₂, it breaks down in the air within decades, so cutting it slows warming soon. The IPCC
-      notes that strong, rapid methane cuts would also offset the warming that comes as cleaner air removes cooling pollution,
+      <p><strong>Methane.</strong> Methane caused about ${fmt(ch4w.value_c, 1)} °C of the warming up to 2010–2019, against ${fmt(co2w.value_c, 1)} °C
+      from CO₂ (${dsrc('spm2', 'IPCC SPM.2')}). Unlike CO₂, most of it breaks down in the air within about a decade, so cutting it slows
+      warming soon. The IPCC notes that strong, rapid and sustained methane cuts would also limit the warming that comes as cleaner
+      air removes cooling pollution,
       and would improve air quality. In the 1.5 °C pathways methane falls by about ${fmt(cut(t15, 'ch4', 2030).reduction_pct)}% by 2030.</p>`;
     const GN = { co2: 'Net CO₂', ch4: 'Methane' };
     const cutRows = [t15, t20].flatMap((tg) => ['co2', 'ch4'].flatMap((g) => [2030, 2040].map((y) => { const r = cut(tg, g, y);
       return { label: `${tg.startsWith('1.5') ? '1.5 °C' : '2 °C'}: ${GN[g]}, ${y}`, v: r.reduction_pct, lo: r.low_pct, hi: r.high_pct, c: g === 'co2' ? 'ink' : 'yellow' }; })));
     bars(root.querySelector('#cce-cuts'), cutRows, { domain: [0, 110], fmtV: (v) => `−${fmt(v)}%`,
       aria: `Chart: cuts compared with 2019 in IPCC pathways. ${cutRows.map((r) => `${r.label}: ${fmt(r.v)}%`).join('; ')}.` });
-    root.querySelector('#cce-cuts-cap').innerHTML = `Cut compared with modelled 2019 emissions; bar = median of the pathways, whisker = the range the IPCC gives in brackets
+    root.querySelector('#cce-cuts-cap').innerHTML = `Cut compared with modelled 2019 emissions; bar = median of the pathways, whisker = their 5th to 95th percentile, as the IPCC gives it in brackets
       (above 100% means more CO₂ removed than emitted). 1.5 °C: more than 50% chance, with no or limited overshoot; 2 °C: more than 67% chance,
       acting immediately. <a href="${esc(pathways[0].source_url)}">IPCC AR6 WGIII, Summary for Policymakers</a>, ${esc(pathways[0].location)}.
       These are model pathways, not forecasts.`;
@@ -1322,12 +1424,13 @@
       through the PAGES 2k reconstruction, which overlaps both the thermometer era and the older records.</p>
       <ul>${ORDER.filter((s) => SER.has(s)).map((s) => { const r = SER.get(s);
         return `<li><strong>${esc(r.label.replace(/ \(ssp\d+\)/, ''))}:</strong> <a href="${esc(r.source_url)}">${esc(r.source)}</a>;
-          shaded range: ${esc(r.range_kind)}; original reference ${esc(r.native_baseline)}.</li>`; }).join('')}</ul>
+          shaded range: ${esc(r.range_kind)}; original reference ${esc(r.native_baseline)}. <span class="cce-lic">${esc(r.licence || '')}.</span></li>`; }).join('')}</ul>
       <p><strong>Land and sea surface after ${lastObs}.</strong> The IPCC assesses future warming only as a global mean.
       It states that land will warm more than the ocean surface, likely ${fmt(ratio.low, 1)} to ${fmt(ratio.high, 1)} times more
-      (<a href="${esc(ratio.source_url)}">SPM B.2.1</a>). We split the IPCC’s global projection with the middle of that range,
-      ${fmt(ratio.value, 1)}, and land’s share of Earth’s surface, ${fmt(landShare.value * 100)}%
-      (<a href="${esc(landShare.source_url)}">USGS</a>); the shaded ranges combine the IPCC’s range with the ends of the ratio’s range.
+      (<a href="${esc(ratio.source_url)}">SPM B.2.1</a>). We split the IPCC’s global projection with its central value, ${fmt(ratio.value, 1)} (AR6 WGI Chapter 4), and land’s share of Earth’s surface, ${fmt(landShare.value * 100)}%
+      (<a href="${esc(landShare.source_url)}">USGS</a>); the shaded ranges combine the IPCC’s very likely global range with the ends of the ratio’s likely range, so they are our
+      estimate, not an IPCC range. The ratio is for air temperature over land and over the ocean; we apply it to the
+      sea-surface (water) temperature, an approximation.
       Climate models (CMIP6) give a similar ratio but warm about a tenth more by 2100, because the IPCC narrowed their range
       with the observed warming.</p>
       <p><strong>Landmarks.</strong> Each line has its source in its note. Dates of geological events are approximate.</p>
@@ -1335,7 +1438,11 @@
       <ul>${datasets.map((d) => `<li><strong>${esc(d.label)}:</strong> <a href="${esc(d.source_url)}">${esc(d.source)}</a>; ${esc(d.licence)}.</li>`).join('')}
         <li><strong>Emissions by sector:</strong> <a href="${esc(sectors[0].source_url)}">IPCC AR6 WGIII Summary for Policymakers</a>, ${esc(sectors[0].location)}.</li>
         <li><strong>Remaining carbon budget, human-caused warming:</strong> <a href="${esc(b15.source_url)}">Forster et al. 2026</a>, CC BY 4.0.</li>
-        <li><strong>Country warming:</strong> our averages of the <a href="https://doi.org/10.5281/zenodo.20428381">Berkeley Earth High Resolution</a> grid (CC BY-NC 4.0)
+        <li><strong>Extremes at each level of warming:</strong> Li, C. &amp; Hauser, M. 2021, IPCC AR6 WGI SPM, data for Figure SPM.6 (v20210809), NERC EDS Centre
+          for Environmental Data Analysis, <a href="https://doi.org/10.5285/93d1b84fbb144901809eaf67b35eb5c4">doi:10.5285/93d1b84fbb144901809eaf67b35eb5c4</a>,
+          cited 22 November 2026; CC BY 4.0.</li>
+        <li><strong>Country warming:</strong> our averages of the <a href="https://doi.org/10.5281/zenodo.20428381">Berkeley Earth High Resolution</a> grid
+          (Rohde, Hausfather &amp; Calvert 2026; <a href="https://creativecommons.org/licenses/by-nc/4.0/">CC BY-NC 4.0</a>, non-commercial use only)
           within <a href="https://www.naturalearthdata.com/">Natural Earth</a> borders (public domain); our world-land average from the same grid matches Berkeley Earth’s
           published land series within 0.01 °C for ${yrs10}.</li></ul>`;
 

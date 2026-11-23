@@ -82,10 +82,10 @@
 /* The chart */
 .cce .cce-chart { position: relative; width: 100%; height: min(72vh, 640px); }
 .cce .cce-chart svg { display: block; width: 100%; height: 100%; overflow: visible; }
-.cce .cce-axis text { font-family: var(--font-support); font-size: 11px; fill: var(--muted); }
+.cce .cce-axis text { font-family: var(--font-support); font-size: 12px; fill: var(--muted); }
 .cce .cce-axis line, .cce .cce-axis path { stroke: var(--rule); }
 .cce .cce-zero { stroke: var(--muted); stroke-width: 1; }
-.cce .cce-ylabel { font-family: var(--font-support); font-size: 11px; fill: var(--muted); }
+.cce .cce-ylabel { font-family: var(--font-support); font-size: 12px; fill: var(--muted); }
 .cce .cce-band { stroke: none; }
 .cce .cce-band--past { fill: var(--muted); opacity: 0.22; }
 .cce .cce-band--land { fill: var(--red); opacity: 0.18; }
@@ -98,15 +98,15 @@
 .cce .cce-line--glob { stroke: var(--ink); }
 .cce .cce-line--proj { stroke-dasharray: 5 3; }
 .cce .cce-line--alt { stroke-width: 1.25; opacity: 0.75; stroke-dasharray: 2 3; }
-.cce .cce-endlab { font-family: var(--font-support); font-size: 11px; paint-order: stroke; stroke: var(--paper); stroke-width: 3px; stroke-linejoin: round; }
+.cce .cce-endlab { font-family: var(--font-support); font-size: 12px; paint-order: stroke; stroke: var(--paper); stroke-width: 3px; stroke-linejoin: round; }
 .cce .cce-endlab--land { fill: var(--red); }
 .cce .cce-endlab--sea { fill: var(--blue); }
 .cce .cce-endlab--glob, .cce .cce-endlab--past { fill: var(--ink); }
 .cce .cce-endlab--alt { fill: var(--muted); }
 .cce .cce-thr line { stroke: var(--muted); stroke-dasharray: 1 3; }
-.cce .cce-thr text { font-family: var(--font-support); font-size: 10.5px; fill: var(--muted); paint-order: stroke; stroke: var(--paper); stroke-width: 3px; }
+.cce .cce-thr text { font-family: var(--font-support); font-size: 12px; fill: var(--muted); paint-order: stroke; stroke: var(--paper); stroke-width: 3px; }
 .cce .cce-now line { stroke: var(--ink); stroke-width: 1; }
-.cce .cce-now text { font-family: var(--font-support); font-size: 11px; fill: var(--ink); font-weight: 500; }
+.cce .cce-now text { font-family: var(--font-support); font-size: 12px; fill: var(--ink); font-weight: 500; }
 .cce .cce-future { fill: var(--rule); opacity: 0.35; }
 
 /* Landmarks: one dash per kind, labels in rows at the top; unlabelled ones keep a tick and a tooltip */
@@ -118,11 +118,23 @@
 .cce .cce-lm[data-kind="policy"] line:not(.cce-lm-hit) { stroke-dasharray: 6 3; }
 .cce .cce-lm[data-kind="science"] line:not(.cce-lm-hit) { stroke: var(--link); stroke-dasharray: 3 2; }
 .cce .cce-lm[data-kind="industry"] line:not(.cce-lm-hit) { stroke: var(--red); stroke-dasharray: 3 2; opacity: 0.8; }
-.cce .cce-lm text { font-family: var(--font-support); font-size: 10.5px; fill: var(--ink); paint-order: stroke; stroke: var(--paper); stroke-width: 3px; stroke-linejoin: round; cursor: pointer; }
+.cce .cce-lm text { font-family: var(--font-support); font-size: 12px; fill: var(--ink); paint-order: stroke; stroke: var(--paper); stroke-width: 3px; stroke-linejoin: round; cursor: pointer; }
 .cce .cce-lm text.cce-lm-num { fill: var(--muted); }
 .cce .cce-lm:hover text, .cce .cce-lm:focus text { text-decoration: underline; }
 .cce .cce-lm:focus { outline: none; }
+.cce .cce-lm:focus-visible { outline: 2px solid var(--ink); outline-offset: 1px; }
 .cce .cce-lm:focus-visible line:not(.cce-lm-hit) { stroke: var(--ink); stroke-width: 2; }
+/* skip link: visible only when focused (review F2) */
+.cce .cce-skip { position: absolute; left: -9999px; }
+.cce .cce-skip:focus { position: static; display: inline-block; margin-bottom: 0.4rem; font-family: var(--font-support); font-size: 0.8125rem; color: var(--link); outline: 2px solid var(--ink); }
+/* every landmark with its note and source, under the chart (review D1, F1) */
+.cce .cce-lm-all { margin-top: 1.5rem; font-size: 0.875rem; }
+.cce .cce-lm-all summary { cursor: pointer; font-family: var(--font-support); font-size: 0.8125rem; color: var(--link); }
+.cce .cce-lm-all__scroll { overflow-x: auto; margin-top: 0.6rem; }
+.cce .cce-lm-all table { border-collapse: collapse; width: 100%; min-width: 34rem; }
+.cce .cce-lm-all th, .cce .cce-lm-all td { text-align: left; vertical-align: top; padding: 0.35rem 0.5rem 0.35rem 0; border-bottom: 1px solid var(--rule); }
+.cce .cce-lm-all thead th { font-family: var(--font-support); font-size: 0.75rem; font-weight: 600; border-bottom: 1px solid var(--ink); }
+.cce .cce-lm-all td:first-child, .cce .cce-lm-all td:nth-child(2) { font-variant-numeric: tabular-nums; white-space: nowrap; }
 .cce .cce-kinds { display: flex; flex-wrap: wrap; gap: 0.3rem 0.9rem; font-family: var(--font-support); font-size: 0.75rem; color: var(--muted); }
 .cce .cce-kinds label { display: inline-flex; align-items: center; gap: 0.35rem; cursor: pointer; }
 .cce .cce-kinds input { accent-color: var(--ink); margin: 0; }
@@ -178,12 +190,12 @@
 .cce .cce-hover { fill: transparent; cursor: crosshair; }
 .cce .cce-dot { fill: var(--paper); stroke: var(--ink); stroke-width: 2; pointer-events: none; }
 .cce .cce-thr-l { stroke: var(--muted); stroke-dasharray: 1 3; }
-.cce .cce-thr-t { font-family: var(--font-support); font-size: 10.5px; fill: var(--muted); paint-order: stroke; stroke: var(--paper); stroke-width: 3px; }
-.cce .cce-sq { display: inline-block; width: 10px; height: 10px; border-radius: 2px; }
+.cce .cce-thr-t { font-family: var(--font-support); font-size: 12px; fill: var(--muted); paint-order: stroke; stroke: var(--paper); stroke-width: 3px; }
+.cce .cce-sq { display: inline-block; width: 10px; height: 10px; border-radius: 0; }
 .cce .cce-legend .cce-sq { border: 0; }
 .cce .cce-bar-lab { font-size: 13px; fill: var(--ink); }
 .cce .cce-bar--head .cce-bar-lab { font-weight: 600; }
-.cce .cce-bar-val { font-family: var(--font-support); font-size: 11px; fill: var(--ink); }
+.cce .cce-bar-val { font-family: var(--font-support); font-size: 12px; fill: var(--ink); }
 .cce .cce-whisk { stroke: var(--ink); stroke-width: 1.25; fill: none; opacity: 0.7; }
 .cce #cce-cty-tabs { margin-top: 0.25rem; }
 
@@ -238,39 +250,42 @@
 .cce .cce-ext__t strong { color: var(--ink); font-weight: 600; }
 .cce .cce-ext__bars { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 4px; height: 150px; align-items: end; border-bottom: 1px solid var(--muted); }
 .cce .cce-ext__c { display: flex; flex-direction: column; justify-content: flex-end; align-items: center; height: 100%; position: relative; min-width: 0; }
-.cce .cce-ext__c i { display: block; width: 100%; height: calc(var(--p) * (100% - 18px)); min-height: 2px; background: var(--red); border-radius: 2px 2px 0 0; }
+/* one red, deepening with the warming level (k = 1..4: +1, +1.5, +2, +4 °C); the 1850-1900 bar stays grey */
+.cce .cce-ext__c i { display: block; width: 100%; height: calc(var(--p) * (100% - 18px)); min-height: 2px; border-radius: 0;
+  background: color-mix(in srgb, var(--red) calc(25% + var(--k) * 18.75%), var(--paper)); }
 .cce .cce-ext__c--base i { background: var(--muted); }
-.cce .cce-ext__v { font-family: var(--font-support); font-size: 11px; color: var(--ink); padding-bottom: 3px; white-space: nowrap; }
-.cce .cce-ext__l { position: absolute; top: 100%; padding-top: 4px; font-family: var(--font-support); font-size: 10.5px; color: var(--muted); white-space: nowrap; }
+.cce .cce-ext__v { font-family: var(--font-support); font-size: 12px; color: var(--ink); padding-bottom: 3px; white-space: nowrap; }
+.cce .cce-ext__l { position: absolute; top: 100%; padding-top: 4px; font-family: var(--font-support); font-size: 12px; color: var(--muted); white-space: nowrap; }
 .cce .cce-ext__p { padding-bottom: 1.4rem; }
-.cce .cce-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 16rem), 1fr)); gap: 1rem; }
-.cce .cce-card { display: grid; gap: 0.35rem; align-content: start; padding: 1rem 1rem 0.9rem; border: 1px solid var(--rule); border-radius: 4px; min-width: 0; }
-.cce .cce-card__g { font-family: var(--font-support); font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.04em; }
-.cce .cce-card__fig { font-size: 2.2rem; font-weight: 500; line-height: 1; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
-.cce .cce-card__l { font-size: 0.875rem; color: var(--muted); }
-.cce .cce-card__t { font-size: 0.9375rem; }
+/* impact cards: as the place list of Sea-level Cities: a rule on top, no box; title, figure, small-caps label, text */
+.cce .cce-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 18rem), 1fr)); gap: 1.75rem 2rem; }
+.cce .cce-cards .cce-card { display: grid; gap: 0.3rem; align-content: start; padding: 0.6rem 0 0; border: 0; border-top: 1px solid var(--rule); min-width: 0; max-width: none; }
+.cce .cce-cards .cce-card__g { font-size: 1.25rem; font-weight: 600; line-height: 1.25; color: var(--ink); }
+.cce .cce-cards .cce-card__fig { font-size: 2.2rem; font-weight: 500; line-height: 1.05; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; margin-top: 0.15rem; }
+.cce .cce-cards .cce-card__l { font-family: var(--font-support); font-size: 0.75rem; letter-spacing: 0.04em; text-transform: uppercase; color: var(--muted); }
+.cce .cce-cards .cce-card__t { font-size: 1rem; line-height: 1.5; }
 .cce .cce-spark { width: 100%; height: 50px; overflow: visible; margin-bottom: 14px; }
 .cce .cce-spark circle { fill: var(--ink); }
-.cce .cce-spark text { font-family: var(--font-support); font-size: 10px; fill: var(--muted); }
+.cce .cce-spark text { font-family: var(--font-support); font-size: 12px; fill: var(--muted); }
 
 /* Your lifetime */
 .cce .cce-life__form { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 0.9rem; font-family: var(--font-support); font-size: 0.875rem; }
 .cce .cce-life__form input { font: inherit; font-size: 1.25rem; width: 6.5rem; padding: 0.35rem 0.5rem; color: var(--ink); background: var(--paper);
-  border: 1px solid var(--muted); border-radius: 3px; }
+  border: 1px solid var(--muted); border-radius: 0; }
 .cce .cce-life__form input:focus-visible { outline: 2px solid var(--link); outline-offset: 1px; }
 .cce .cce-stripes { position: relative; width: 100%; min-width: 0; }
 .cce .cce-stripes svg { display: block; width: 100%; height: 130px; overflow: visible; }
 .cce .cce-stripe-m { stroke: var(--ink); stroke-width: 1.25; }
-.cce .cce-stripe-t { font-family: var(--font-support); font-size: 11px; fill: var(--ink); }
+.cce .cce-stripe-t { font-family: var(--font-support); font-size: 12px; fill: var(--ink); }
 .cce .cce-line--thin { stroke-width: 1; opacity: 0.45; }
 .cce .cce-life__form select { font: inherit; font-size: 1rem; width: min(100%, 24rem); min-width: 0; padding: 0.4rem 0.5rem; color: var(--ink); background: var(--paper);
-  border: 1px solid var(--muted); border-radius: 3px; }
+  border: 1px solid var(--muted); border-radius: 0; }
 .cce .cce-life__form select:focus-visible { outline: 2px solid var(--link); outline-offset: 1px; }
 .cce .cce-dline { fill: none; stroke-width: 1; opacity: 0.75; }
 .cce .cce-dline--hi { stroke-width: 2.5; opacity: 1; }
 .cce .cce-dlab { font: 600 0.75rem var(--sans, system-ui); fill: var(--ink); }
 .cce .cce-ramp { display: inline-flex; align-items: center; gap: 0.3rem; }
-.cce .cce-ramp i { display: inline-block; width: 7rem; height: 10px; border: 0; border-radius: 2px; }
+.cce .cce-ramp i { display: inline-block; width: 7rem; height: 10px; border: 0; border-radius: 0; }
 .cce .cce-ramp b { font-weight: 400; }
 .cce .cce-place-pick { display: flex; flex-wrap: wrap; gap: 0.35rem; margin: 1rem 0; max-width: 52rem; }
 .cce .cce-place-pick button { font: inherit; font-family: var(--font-support); font-size: 0.8125rem; padding: 0.4rem 0.7rem; color: var(--ink);
@@ -309,3 +324,15 @@
 .cce .cce-net { fill: none; stroke: var(--red); stroke-width: 2.25; }
 .cce .cce-net-dot { fill: var(--paper); stroke: var(--red); stroke-width: 1.25; }
 .cce .cce-legend i.cce-dot-key { width: 7px; height: 7px; border: 1.25px solid var(--red); border-radius: 50%; background: var(--paper); }
+/* licence notices carry long URLs: let them wrap on phones */
+.cce .cce-method__body { min-width: 0; overflow-wrap: anywhere; }
+.cce .cce-lic { color: var(--muted); font-size: 0.875em; }
+/* the numbers behind a chart, collapsed under the figure (review F4) */
+.cce .cce-data { margin-top: 0.75rem; font-size: 0.875rem; }
+.cce .cce-data summary { cursor: pointer; font-family: var(--font-support); font-size: 0.8125rem; color: var(--link); }
+.cce .cce-data__scroll { max-height: 22rem; overflow: auto; margin-top: 0.5rem; border-top: 1px solid var(--ink); }
+.cce .cce-data__scroll:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+.cce .cce-data table { border-collapse: collapse; width: 100%; font-variant-numeric: tabular-nums; }
+.cce .cce-data th, .cce .cce-data td { padding: 0.3rem 0.6rem 0.3rem 0; border-bottom: 1px solid var(--rule); text-align: right; white-space: nowrap; }
+.cce .cce-data th[scope="row"], .cce .cce-data th.l { text-align: left; font-weight: 500; }
+.cce .cce-data thead th { position: sticky; top: 0; background: var(--paper); font-family: var(--font-support); font-size: 0.75rem; font-weight: 600; }

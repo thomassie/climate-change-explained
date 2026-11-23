@@ -16,7 +16,7 @@ Published to `thomassie/climate-change-explained` (GitHub Pages) by `.github/scr
 | `data/impacts.json`, `indicators.json` | Impacts (IPCC extremes per warming level; measured sea level, ice, ocean, health, people) and indicator series (Arctic sea ice, ocean heat) |
 | `data/local.json` | Land temperature per country vs 1951-1980 (our averages of the Berkeley Earth 0.25° grid within Natural Earth borders) |
 | `data/budgets.json`, `pathways.json` | Remaining carbon budgets (Forster et al. 2026) and emission cuts in IPCC pathways |
-| `data/meta.json` | Export time and source database |
+| `data/meta.json` | Export time (`generated_at`) |
 | `og.png`, `figure-light.png`, `figure-dark.png` | Link preview and series figures (`tools/og/climate-change-explained.mjs`) |
 
 Every number in the page's text is computed from these files. The climate cards for 24 places are built but switched

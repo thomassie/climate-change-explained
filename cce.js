@@ -570,14 +570,15 @@
       const molecule = (sel, [x, y]) => { const g = sel.append('g').attr('class', 'cce-ghe-mol').attr('transform', `translate(${x},${y})`);
         g.append('circle').attr('cx', -7).attr('r', 3.5); g.append('circle').attr('cx', 7).attr('r', 3.5); g.append('circle').attr('class', 'cce-ghe-mol-c').attr('r', 4.5); return g; };
       let run = 0;
-      const wait = (ms, id) => new Promise((res) => setTimeout(res, ms)).then(() => { if (id !== run) throw new Error('stopped'); });
+      const SLOW = 2;   // the whole sequence at half speed: every duration and pause times SLOW
+      const wait = (ms, id) => new Promise((res) => setTimeout(res, ms * SLOW)).then(() => { if (id !== run) throw new Error('stopped'); });
       function label(id, on) {
         const [x, y] = GHE.lab[id], i = GHE.steps.findIndex((s) => s[0] === id), [a, b] = GHE.steps[i][1];
         const g = labs.append('g').attr('class', 'cce-ghe-step').attr('transform', `translate(${x},${y})`).attr('opacity', 0);
         g.append('circle').attr('r', 9).attr('cy', -4);
         g.append('text').attr('class', 'cce-ghe-n').attr('text-anchor', 'middle').text(i + 1);
         g.append('text').attr('class', 'cce-ghe-lab cce-ghe-x').attr('x', 14).text(a).append('tspan').attr('x', 14).attr('dy', 14).text(b);
-        g.transition().duration(on ? 0 : 400).attr('opacity', 1);
+        g.transition().duration(on ? 0 : 400 * SLOW).attr('opacity', 1);
         ghe.querySelector(`#cce-ghe-list li[data-s="${id}"]`).classList.add('is-on');
       }
       function travel(key, c0, c1, ms, id) {   // dot along a route, leaving a faint trace; colour c0 -> c1 halfway if given
@@ -585,15 +586,15 @@
         const n = path.node(), L = n.getTotalLength();
         path.attr('stroke-dasharray', `${L} ${L}`).attr('stroke-dashoffset', L);
         const dot = dots.append('circle').attr('class', 'cce-ghe-dot').attr('r', 6).style('fill', `var(--${c0})`);
-        path.transition().duration(ms).ease(d3.easeCubicInOut).attr('stroke-dashoffset', 0);
-        const t = dot.transition().duration(ms).ease(d3.easeCubicInOut);
+        path.transition().duration(ms * SLOW).ease(d3.easeCubicInOut).attr('stroke-dashoffset', 0);
+        const t = dot.transition().duration(ms * SLOW).ease(d3.easeCubicInOut);
         t.attrTween('transform', () => (u) => { const q = n.getPointAtLength(u * L); return `translate(${q.x},${q.y})`; })
           .styleTween('fill', () => (u) => `var(--${c1 && u > 0.5 ? c1 : c0})`);
         return t.end().catch(() => {}).then(() => { dot.remove(); if (id !== run) throw new Error('stopped'); });
       }
       function flash(x, y) {
         const g = mols.selectAll('.cce-ghe-mol').filter(function () { const tr = this.getAttribute('transform'); return tr === `translate(${x},${y})`; });
-        g.classed('is-hot', true); setTimeout(() => g.classed('is-hot', false), 700);
+        g.classed('is-hot', true); setTimeout(() => g.classed('is-hot', false), 700 * SLOW);
       }
       function reset() {
         run += 1;
@@ -618,20 +619,20 @@
           await wait(500, id);
           await travel('sun', 'yellow', null, 1300, id); label('sun');
           await wait(300, id);
-          ground.classed('is-lit', true); setTimeout(() => ground.classed('is-lit', false), 350);
+          ground.classed('is-lit', true); setTimeout(() => ground.classed('is-lit', false), 350 * SLOW);
           label('ground'); await wait(700, id);
           const back = travel('back', 'red', null, 2400, id);
-          setTimeout(() => { if (id === run) flash(300, 140); }, 1200);
+          setTimeout(() => { if (id === run) flash(300, 140); }, 1200 * SLOW);
           await back; label('back');
           await wait(400, id);
           await travel('escape', 'red', null, 1500, id); label('escape');
           await wait(900, id);
           const extra = GHE.molMore.map((m) => molecule(mols, m).classed('cce-ghe-mol--new', true).attr('opacity', 0));
-          extra.forEach((g, i) => g.transition().delay(i * 120).duration(400).attr('opacity', 1));
+          extra.forEach((g, i) => g.transition().delay(i * 120 * SLOW).duration(400 * SLOW).attr('opacity', 1));
           await wait(1300, id);
           const runs = [travel('more1', 'red', null, 2000, id), travel('more2', 'red', null, 2000, id), travel('more3', 'red', null, 2200, id)];
-          setTimeout(() => { if (id === run) { flash(272, 154); flash(488, 140); } }, 1000);
-          setTimeout(() => { if (id === run) ground.classed('is-warm', true); }, 600);
+          setTimeout(() => { if (id === run) { flash(272, 154); flash(488, 140); } }, 1000 * SLOW);
+          setTimeout(() => { if (id === run) ground.classed('is-warm', true); }, 600 * SLOW);
           await Promise.all(runs); label('more');
         } catch (e) { /* stopped by a new run */ }
       }

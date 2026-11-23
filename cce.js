@@ -27,7 +27,7 @@
     'datasets', 'co2', 'carbon', 'drivers', 'gases', 'sectors', 'countries', 'impacts', 'indicators', 'local', 'budgets', 'pathways', 'facts', 'daily'];
   // Climate cards for 24 places: parked until the Copernicus Atlas data is downloaded (pipeline/cce/place_climate.py).
   // Set to true once data/places.json is exported; until then the section is left out and nothing is requested.
-  const PLACES = false;
+  const PLACES = true;
   const optional = PLACES ? fetch(`${base}data/places.json`).then((r) => (r.ok ? r.json() : null)).catch(() => null) : Promise.resolve(null);
   Promise.all([...files.map((f) => fetch(`${base}data/${f}.json`).then((r) => { if (!r.ok) throw new Error(`${f}: HTTP ${r.status}`); return r.json(); })), optional])
     .then((d) => build(...d))
@@ -66,7 +66,7 @@
         <p class="cce-dek">Where we come from, where we are, and where we are heading: Earth’s temperature from the last ice age to 2100.</p>
       </header>`}
       <nav class="cce-nav" id="cce-nav" aria-label="On this page">
-        <a href="#cce-lead">Warming so far and ahead</a><a href="#cce-timeline-h">24,000 years in one chart</a><a href="#cce-daily-h">Day by day</a><a href="#cce-causes-h">Why it warms</a><a href="#cce-drivers-h">What warms, what cools</a><a href="#cce-impacts-h">How it shows up</a><a href="#cce-life-h">Your lifetime</a><a href="#cce-local-h">Where you live</a>${places ? '<a href="#cce-places-h">24 places</a>' : ''}<a href="#cce-decide-h">What decides it</a><a href="#cce-method-h">Sources and method</a>
+        <a href="#cce-lead">Warming so far and ahead</a><a href="#cce-timeline-h">24,000 years in one chart</a><a href="#cce-daily-h">Day by day</a><a href="#cce-causes-h">Why it warms</a><a href="#cce-drivers-h">What warms, what cools</a><a href="#cce-impacts-h">How it shows up</a><a href="#cce-life-h">Your lifetime</a><a href="#cce-local-h">Where you live</a>${places ? '<a href="#cce-places-h">${places.length} places</a>' : ''}<a href="#cce-decide-h">What decides it</a><a href="#cce-method-h">Sources and method</a>
       </nav>
       <section class="cce-lead" id="cce-lead" aria-labelledby="cce-lead-h">
         <h2 id="cce-lead-h">How much warmer</h2>
@@ -181,7 +181,7 @@
       </section>
       ${places ? `<section class="cce-places" aria-labelledby="cce-places-h">
         <a class="cce-top" href="#cce-nav">↑ Top</a>
-        <h2 id="cce-places-h">24 places, then, now and at more warming</h2>
+        <h2 id="cce-places-h">${places.length} places, then, now and at more warming</h2>
         <div class="cce-prose" id="cce-places-text"></div>
         <div class="cce-place-pick" id="cce-place-pick" role="group" aria-label="Choose a place"></div>
         <article class="cce-card" id="cce-card" aria-live="polite"></article>
@@ -1284,25 +1284,36 @@
       pick.innerHTML = places.map((p) => `<button type="button" data-id="${esc(p.id)}" aria-pressed="false">${esc(p.name)}</button>`).join('');
       pick.addEventListener('click', (ev) => { const b = ev.target.closest('button'); if (b) { placeId = b.dataset.id; drawCard(); } });
       const fmtI = (v, d) => (v == null ? '–' : fmt(v, d));
+      // Day counts add the models' change to ERA5's count. Where the models' own 1991-2020 count is far from ERA5's (more than
+      // twice or half, and 5 days apart), that change starts from a different point, so the future count is uncertain: flag it.
+      const shaky = (p, id) => {
+        if (!['tx35', 'tr', 'fd'].includes(id)) return null;
+        const c = p.v[id] && p.v[id]['1991-2020']; if (!c || c[4] == null) return null;
+        const [e, m] = [c[0], c[4]], r = (m + 1) / (e + 1);
+        return (r > 2 || r < 0.5) && Math.abs(m - e) >= 5 ? { era5: e, models: m } : null;
+      };
+      const UNIT = { tx35: 'days', tr: 'nights', fd: 'days' };
       // "What happens there", in words: each sentence is built from the card's own numbers (1991-2020 vs the highlighted level)
       function story(p, k) {
         const g = (id, per) => (p.v[id] && p.v[id][per]) || null;
         const now = (id) => (g(id, '1991-2020') || [])[0], at = (id) => (g(id, k) || [])[0];
         const agree = (id) => { const c = g(id, k), r = now(id); return c && c[1] != null && Math.sign(c[1] - r) === Math.sign(c[2] - r); };
-        const days = (v) => `${fmt(v)} ${Math.round(v) === 1 ? 'day' : 'days'}`;
+        const days = (v, n = 'day') => `${fmt(v)} ${n}${Math.round(v) === 1 ? '' : 's'}`;
         const out = [];
         if (now('t') != null && at('t') != null) out.push([9, `On average about <strong>${fmt(at('t') - now('t'), 1)} °C warmer</strong> than in 1991–2020${g('t', '1850-1900') ? `, and ${fmt(at('t') - g('t', '1850-1900')[0], 1)} °C warmer than around 1850–1900` : ''}.`]);
         if (now('txx') != null && at('txx') != null) out.push([8, `The hottest day of a typical year reaches about <strong>${fmt(at('txx'), 0)} °C</strong>, instead of ${fmt(now('txx'), 0)} °C.`]);
-        const count = (id, what, w) => {
+        const flag = (id) => (shaky(p, id) ? ' <span class="cce-card__flag">(uncertain, see the table)</span>' : '');
+        const count = (id, what, w, n = 'day') => {
           const a = now(id), b = at(id); if (a == null || b == null) return;
-          if (Math.round(a) < 1 && Math.round(b) >= 1) out.push([w + 2, `${what}, almost unknown today, come about <strong>${days(b)}</strong> a year.`]);
-          else if (Math.round(b) - Math.round(a) >= 1) out.push([w + Math.min(3, (b - a) / Math.max(a, 5)), `${what}: about <strong>${days(b)}</strong> a year instead of ${fmt(a)}.`]);
+          if (shaky(p, id)) w -= 3;   // an uncertain count is not the card's headline
+          if (Math.round(a) < 1 && Math.round(b) >= 1) out.push([w + 2, `${what}, almost unknown today, come about <strong>${days(b, n)}</strong> a year${flag(id)}.`]);
+          else if (Math.round(b) - Math.round(a) >= 1) out.push([w + Math.min(3, (b - a) / Math.max(a, 5)), `${what}: about <strong>${days(b, n)}</strong> a year instead of ${fmt(a)}${flag(id)}.`]);
         };
         count('tx35', 'Days above 35 °C', 7);
-        count('tr', 'Nights that stay above 20 °C', 6);
+        count('tr', 'Nights that stay above 20 °C', 6, 'night');
         if (now('fd') >= 1 && at('fd') != null) {
           const a = now('fd'), b = at('fd');
-          out.push([5 + Math.min(3, (a - b) / Math.max(a, 5)), b < 1 ? `Frost almost disappears (about ${fmt(a)} frost days a year in 1991–2020).` : `Frost days: about <strong>${fmt(b)}</strong> a year instead of ${fmt(a)}.`]);
+          out.push([5 + Math.min(3, (a - b) / Math.max(a, 5)), b < 1 ? `Frost almost disappears (about ${fmt(a)} frost days a year in 1991–2020).` : `Frost days: about <strong>${fmt(b)}</strong> a year instead of ${fmt(a)}${flag('fd')}.`]);
         }
         const rel = (id) => (at(id) / now(id) - 1) * 100;
         if (now('pr') > 0 && at('pr') != null) {
@@ -1318,7 +1329,7 @@
       function drawCard() {
         pick.querySelectorAll('button').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.id === placeId)));
         const p = places.find((q) => q.id === placeId), hl = nearLevel();
-        const head = PER.map((k) => `<th scope="col"${k === hl ? ' class="cce-card__hl"' : ''}>${k.startsWith('+') ? `${k} °C<span>world</span>` : `${k}<span>${k === '1991-2020' ? 'measured' : 'models'}</span>`}</th>`).join('');
+        const head = PER.map((k) => `<th scope="col"${k === hl ? ' class="cce-card__hl"' : ''}>${k.startsWith('+') ? `${k} °C<span>world</span>` : `${k}<span>${k === '1991-2020' ? 'area average' : 'models'}</span>`}</th>`).join('');
         const rows = IND.filter(([id]) => p.v[id]).map(([id, label, unit, d, kind]) => {
           const ref = p.v[id]['1991-2020'] && p.v[id]['1991-2020'][0];
           const cells = PER.map((k) => {
@@ -1328,19 +1339,23 @@
             const rel = ref ? dv / Math.max(Math.abs(ref), unit === '°C' ? 4 : 1) : 0;
             const tone = k === '1991-2020' || Math.abs(dv) < 10 ** -d ? '' : (kind === 'warm' ? (dv > 0 ? 'hot' : 'cool') : kind === 'cold' ? (dv < 0 ? 'hot' : 'cool') : kind === 'wet' ? (dv > 0 ? 'wet' : 'dry') : (dv > 0 ? 'dry' : 'wet'));
             const a = Math.min(1, Math.abs(rel)).toFixed(2);
-            return `<td${k === hl ? ' class="cce-card__hl"' : ''}${tone ? ` data-tone="${tone}" style="--a:${a}"` : ''}><b>${fmtI(v, d)}</b>${lo != null ? `<span>${fmtI(lo, d)}–${fmtI(hi, d)}</span>` : ''}</td>`;
+            return `<td${k === hl ? ' class="cce-card__hl"' : ''}${tone ? ` data-tone="${tone}" style="--a:${a}"` : ''}><b>${fmtI(v, d)}</b>${lo != null ? `<span>${fmtI(lo, d)}${lo < 0 || hi < 0 ? ' to ' : '–'}${fmtI(hi, d)}</span>` : ''}</td>`;
           }).join('');
-          return `<tr><th scope="row">${esc(label)}<span>${esc(unit)}</span></th>${cells}</tr>`;
+          return `<tr><th scope="row">${esc(label)}${shaky(p, id) ? ' <span class="cce-card__flag" aria-label="uncertain">*</span>' : ''}<span>${esc(unit)}</span></th>${cells}</tr>`;
         }).join('');
-        const nM = Math.min(...Object.values(p.v).map((o) => (o['+4'] || [])[3]).filter(Number.isFinite));
+        const shakyNote = IND.filter(([id]) => shaky(p, id)).map(([id, label]) => { const s = shaky(p, id);
+          return `${esc(label)}: ERA5 counts ${fmt(s.era5)} ${UNIT[id]} a year in 1991–2020, the models ${fmt(s.models)}`; });
+        const n4 = Object.values(p.v).map((o) => (o['+4'] || [])[3]).filter(Number.isFinite), nM = Math.min(...n4), nX = Math.max(...n4);
         root.querySelector('#cce-card').innerHTML = `<header><h3>${esc(p.name)}<span>${esc(p.country)}</span></h3><p>${esc(p.why)}</p></header>
           <div class="cce-card__story"><h4>What happens there if the world is ${esc(hl.slice(1))} °C warmer than in 1850–1900</h4>
           <ul>${story(p, hl).map((s) => `<li>${s}</li>`).join('')}</ul>
           <p class="cce-note">Compared with 1991–2020; median of the climate models. Choose another path at the top of the page to see another warming level.</p></div>
+          <p class="cce-note">The 1991–2020 values are averages over the area around ${esc(p.name)} (ERA5, cells about 25 km across), not a weather station’s record: a station in town can differ, most where mountains, ice or the sea are close. The changes are the robust part.</p>
           <p class="cce-card__swipe" aria-hidden="true">Swipe the table for the warming levels →</p><div class="cce-card__scroll"><table><thead><tr><th scope="col"><span class="cce-sr">Indicator</span></th>${head}</tr></thead><tbody>${rows}</tbody></table></div>
           <p class="cce-note">Shaded: change from 1991–2020 (red hotter, blue colder or wetter, yellow drier). Small numbers: range of the
           middle 80% of climate models. Column highlighted: the warming level nearest the path chosen at the top (${esc(L(cur))}).
-          ${Number.isFinite(nM) ? `At +4 °C only ${nM} models count, those that get that warm before 2100.` : ''}</p>`;
+          ${Number.isFinite(nM) ? `At +4 °C only ${nM === nX ? nM : `${nM} to ${nX}`} models count, those that get that warm before 2100.` : ''}</p>
+          ${shakyNote.length ? `<p class="cce-note"><span class="cce-card__flag">*</span> Uncertain: ${shakyNote.join('; ')}. The models’ change in ${shakyNote.length > 1 ? 'these counts starts' : 'this count starts'} from a different number than ERA5’s, so the future count${shakyNote.length > 1 ? 's are' : ' is'} only a rough guide. Near a threshold such as 35 °C or 20 °C, a small difference in temperature changes the count a lot.</p>` : ''}`;
       }
       root.querySelector('#cce-places-text').innerHTML = `<p>Global averages hide what warming does in a given place. For ${places.length} places
         in different climates, these cards show eight measures of heat, cold, rain and drought: around 1850–1900, in 1991–2020 and at
@@ -1348,8 +1363,9 @@
         happens; the path chosen at the top of the page decides how far it goes.</p>`;
       root.querySelector('#cce-places-cap').innerHTML = `1991–2020: ERA5 (measurement-based reanalysis), grid cell nearest the place.
         1850–1900 and warming levels: ERA5 1991–2020 plus the change the climate models (CMIP6, SSP5-8.5) show for the surrounding 1°
-        grid cell, median and 10th–90th percentile; a warming level is the 20 years around the year each model first reaches it.
-        Grid cells average about 100 km, so a city’s own extra heat is not included, and the wettest day is lower than at a single station.
+        grid cell, median and 10th–90th percentile; temperatures and day counts add the models’ change, rain amounts and dry spells
+        take their change in percent; a warming level is the 20 years around the year each model first reaches it.
+        The model cells are about 100 km across and ERA5’s about 25 km, so a city’s own extra heat is not included, and the wettest day is lower than at a single station.
         Data: Copernicus Climate Change Service, <a href="https://doi.org/10.24381/cds.h35hb680">Gridded dataset underpinning the Copernicus Interactive Climate Atlas</a> (CC BY 4.0);
         warming-level years: <a href="https://doi.org/10.5281/zenodo.3691645">IPCC AR6 Atlas</a>. Projections, not forecasts.`;
       drawCard();

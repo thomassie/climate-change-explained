@@ -293,11 +293,13 @@
 .cce .cce-place-pick button:hover { box-shadow: inset 0 -4px 0 var(--ink); }
 .cce .cce-place-pick button[aria-pressed="true"] { color: var(--paper); background: var(--ink); border-color: var(--ink); }
 .cce .cce-place-pick button:focus-visible { outline: 2px solid var(--link); outline-offset: 2px; }
-.cce .cce-card { max-width: 52rem; border-top: 2px solid var(--ink); padding-top: 0.75rem; }
+.cce .cce-places { grid-template-columns: minmax(0, 1fr); }   /* the card table scrolls inside, it must not widen the column */
+.cce .cce-card { min-width: 0; max-width: 52rem; border-top: 2px solid var(--ink); padding-top: 0.75rem; }
 .cce .cce-card h3 { margin: 0; }
 .cce .cce-card h3 span { font-weight: 400; color: var(--muted); margin-left: 0.5rem; font-size: 0.9em; }
 .cce .cce-card header p { margin: 0.25rem 0 0.75rem; color: var(--muted); }
 .cce .cce-card__scroll { overflow-x: auto; }
+.cce .cce-card__flag { color: var(--muted); font-weight: 400; }
 .cce .cce-card table { border-collapse: collapse; width: 100%; min-width: 34rem; font-variant-numeric: tabular-nums; }
 .cce .cce-card th, .cce .cce-card td { padding: 0.4rem 0.45rem; border-bottom: 1px solid var(--rule); text-align: right; vertical-align: top; }
 .cce .cce-card th[scope="row"] { text-align: left; font-weight: 500; }

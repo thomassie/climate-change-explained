@@ -98,114 +98,159 @@
       </section>
       <section class="cce-daily" aria-labelledby="cce-daily-h">
         <a class="cce-top" href="#cce-nav">↑ Top</a>
-        <h2 id="cce-daily-h">Day by day</h2>
-        <div class="cce-prose" id="cce-daily-text"></div>
-        <figure class="cce-fig">
-          <h3>Global air temperature on every day since <span id="cce-daily-y0"></span></h3>
-          <div class="cce-mini cce-mini--tall" id="cce-daily"></div>
-          <div class="cce-legend" id="cce-daily-leg"></div>
-          <figcaption class="cce-src" id="cce-daily-cap"></figcaption>
-        </figure>
+        <div class="block"><div class="block__rail">
+          <h2 id="cce-daily-h">Day by day</h2>
+          <div class="cce-prose" id="cce-daily-text"></div>
+        </div><div class="block__body">
+          <figure class="cce-fig">
+            <h3>Global air temperature on every day since <span id="cce-daily-y0"></span></h3>
+            <div class="cce-mini cce-mini--tall" id="cce-daily"></div>
+            <div class="cce-legend" id="cce-daily-leg"></div>
+            <figcaption class="cce-src" id="cce-daily-cap"></figcaption>
+          </figure>
+        </div></div>
       </section>
       <section class="cce-causes" aria-labelledby="cce-causes-h">
         <a class="cce-top" href="#cce-nav">↑ Top</a>
-        <h2 id="cce-causes-h">Why it warms</h2>
-        <div class="cce-prose" id="cce-ghe-text"></div>
-        <figure class="cce-fig cce-ghe" id="cce-ghe"></figure>
-        <h3>More CO₂ than in 800,000 years</h3>
-        <div class="cce-prose" id="cce-co2-text"></div>
-        <figure class="cce-fig">
-          <div class="cce-pair"><div class="cce-mini" id="cce-co2-long"></div><div class="cce-mini" id="cce-co2-short"></div></div>
-          <div class="cce-legend" id="cce-co2-leg"></div><figcaption class="cce-src" id="cce-co2-cap"></figcaption>
-        </figure>
-        <h3>Where the CO₂ goes</h3>
-        <div class="cce-prose" id="cce-sink-text"></div>
-        <figure class="cce-fig">
-          <div class="cce-mini cce-mini--tall" id="cce-sinks"></div>
-          <div class="cce-legend" id="cce-sinks-leg"></div><figcaption class="cce-src" id="cce-sinks-cap"></figcaption>
-        </figure>
+        <div class="block"><div class="block__rail">
+          <h2 id="cce-causes-h">Why it warms</h2>
+          <div class="cce-prose" id="cce-ghe-text"></div>
+        </div><div class="block__body">
+          <figure class="cce-fig cce-ghe" id="cce-ghe"></figure>
+        </div></div>
+        <div class="block"><div class="block__rail">
+          <h3>More CO₂ than in 800,000 years</h3>
+          <div class="cce-prose" id="cce-co2-text"></div>
+        </div><div class="block__body">
+          <figure class="cce-fig">
+            <div class="cce-pair"><div class="cce-mini" id="cce-co2-long"></div><div class="cce-mini" id="cce-co2-short"></div></div>
+            <div class="cce-legend" id="cce-co2-leg"></div><figcaption class="cce-src" id="cce-co2-cap"></figcaption>
+          </figure>
+        </div></div>
+        <div class="block"><div class="block__rail">
+          <h3>Where the CO₂ goes</h3>
+          <div class="cce-prose" id="cce-sink-text"></div>
+        </div><div class="block__body">
+          <figure class="cce-fig">
+            <div class="cce-mini cce-mini--tall" id="cce-sinks"></div>
+            <div class="cce-legend" id="cce-sinks-leg"></div><figcaption class="cce-src" id="cce-sinks-cap"></figcaption>
+          </figure>
+        </div></div>
       </section>
       <section class="cce-drivers" aria-labelledby="cce-drivers-h">
         <a class="cce-top" href="#cce-nav">↑ Top</a>
-        <h2 id="cce-drivers-h">What warms, what cools</h2>
-        <div class="cce-prose" id="cce-drv-text"></div>
-        <figure class="cce-fig"><div class="cce-bars" id="cce-drv"></div><figcaption class="cce-src" id="cce-drv-cap"></figcaption></figure>
-        <h3>Which gases, which sectors</h3>
-        <div class="cce-prose" id="cce-gas-text"></div>
-        <div class="cce-pair">
-          <figure class="cce-fig"><p class="cce-fig__t" id="cce-gas-t"></p><div class="cce-bars" id="cce-gas"></div><figcaption class="cce-src" id="cce-gas-cap"></figcaption></figure>
-          <figure class="cce-fig"><p class="cce-fig__t" id="cce-sec-t"></p><div class="cce-bars" id="cce-sec"></div><figcaption class="cce-src" id="cce-sec-cap"></figcaption></figure>
-        </div>
-        <h3>Which countries</h3>
-        <div class="cce-prose" id="cce-cty-text"></div>
-        <div class="cce-tabs" id="cce-cty-tabs" role="group" aria-label="Measure"></div>
-        <figure class="cce-fig"><div class="cce-bars" id="cce-cty"></div><figcaption class="cce-src" id="cce-cty-cap"></figcaption></figure>
+        <div class="block"><div class="block__rail">
+          <h2 id="cce-drivers-h">What warms, what cools</h2>
+          <div class="cce-prose" id="cce-drv-text"></div>
+        </div><div class="block__body">
+          <figure class="cce-fig"><div class="cce-bars" id="cce-drv"></div><figcaption class="cce-src" id="cce-drv-cap"></figcaption></figure>
+        </div></div>
+        <div class="block"><div class="block__rail">
+          <h3>Which gases, which sectors</h3>
+          <div class="cce-prose" id="cce-gas-text"></div>
+        </div><div class="block__body">
+          <div class="cce-pair">
+            <figure class="cce-fig"><p class="cce-fig__t" id="cce-gas-t"></p><div class="cce-bars" id="cce-gas"></div><figcaption class="cce-src" id="cce-gas-cap"></figcaption></figure>
+            <figure class="cce-fig"><p class="cce-fig__t" id="cce-sec-t"></p><div class="cce-bars" id="cce-sec"></div><figcaption class="cce-src" id="cce-sec-cap"></figcaption></figure>
+          </div>
+        </div></div>
+        <div class="block"><div class="block__rail">
+          <h3>Which countries</h3>
+          <div class="cce-prose" id="cce-cty-text"></div>
+        </div><div class="block__body">
+          <div class="cce-tabs" id="cce-cty-tabs" role="group" aria-label="Measure"></div>
+          <figure class="cce-fig"><div class="cce-bars" id="cce-cty"></div><figcaption class="cce-src" id="cce-cty-cap"></figcaption></figure>
+        </div></div>
       </section>
       <section class="cce-impacts" aria-labelledby="cce-impacts-h">
         <a class="cce-top" href="#cce-nav">↑ Top</a>
-        <h2 id="cce-impacts-h">How it shows up</h2>
-        <div class="cce-prose" id="cce-ext-text"></div>
-        <figure class="cce-fig"><div class="cce-ext" id="cce-ext"></div><figcaption class="cce-src" id="cce-ext-cap"></figcaption></figure>
-        <h3>Already measured</h3>
-        <div class="cce-prose" id="cce-obs-text"></div>
-        <div class="cce-cards" id="cce-cards"></div>
+        <div class="block"><div class="block__rail">
+          <h2 id="cce-impacts-h">How it shows up</h2>
+          <div class="cce-prose" id="cce-ext-text"></div>
+        </div><div class="block__body">
+          <figure class="cce-fig"><div class="cce-ext" id="cce-ext"></div><figcaption class="cce-src" id="cce-ext-cap"></figcaption></figure>
+        </div></div>
+        <div class="block"><div class="block__rail">
+          <h3>Already measured</h3>
+          <div class="cce-prose" id="cce-obs-text"></div>
+        </div><div class="block__body">
+          <div class="cce-cards" id="cce-cards"></div>
+        </div></div>
       </section>
       <section class="cce-life" aria-labelledby="cce-life-h">
         <a class="cce-top" href="#cce-nav">↑ Top</a>
-        <h2 id="cce-life-h">Your lifetime</h2>
-        <form class="cce-life__form" id="cce-life-form" onsubmit="return false">
-          <div class="cce-tools"><label class="cce-find cce-find--year" for="cce-born"><span>Year you were born</span>
-            <input id="cce-born" type="number" inputmode="numeric" min="1930" max="2025" step="1" value="1990"></label></div>
-          <span class="cce-note" id="cce-born-msg" aria-live="polite"></span>
-        </form>
-        <div class="cce-prose" id="cce-life-text" aria-live="polite"></div>
-        <figure class="cce-fig">
-          <div class="cce-stripes" id="cce-stripes"></div>
-          <div class="cce-legend" id="cce-stripes-leg"></div>
-          <figcaption class="cce-src" id="cce-stripes-cap"></figcaption>
-        </figure>
+        <div class="block"><div class="block__rail">
+          <h2 id="cce-life-h">Your lifetime</h2>
+          <div class="cce-prose" id="cce-life-text" aria-live="polite"></div>
+        </div><div class="block__body">
+          <form class="cce-life__form" id="cce-life-form" onsubmit="return false">
+            <div class="cce-tools"><label class="cce-find cce-find--year" for="cce-born"><span>Year you were born</span>
+              <input id="cce-born" type="number" inputmode="numeric" min="1930" max="2025" step="1" value="1990"></label></div>
+            <span class="note" id="cce-born-msg" aria-live="polite"></span>
+          </form>
+          <figure class="cce-fig">
+            <div class="cce-stripes" id="cce-stripes"></div>
+            <div class="cce-legend" id="cce-stripes-leg"></div>
+            <figcaption class="cce-src" id="cce-stripes-cap"></figcaption>
+          </figure>
+        </div></div>
       </section>
       <section class="cce-local" aria-labelledby="cce-local-h">
         <a class="cce-top" href="#cce-nav">↑ Top</a>
-        <h2 id="cce-local-h">Where you live</h2>
-        <form class="cce-life__form" onsubmit="return false">
-          <div class="cce-tools"><label class="cce-pick" for="cce-country"><span>Country</span><select id="cce-country"></select></label></div>
-        </form>
-        <div class="cce-prose" id="cce-local-text" aria-live="polite"></div>
-        <figure class="cce-fig">
-          <div class="cce-mini cce-mini--tall" id="cce-local-chart"></div>
-          <div class="cce-legend" id="cce-local-leg"></div>
-          <figcaption class="cce-src" id="cce-local-cap"></figcaption>
-        </figure>
+        <div class="block"><div class="block__rail">
+          <h2 id="cce-local-h">Where you live</h2>
+          <div class="cce-prose" id="cce-local-text" aria-live="polite"></div>
+        </div><div class="block__body">
+          <form class="cce-life__form" onsubmit="return false">
+            <div class="cce-tools"><label class="cce-pick" for="cce-country"><span>Country</span><select id="cce-country"></select></label></div>
+          </form>
+          <figure class="cce-fig">
+            <div class="cce-mini cce-mini--tall" id="cce-local-chart"></div>
+            <div class="cce-legend" id="cce-local-leg"></div>
+            <figcaption class="cce-src" id="cce-local-cap"></figcaption>
+          </figure>
+        </div></div>
       </section>
       ${places ? `<section class="cce-places" aria-labelledby="cce-places-h">
         <a class="cce-top" href="#cce-nav">↑ Top</a>
-        <h2 id="cce-places-h">${places.length} places, then, now and at more warming</h2>
-        <div class="cce-prose" id="cce-places-text"></div>
-        <div class="cce-place-pick" id="cce-place-pick" role="group" aria-label="Choose a place"></div>
-        <article class="cce-card" id="cce-card" aria-live="polite"></article>
-        <p class="cce-src" id="cce-places-cap"></p>
+        <div class="block"><div class="block__rail">
+          <h2 id="cce-places-h">${places.length} places, then, now and at more warming</h2>
+          <div class="cce-prose" id="cce-places-text"></div>
+        </div><div class="block__body">
+          <div class="cce-place-pick" id="cce-place-pick" role="group" aria-label="Choose a place"></div>
+          <article class="cce-card" id="cce-card" aria-live="polite"></article>
+          <p class="cce-src" id="cce-places-cap"></p>
+        </div></div>
       </section>` : ''}
       <section class="cce-decide" aria-labelledby="cce-decide-h">
         <a class="cce-top" href="#cce-nav">↑ Top</a>
-        <h2 id="cce-decide-h">What decides it</h2>
-        <div class="cce-prose" id="cce-budget-text"></div>
-        <figure class="cce-fig">
-          <h3>CO₂ emitted so far, and what is left</h3>
-          <div class="cce-bars" id="cce-budget"></div>
-          <figcaption class="cce-src" id="cce-budget-cap"></figcaption>
-        </figure>
-        <div class="cce-prose" id="cce-cuts-text"></div>
-        <figure class="cce-fig">
-          <h3>How fast emissions fall in pathways that hold warming</h3>
-          <div class="cce-bars" id="cce-cuts"></div>
-          <figcaption class="cce-src" id="cce-cuts-cap"></figcaption>
-        </figure>
+        <div class="block"><div class="block__rail">
+          <h2 id="cce-decide-h">What decides it</h2>
+          <div class="cce-prose" id="cce-budget-text"></div>
+        </div><div class="block__body">
+          <figure class="cce-fig">
+            <h3>CO₂ emitted so far, and what is left</h3>
+            <div class="cce-bars" id="cce-budget"></div>
+            <figcaption class="cce-src" id="cce-budget-cap"></figcaption>
+          </figure>
+        </div></div>
+        <div class="block"><div class="block__rail">
+          <div class="cce-prose" id="cce-cuts-text"></div>
+        </div><div class="block__body">
+          <figure class="cce-fig">
+            <h3>How fast emissions fall in pathways that hold warming</h3>
+            <div class="cce-bars" id="cce-cuts"></div>
+            <figcaption class="cce-src" id="cce-cuts-cap"></figcaption>
+          </figure>
+        </div></div>
       </section>
       <section class="cce-method" aria-labelledby="cce-method-h">
         <a class="cce-top" href="#cce-nav">↑ Top</a>
-        <h2 id="cce-method-h">Sources and method</h2>
-        <div class="cce-method__body"></div>
+        <div class="block"><div class="block__rail">
+          <h2 id="cce-method-h">Sources and method</h2>
+        </div><div class="block__body">
+          <div class="cce-method__body"></div>
+        </div></div>
       </section>`;
 
     // ---------- figures used in the text ----------
@@ -750,11 +795,23 @@
 
 
     // ================= Day by day (ERA5 daily, Copernicus Climate Pulse) =================
-    // Colour = the year's average compared with 1850-1900, on the same scale as the warming stripes (blue -1.5, neutral 0, red +3 °C).
-    // Lines use a grey instead of the page colour as neutral, so cool years stay visible.
-    function warmScale(neutral) {
-      return d3.scaleDiverging([-1.5, 0, 3], (k) => (k < 0.5 ? d3.interpolateRgb(css('--blue'), neutral)(k * 2) : d3.interpolateRgb(neutral, css('--red'))((k - 0.5) * 2))).clamp(true);
+    // Colour = the year's average compared with 1850-1900, on the same scale as the warming stripes: the site's diverging
+    // scale, 7 classes, blue (cooler) - grey - red (warmer), light and dark values from DESIGN-PRINCIPLES.md 4.3; round
+    // limits at ±0.5, ±1 and ±2 °C. Lines (forLines) draw the middle class in the guide's "everything else" grey, because
+    // the near-paper grey of the middle class would leave thin lines invisible.
+    const DIV7 = { light: ['#6687A5', '#97AEC3', '#CBD6E1', '#EBECED', '#F9C7BB', '#EC8E79', '#DA4E33'],
+                   dark:  ['#6F91AA', '#596F81', '#424F5A', '#3E444A', '#66433D', '#A3513D', '#E25B35'] };
+    const OTHER_GREY = { light: '#B5B9BE', dark: '#686E75' };
+    const WARM_LIMITS = [-2, -1, -0.5, 0.5, 1, 2];
+    const themeKey = () => (d3.hsl(css('--paper')).l < 0.5 ? 'dark' : 'light');
+    function warmScale(forLines) {
+      const c = DIV7[themeKey()].slice();
+      if (forLines) c[3] = OTHER_GREY[themeKey()];
+      return d3.scaleThreshold(WARM_LIMITS, c);
     }
+    const sg = (v) => (v > 0 ? `+${v}` : v < 0 ? `−${-v}` : '0');
+    const warmKey = (col) => col.range().map((c, i) => `<span><i class="cce-sq" style="background:${c};outline:1px solid var(--rule)"></i>${
+      i === 0 ? `below ${sg(WARM_LIMITS[0])}` : i === 6 ? `${sg(WARM_LIMITS[5])} or more` : `${sg(WARM_LIMITS[i - 1])} to ${sg(WARM_LIMITS[i])}`}</span>`).join('');
     const DY = daily.map((r) => ({ ...r, pts: r.d.map((di, i) => ({ di, t: r.t[i] })) }));
     const dyLast = DY[DY.length - 1], dyFull = DY.filter((r) => r.c);
     const dyWarm = dyFull.reduce((m, r) => (r.a > m.a ? r : m));
@@ -780,7 +837,7 @@
       const tip = tipFor(host);
       onSize(host, () => {
         const W = host.clientWidth, H = host.clientHeight, M = { t: 16, r: W < 520 ? 34 : 44, b: 24, l: 34 };
-        const col = warmScale(d3.interpolateRgb(css('--paper'), css('--muted'))(0.45));
+        const col = warmScale(true);
         d3.select(host).select('svg').remove();
         const svg = d3.select(host).insert('svg', ':first-child').attr('viewBox', `0 0 ${W} ${H}`).attr('role', 'img')
           .attr('aria-label', `Chart: daily global air temperature for each year ${DY[0].y}–${dyLast.y}, one line per year coloured by the year's warming above 1850–1900. Recent years run highest. Warmest day ${dDate(recDay.y, recDay.di)}, ${fmt(recDay.t, 2)} °C.`);
@@ -819,10 +876,9 @@
       });
     })(root.querySelector('#cce-daily'));
     function dailyLegend() {
-      const col = warmScale(d3.interpolateRgb(css('--paper'), css('--muted'))(0.45));
-      // the same steps and ends as the stripes legend (review D4)
+      // the same classes as the stripes legend (review D4)
       root.querySelector('#cce-daily-leg').innerHTML = `<span>The year’s average, °C compared with 1850–1900:</span>
-        ${[-1, 0, 1, 2, 3].map((v) => `<span><i class="cce-sq" style="background:${col(v)};outline:1px solid var(--rule)"></i>${v > 0 ? `+${v}` : v < 0 ? `−${-v}` : '0'}${v === 3 ? ' or more' : ''}</span>`).join('')}
+        ${warmKey(warmScale(true))}
         <span>Thick lines: ${dyWarm.y} (warmest year) and ${dyLast.y} (to ${lastStr})</span>`;
     }
     dailyLegend(); themeHooks.push(dailyLegend);
@@ -910,13 +966,52 @@
     // ---------- horizontal bars, label above each bar (works at any width) ----------
     // Horizontal bars. Labels wrap to the width; a value that does not fit right of its bar moves to the right end of the
     // label line (review D3: nothing may run past the edge at 390 px).
-    function bars(host, rows, { domain, fmtV, aria, refLine }) {
+    function bars(host, rows, { domain, fmtV, aria, refLine, columns }) {
       onSize(host, () => {
         const W = host.clientWidth, padR = 64, lineH = 15, top = refLine ? 14 : 0;
         d3.select(host).select('svg').remove();
         const svg = d3.select(host).append('svg').attr('role', 'img').attr('aria-label', aria);
         const mLab = svg.append('text').attr('class', 'cce-bar-lab'), mVal = svg.append('text').attr('class', 'cce-bar-val');
         const wOf = (m, s) => m.text(s).node().getComputedTextLength();
+        if (columns) {
+          // Bars on both sides of zero (design guide, review of "What warms, what cools"): the row label has its own
+          // column on the left; the plot starts after it with room for the longest negative value, so a value at a
+          // bar's outer end never reaches into the label column. One zero line runs the full height.
+          const LW = Math.round(Math.min(W * 0.4, 260)), gapL = 12, rowGap = 12;
+          const lo = (r) => Math.min(r.v, r.lo ?? r.v), hi = (r) => Math.max(r.v, r.hi ?? r.v);
+          const vNeg = d3.max(rows.filter((r) => r.v < 0), (r) => wOf(mVal, fmtV(r.v))) || 0;
+          const vPos = d3.max(rows.filter((r) => r.v >= 0), (r) => wOf(mVal, fmtV(r.v))) || 0;
+          const dmin = Math.min(0, d3.min(rows, lo)), dmax = Math.max(0, d3.max(rows, hi));
+          const x = d3.scaleLinear([dmin, dmax], [LW + gapL + (vNeg ? vNeg + 6 : 0), W - (vPos ? vPos + 6 : 0)]);
+          let yAt = 2;
+          const lay = rows.map((r) => {
+            const lines = [];
+            r.label.split(' ').forEach((w) => {
+              const last = lines[lines.length - 1];
+              if (last != null && wOf(mLab, `${last} ${w}`) <= LW) lines[lines.length - 1] = `${last} ${w}`; else lines.push(w);
+            });
+            const o = { r, lines, y: yAt };
+            yAt += Math.max(1, lines.length) * lineH + rowGap;
+            return o;
+          });
+          mLab.remove(); mVal.remove();
+          const H = yAt;
+          svg.attr('viewBox', `0 0 ${W} ${H}`).attr('height', H);
+          svg.append('line').attr('class', 'cce-zero').attr('x1', x(0)).attr('x2', x(0)).attr('y1', 0).attr('y2', H);
+          const g = svg.selectAll('g.cce-bar').data(lay).join('g').attr('class', (o) => `cce-bar${o.r.head ? ' cce-bar--head' : ''}`)
+            .attr('transform', (o) => `translate(0,${o.y})`);
+          g.append('title').text(({ r }) => `${r.label}: ${fmtV(r.v)}${r.lo != null ? ` (range ${fmtV(r.lo)} to ${fmtV(r.hi)})` : ''}`);
+          g.append('text').attr('class', 'cce-bar-lab').attr('y', 11).selectAll('tspan').data((o) => o.lines).join('tspan')
+            .attr('x', 0).attr('dy', (s, i) => (i ? lineH : 0)).text((s) => s);
+          g.append('rect').attr('x', ({ r }) => x(Math.min(0, r.v))).attr('y', 1).attr('height', 11)
+            .attr('width', ({ r }) => Math.max(1, Math.abs(x(r.v) - x(0)))).attr('fill', ({ r }) => `var(--${r.c})`);
+          g.filter(({ r }) => r.lo != null).append('path').attr('class', 'cce-whisk')
+            .attr('d', ({ r }) => `M${x(r.lo)} 2.5v8M${x(r.lo)} 6.5H${x(r.hi)}M${x(r.hi)} 2.5v8`);
+          g.append('text').attr('class', 'cce-bar-val').attr('y', 11)
+            .attr('x', ({ r }) => (r.v < 0 ? x(lo(r)) - 5 : x(hi(r)) + 5)).attr('text-anchor', ({ r }) => (r.v < 0 ? 'end' : 'start'))
+            .text(({ r }) => fmtV(r.v));
+          return;
+        }
         const dmin = domain ? domain[0] : Math.min(0, d3.min(rows, (r) => r.lo ?? r.v)), dmax = domain ? domain[1] : d3.max(rows, (r) => r.hi ?? r.v);
         const x = d3.scaleLinear([dmin, dmax], [dmin < 0 ? 64 : 2, W - padR]);
         let yAt = top;
@@ -983,7 +1078,7 @@
       { label: 'Sun and volcanoes', v: nat.value_c, lo: nat.low_c, hi: nat.high_c, c: 'muted', head: true },
       { label: 'Natural swings in the climate', v: iv.value_c, lo: iv.low_c, hi: iv.high_c, c: 'muted', head: true },
       ...subs.slice().sort((a, b) => b.value_c - a.value_c).map((d) => ({ label: d.label, v: d.value_c, lo: d.low_c, hi: d.high_c, c: C2(d.value_c) })),
-    ], { fmtV: (v) => `${sv(v)} °C`, aria: `Chart: contributions to warming in 2010–2019. Human influence ${fmt(hum.value_c, 2)} °C; carbon dioxide ${sv(co2d.value_c)} °C, methane ${sv(ch4d.value_c)} °C, sulphur dioxide ${sv(so2d.value_c)} °C.` });
+    ], { columns: true, fmtV: (v) => `${sv(v)} °C`, aria: `Chart: contributions to warming in 2010–2019. Human influence ${fmt(hum.value_c, 2)} °C; carbon dioxide ${sv(co2d.value_c)} °C, methane ${sv(ch4d.value_c)} °C, sulphur dioxide ${sv(so2d.value_c)} °C.` });
     root.querySelector('#cce-drv-cap').innerHTML = `Warming in 2010–2019 compared with 1850–1900, °C. Red warms, blue cools. Bold rows sum up, the rest are single substances.
       Whiskers: very likely range (5–95%), except for the bold rows below “Observed warming”: likely range, as the IPCC assesses them. ${dsrc('spm2', 'IPCC AR6 WGI, Figure SPM.2 data')} (Szopa et al. 2021, CC BY 4.0).`;
 
@@ -1072,7 +1167,7 @@
         <div class="cce-ext__bars" role="img" aria-label="${esc(`${t}, ${s}: ${LEVELS.map((l) => `${fmt(imv(h, l), 1)} times as often at ${l} °C`).join(', ')}`)}">
         ${[[0, 1], ...LEVELS.map((l) => [l, imv(h, l)])].map(([l, v], k) => { const mx = imv(h, 4);
           return `<div class="cce-ext__c${l === 0 ? ' cce-ext__c--base' : ''}"><span class="cce-ext__v">${l === 0 ? '1' : `×${fmt(v, 1)}`}</span>
-            <i style="--p:${(v / mx).toFixed(4)};--k:${k}"></i><span class="cce-ext__l">${l === 0 ? '1850–1900' : `+${l} °C`}</span></div>`; }).join('')}
+            <i data-k="${k}" style="--p:${(v / mx).toFixed(4)}"></i><span class="cce-ext__l">${l === 0 ? '1850–1900' : `+${l} °C`}</span></div>`; }).join('')}
         </div></div>`).join('');
     })(root.querySelector('#cce-ext'));
     root.querySelector('#cce-ext-cap').innerHTML = `How many times as often an extreme over land happens at each level of global warming, compared with
@@ -1163,7 +1258,7 @@
       const rows = [...obs.map((r) => ({ ...r, k: 'measured' })), ...proj.map((r) => ({ ...r, k: 'projected' }))];
       const W = host.clientWidth, H = 130, M = { t: 32, b: 22 };
       const x = d3.scaleBand(rows.map((r) => r.y), [0, W]);
-      const col = warmScale(css('--paper'));
+      const col = warmScale();
       d3.select(host).select('svg').remove();
       const svg = d3.select(host).insert('svg', ':first-child').attr('viewBox', `0 0 ${W} ${H}`).attr('role', 'img')
         .attr('aria-label', `Warming stripes from ${born} to 2099: one stripe per year, blue cooler and red warmer than 1850–1900; measured to ${lastObs}, then ${L(cur)}.`);
@@ -1182,7 +1277,7 @@
       });
       svg.append('text').attr('class', 'cce-stripe-t').attr('x', 0).attr('y', H - 6).text(`measured to ${lastObs}`);
       svg.append('text').attr('class', 'cce-stripe-t').attr('x', W).attr('y', H - 6).attr('text-anchor', 'end').text(`then ${L(cur)}`);
-      root.querySelector('#cce-stripes-leg').innerHTML = `<span>°C compared with 1850–1900:</span>${[-1, 0, 1, 2, 3].map((v) => `<span><i class="cce-sq" style="background:${col(v)};outline:1px solid var(--rule)"></i>${v > 0 ? `+${v}` : v < 0 ? `−${-v}` : '0'}${v === 3 ? ' or more' : ''}</span>`).join('')}`;
+      root.querySelector('#cce-stripes-leg').innerHTML = `<span>°C compared with 1850–1900:</span>${warmKey(col)}`;
     }
     root.querySelector('#cce-stripes-cap').innerHTML = `One stripe per year, global mean. Measured: ${src('obs_global', 'HadCRUT5')}; projected:
       ${src(`proj_global_ssp245`, 'IPCC AR6 SPM.8')} (central estimate of the path chosen at the top of the page). Design after Ed Hawkins’ (University of Reading)

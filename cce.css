@@ -2,13 +2,15 @@
    in a host site with its own styles. Colours only through theme.css tokens. Layout follows the container's width. */
 
 .cce {
-  --font-text: Helvetica, Arial, sans-serif;
-  --font-support: "Google Sans Code", ui-monospace, monospace;
-  --step--1: 0.8125rem; --step-0: 1rem; --step-1: 1.25rem; --step-2: 1.75rem; --step-3: 2.4rem;
-  --gap: clamp(1rem, 3vw, 2rem);
+  /* type scale and spacing of the site's design guide (DESIGN-PRINCIPLES.md 3.2, 5) */
+  --font-text: Arial, Helvetica, sans-serif;
+  --font-support: "Google Sans Code", "Courier New", monospace;
+  --step--1: 0.8125rem; --step-0: 1.0625rem; --step-1: 1.3125rem; --step-2: clamp(1.5rem, 3vw, 1.875rem); --step-3: 2.4rem;
+  --gap: clamp(1.5rem, 4vw, 3rem);
+  --block-pad: clamp(2.5rem, 6vw, 4.5rem);
   --sticky-top: 0px;
   container: cce / inline-size;
-  font-family: var(--font-text); color: var(--ink); background: var(--paper); line-height: 1.5;
+  font-family: var(--font-text); font-size: var(--step-0); color: var(--ink); background: var(--paper); line-height: 1.55;
 }
 .cce :where(h1, h2, h3, p, ul, li, button, figure) { margin: 0; padding: 0; font: inherit; color: inherit; border: 0; background: none; }
 .cce :where(svg, select, input, label, figcaption, table, caption, th, td) { margin: 0; border: 0; }
@@ -16,13 +18,14 @@
 .cce[data-layout="standalone"] { max-width: 1280px; margin: 0 auto; padding: 0 16px; }
 
 .cce .cce-head { display: grid; gap: 0.75rem; padding-block: clamp(2rem, 6vw, 4rem) 2rem; max-width: 46rem; }
-.cce h1 { font-size: var(--step-3); font-weight: 700; line-height: 1.1; }
-.cce h2 { font-size: var(--step-2); line-height: 1.15; font-weight: 700; color: var(--ink); }
+.cce h1 { font-size: var(--step-3); font-weight: 400; line-height: 1.1; }
+.cce h2 { font-size: var(--step-2); line-height: 1.1; font-weight: 400; color: var(--ink); }
+.cce h3 { font-size: var(--step-1); line-height: 1.2; font-weight: 400; color: var(--ink); }
 .cce .cce-dek { font-size: var(--step-1); color: var(--muted); }
-.cce .cce-note { font-family: var(--font-support); font-size: var(--step--1); color: var(--muted); }
+.cce :is(.note, .cce-note) { font-family: var(--font-support); font-size: var(--step--1); color: var(--muted); }
 .cce .cce-src { font-family: var(--font-support); font-size: var(--step--1); }
 /* headings end in a red dot, as on the other pages of the series */
-.cce :is(.cce-head h1, section > h2)::after { content: ""; display: inline-block; width: 0.22em; height: 0.22em; margin-left: 0.08em;
+.cce :is(.cce-head h1, section > h2, .block__rail > h2)::after { content: ""; display: inline-block; width: 0.12em; height: 0.12em; margin-left: 0.07em;
   border-radius: 50%; background: var(--red); vertical-align: baseline; }
 
 .cce .cce-nav { display: flex; flex-wrap: wrap; gap: 0.35rem 1.25rem; padding-block: 0.75rem; margin-bottom: 0.5rem;
@@ -50,13 +53,13 @@
 }
 
 /* Lead: two big figures */
-.cce .cce-lead { display: grid; gap: 0.75rem; padding-block: clamp(2rem, 5vw, 3.5rem); border-bottom: 1px solid var(--rule); margin-bottom: 2rem; }
+.cce .cce-lead { display: grid; gap: 0.75rem; padding-block: var(--block-pad); border-bottom: 1px solid var(--rule); }   /* lead figures: guide 3.3 */
 .cce .cce-lead__scen { font-family: var(--font-support); font-size: 0.8125rem; color: var(--muted); max-width: 46rem; }
 .cce .cce-lead__scen strong { color: var(--ink); font-weight: 500; }
-.cce .cce-hero { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 2rem clamp(1.5rem, 4vw, 3rem); align-items: start; padding-block: 1.5rem 0.5rem; }
+.cce .cce-hero { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 2rem var(--gap); align-items: start; padding-block: 1.5rem 0.5rem; }
 .cce .cce-hero__item { display: grid; gap: 0.6rem; align-content: start; min-width: 0; }
 .cce .cce-hero__label { font-family: var(--font-support); font-size: 0.875rem; color: var(--muted); display: inline-flex; align-items: center; gap: 0.5rem; }
-.cce .cce-hero__figure { font-weight: 500; font-size: clamp(3.25rem, 10vw, 6.5rem); line-height: 0.9; letter-spacing: -0.03em; color: var(--ink); font-variant-numeric: tabular-nums; }
+.cce .cce-hero__figure { font-weight: 400; font-size: clamp(3.25rem, 10vw, 6.5rem); line-height: 0.9; letter-spacing: -0.03em; color: var(--ink); font-variant-numeric: tabular-nums; }
 .cce .cce-hero__figure small { font-size: 0.45em; letter-spacing: 0; margin-left: 0.04em; }
 .cce .cce-hero__text { font-size: var(--step-1); line-height: 1.45; max-width: 28rem; }
 .cce .cce-sw { display: inline-block; width: 12px; height: 12px; flex: none; border-radius: 50%; }
@@ -68,19 +71,21 @@
 /* The story: steps scroll past the held chart */
 .cce .story { display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); gap: var(--gap); position: relative; }
 .cce .story__steps { grid-column: 1; grid-row: 1; min-width: 0; padding-bottom: 40vh; }
-.cce .story__graphic { grid-column: 2; grid-row: 1; position: sticky; top: var(--sticky-top);
-  height: calc(100vh - var(--sticky-top)); display: grid; align-content: center; gap: 0.4rem; min-width: 0; }
-.cce .step { min-height: 85vh; display: grid; align-content: center; padding-block: 1.5rem; }
+/* the graphic's head starts on the story's top line (design guide 8), the chart takes the height that is left */
+.cce .story__graphic { grid-column: 2; grid-row: 1; position: sticky; top: var(--sticky-top); box-sizing: border-box;
+  height: calc(100vh - var(--sticky-top)); display: flex; flex-direction: column; gap: 0.4rem; min-width: 0;
+  padding-block: clamp(1.5rem, 4vh, 2.5rem) 1rem; }
+.cce .step { min-height: 85vh; display: grid; align-content: start; padding-block: clamp(1.5rem, 4vh, 2.5rem) 1.5rem; }
 .cce .step:first-child { min-height: 60vh; }
 .cce .step__text { display: grid; gap: 0.75rem; max-width: 26rem; color: var(--muted); transition: color 0.25s; }
 .cce .step.is-active .step__text { color: var(--ink); }
 .cce .step__text strong { color: var(--ink); font-weight: 600; }
-.cce .cce-timeline-sec { padding-top: 0.5rem; }
-.cce .cce-timeline-sec > h2 { margin-bottom: 0.5rem; }
-.cce .cce-timeline-sec > .cce-intro { max-width: 46rem; color: var(--muted); }
+.cce .cce-timeline-sec { padding-top: var(--block-pad); }
+.cce .cce-timeline-sec > h2 { margin-bottom: 0.875rem; }
+.cce .cce-timeline-sec > .cce-intro { max-width: 26rem; color: var(--muted); }
 
 /* The chart */
-.cce .cce-chart { position: relative; width: 100%; height: min(72vh, 640px); }
+.cce .cce-chart { position: relative; width: 100%; flex: 1 1 0; min-height: 240px; }
 .cce .cce-chart svg { display: block; width: 100%; height: 100%; overflow: visible; }
 .cce .cce-axis text { font-family: var(--font-support); font-size: 12px; fill: var(--muted); }
 .cce .cce-axis line, .cce .cce-axis path { stroke: var(--rule); }
@@ -152,7 +157,6 @@
 .cce .cce-graphic-tabs[hidden] { display: none; }
 
 /* Sources and method */
-.cce .cce-method { padding-block: 3rem; border-top: 1px solid var(--rule); display: grid; gap: 1rem; }
 .cce .cce-method ul { list-style: none; display: grid; gap: 0.5rem; max-width: 52rem; }
 .cce .cce-method li { font-size: 0.9375rem; color: var(--muted); }
 .cce .cce-method li strong { color: var(--ink); font-weight: 600; }
@@ -161,8 +165,8 @@
 @container cce (max-width: 520px) { .cce .cce-graphic-tabs .cce-tab-x { display: none; } }
 @container cce (max-width: 860px) {
   .cce .story { display: block; }
-  .cce .story__graphic { height: calc(100svh - var(--sticky-top)); align-content: start; z-index: 0; padding-top: 0.5rem; background: var(--paper); }
-  .cce .cce-chart { height: 58svh; min-height: 280px; }
+  .cce .story__graphic { height: calc(100svh - var(--sticky-top)); z-index: 0; padding: 0.5rem 0 0; background: var(--paper); }
+  .cce .cce-chart { flex: none; height: 58svh; min-height: 280px; }
   .cce .story__steps { position: relative; z-index: 1; margin-top: calc(var(--sticky-top) - 100svh); padding-bottom: 50svh; pointer-events: none; }
   .cce .step, .cce .step:first-child { min-height: 92svh; align-content: end; padding-bottom: 6svh; }
   .cce .step__text { pointer-events: auto; max-width: none; padding: 1rem 1.1rem; background: var(--paper);
@@ -173,13 +177,25 @@
 @media (prefers-reduced-motion: reduce) { .cce .step__text { transition: none; } }
 
 /* ---------- Why it warms; what warms, what cools ---------- */
-.cce .cce-causes, .cce .cce-drivers, .cce .cce-impacts, .cce .cce-life, .cce .cce-local, .cce .cce-decide, .cce .cce-daily, .cce .cce-places { display: grid; gap: 1.25rem; padding-block: 3rem; border-top: 1px solid var(--rule); }
-.cce h3 { font-size: var(--step-1); font-weight: 700; line-height: 1.25; margin-top: 1.5rem; }
+/* Section blocks (design guide 3.2): every section outside the held story is one or more rows of a rail (heading,
+   explanation) and a body (controls, key, graphic, note) on the 4/8 grid; one rule between sections. */
+.cce :is(.cce-causes, .cce-drivers, .cce-impacts, .cce-life, .cce-local, .cce-decide, .cce-daily, .cce-places, .cce-method) {
+  display: grid; gap: var(--block-pad); padding-block: var(--block-pad); border-top: 1px solid var(--rule); }
+.cce .block { display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); gap: var(--gap); align-items: start; }
+.cce .block__rail { display: grid; gap: 0.875rem; align-content: start; min-width: 0; }
+.cce .block__body { display: grid; gap: 1.25rem; align-content: start; min-width: 0; }
+.cce .block__rail .cce-prose { max-width: 26rem; color: var(--muted); gap: 0.875rem; }
+.cce .block__rail .cce-prose strong { color: var(--ink); }
+@container cce (max-width: 760px) {
+  .cce .block { grid-template-columns: minmax(0, 1fr); gap: 1.25rem; }
+  .cce :is(.cce-causes, .cce-drivers, .cce-impacts, .cce-life, .cce-local, .cce-decide, .cce-daily, .cce-places, .cce-method) { gap: 2.5rem; }
+}
+
 .cce .cce-prose { display: grid; gap: 0.75rem; max-width: 46rem; }
 .cce .cce-prose strong { font-weight: 600; }
 .cce .cce-fig { display: grid; gap: 0.5rem; min-width: 0; }
 .cce .cce-fig__t { font-family: var(--font-support); font-size: 0.8125rem; color: var(--ink); }
-.cce .cce-fig figcaption { color: var(--muted); max-width: 52rem; }
+.cce .cce-fig figcaption { color: var(--muted); }
 .cce .cce-pair { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.5rem clamp(1.5rem, 4vw, 3rem); align-items: start; }
 @container cce (max-width: 720px) { .cce .cce-pair { grid-template-columns: minmax(0, 1fr); } }
 .cce .cce-mini { position: relative; height: 280px; min-width: 0; }
@@ -241,18 +257,22 @@
 }
 
 /* How it shows up: extremes per warming level, then cards of what is measured */
-.cce .cce-ext { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1.5rem clamp(1rem, 3vw, 2rem); }
-@container cce (max-width: 860px) { .cce .cce-ext { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-@container cce (max-width: 420px) { .cce .cce-ext { grid-template-columns: minmax(0, 1fr); } }
+.cce .cce-ext { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr)); gap: 1.5rem clamp(1rem, 3vw, 2rem); }   /* panels wrap by the body's width */
 .cce .cce-ext__p { display: grid; gap: 0.5rem; align-content: start; min-width: 0; }
 .cce .cce-ext__t { font-size: 0.875rem; color: var(--muted); }
 .cce .cce-ext__p { grid-template-rows: 1fr auto; }
 .cce .cce-ext__t strong { color: var(--ink); font-weight: 600; }
 .cce .cce-ext__bars { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 4px; height: 150px; align-items: end; border-bottom: 1px solid var(--muted); }
 .cce .cce-ext__c { display: flex; flex-direction: column; justify-content: flex-end; align-items: center; height: 100%; position: relative; min-width: 0; }
-/* one red, deepening with the warming level (k = 1..4: +1, +1.5, +2, +4 °C); the 1850-1900 bar stays grey */
-.cce .cce-ext__c i { display: block; width: 100%; height: calc(var(--p) * (100% - 18px)); min-height: 2px; border-radius: 0;
-  background: color-mix(in srgb, var(--red) calc(25% + var(--k) * 18.75%), var(--paper)); }
+/* one red, deepening with the warming level (k = 1..4: +1, +1.5, +2, +4 °C): the guide's sequential red, 4 steps for
+   separate marks (DESIGN-PRINCIPLES.md 4.3), light and dark values; the 1850-1900 bar stays grey */
+.cce { --seq4-1: #F09E8C; --seq4-2: #E36D54; --seq4-3: #BC4E3A; --seq4-4: #734B46; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .cce { --seq4-1: #944E3D; --seq4-2: #C4563A; --seq4-3: #E47037; --seq4-4: #DEA43B; } }
+:root[data-theme="dark"] .cce { --seq4-1: #944E3D; --seq4-2: #C4563A; --seq4-3: #E47037; --seq4-4: #DEA43B; }
+.cce .cce-ext__c i { display: block; width: 100%; height: calc(var(--p) * (100% - 18px)); min-height: 2px; border-radius: 0; background: var(--seq4-4); }
+.cce .cce-ext__c i[data-k="1"] { background: var(--seq4-1); }
+.cce .cce-ext__c i[data-k="2"] { background: var(--seq4-2); }
+.cce .cce-ext__c i[data-k="3"] { background: var(--seq4-3); }
 .cce .cce-ext__c--base i { background: var(--muted); }
 .cce .cce-ext__v { font-family: var(--font-support); font-size: 12px; color: var(--ink); padding-bottom: 3px; white-space: nowrap; }
 .cce .cce-ext__l { position: absolute; top: 100%; padding-top: 4px; font-family: var(--font-support); font-size: 12px; color: var(--muted); white-space: nowrap; }
@@ -260,8 +280,8 @@
 /* impact cards: as the place list of Sea-level Cities: a rule on top, no box; title, figure, small-caps label, text */
 .cce .cce-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 18rem), 1fr)); gap: 1.75rem 2rem; }
 .cce .cce-cards .cce-card { display: grid; gap: 0.3rem; align-content: start; padding: 0.6rem 0 0; border: 0; border-top: 1px solid var(--rule); min-width: 0; max-width: none; }
-.cce .cce-cards .cce-card__g { font-size: 1.25rem; font-weight: 600; line-height: 1.25; color: var(--ink); }
-.cce .cce-cards .cce-card__fig { font-size: 2.2rem; font-weight: 500; line-height: 1.05; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; margin-top: 0.15rem; }
+.cce .cce-cards .cce-card__g { font-size: var(--step-1); font-weight: 400; line-height: 1.25; color: var(--ink); }
+.cce .cce-cards .cce-card__fig { font-size: 2.2rem; font-weight: 400; line-height: 1.05; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; margin-top: 0.15rem; }
 .cce .cce-cards .cce-card__l { font-family: var(--font-support); font-size: 0.75rem; letter-spacing: 0.04em; text-transform: uppercase; color: var(--muted); }
 .cce .cce-cards .cce-card__t { font-size: 1rem; line-height: 1.5; }
 .cce .cce-spark { width: 100%; height: 50px; overflow: visible; margin-bottom: 14px; }
@@ -269,7 +289,7 @@
 .cce .cce-spark text { font-family: var(--font-support); font-size: 12px; fill: var(--muted); }
 
 /* Your lifetime */
-.cce .cce-life__form { display: grid; gap: 0.4rem; max-width: 32rem; }
+.cce .cce-life__form { display: grid; gap: 0.4rem; }
 
 .cce .cce-stripes { position: relative; width: 100%; min-width: 0; }
 .cce .cce-stripes svg { display: block; width: 100%; height: 130px; overflow: visible; }
@@ -282,14 +302,13 @@
 .cce .cce-ramp { display: inline-flex; align-items: center; gap: 0.3rem; }
 .cce .cce-ramp i { display: inline-block; width: 7rem; height: 10px; border: 0; border-radius: 0; }
 .cce .cce-ramp b { font-weight: 400; }
-.cce .cce-place-pick { display: flex; flex-wrap: wrap; gap: 0.35rem; margin: 1rem 0; max-width: 52rem; }
+.cce .cce-place-pick { display: flex; flex-wrap: wrap; gap: 0.35rem; }
 .cce .cce-place-pick button { font: inherit; font-family: var(--font-support); font-size: 0.8125rem; padding: 0.4rem 0.7rem; color: var(--ink);
   background: var(--paper); border: 1px solid var(--ink); border-radius: 0; cursor: pointer; }
 .cce .cce-place-pick button:hover { box-shadow: inset 0 -4px 0 var(--ink); }
 .cce .cce-place-pick button[aria-pressed="true"] { color: var(--paper); background: var(--ink); border-color: var(--ink); }
 .cce .cce-place-pick button:focus-visible { outline: 2px solid var(--link); outline-offset: 2px; }
-.cce .cce-places { grid-template-columns: minmax(0, 1fr); }   /* the card table scrolls inside, it must not widen the column */
-.cce .cce-card { min-width: 0; max-width: 52rem; border-top: 2px solid var(--ink); padding-top: 0.75rem; }
+.cce .cce-card { min-width: 0; border-top: 2px solid var(--ink); padding-top: 0.75rem; }
 .cce .cce-card h3 { margin: 0; }
 .cce .cce-card h3 span { font-weight: 400; color: var(--muted); margin-left: 0.5rem; font-size: 0.9em; }
 .cce .cce-card header p { margin: 0.25rem 0 0.75rem; color: var(--muted); }
@@ -326,7 +345,7 @@
   .cce .cce-card__swipe { display: block; font-size: 0.75rem; color: var(--muted); margin: 0 0 0.25rem; }
 }
 .cce .cce-card__story { margin: 0 0 1.25rem; max-width: 40rem; }
-.cce .cce-card__story h4 { margin: 0 0 0.4rem; font-size: 1rem; }
+.cce .cce-card__story h4 { margin: 0 0 0.4rem; font-size: var(--step-0); font-weight: 400; }
 .cce .cce-card__story ul { margin: 0 0 0.4rem; padding-left: 1.1rem; }
 .cce .cce-card__story li { margin: 0.2rem 0; }
 .cce .cce-net { fill: none; stroke: var(--red); stroke-width: 2.25; }

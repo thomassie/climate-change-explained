@@ -154,8 +154,8 @@
         <a class="cce-top" href="#cce-nav">↑ Top</a>
         <h2 id="cce-life-h">Your lifetime</h2>
         <form class="cce-life__form" id="cce-life-form" onsubmit="return false">
-          <label for="cce-born">Year you were born</label>
-          <input id="cce-born" type="number" inputmode="numeric" min="1930" max="2025" step="1" value="1990">
+          <div class="cce-tools"><label class="cce-find cce-find--year" for="cce-born"><span>Year you were born</span>
+            <input id="cce-born" type="number" inputmode="numeric" min="1930" max="2025" step="1" value="1990"></label></div>
           <span class="cce-note" id="cce-born-msg" aria-live="polite"></span>
         </form>
         <div class="cce-prose" id="cce-life-text" aria-live="polite"></div>
@@ -169,8 +169,7 @@
         <a class="cce-top" href="#cce-nav">↑ Top</a>
         <h2 id="cce-local-h">Where you live</h2>
         <form class="cce-life__form" onsubmit="return false">
-          <label for="cce-country">Country</label>
-          <select id="cce-country"></select>
+          <div class="cce-tools"><label class="cce-pick" for="cce-country"><span>Country</span><select id="cce-country"></select></label></div>
         </form>
         <div class="cce-prose" id="cce-local-text" aria-live="polite"></div>
         <figure class="cce-fig">
@@ -1132,7 +1131,7 @@
       card('Food', `−${fmt(r('food_tfp').value)}%`, `global farm productivity since 1961, compared with a world without climate change`,
         `${esc(r('food').statement)} ${esc(r('food_tfp').statement)}`,
         `${lnk(r('food_tfp').source_url, 'Ortiz-Bobea et al. 2021, Nature Climate Change')}; ${lnk(r('food').source_url, 'IPCC AR6 WGII, SPM B.1.3')}`),
-      card('Displacement', `${fmt(r('displacement_stock').value, 1)} million`, `people displaced by disasters within their country, ${esc(r('displacement_stock').period)}`,
+      card('Displacement', `${fmt(r('displacement_stock').value, 1)} million`, `people still living in internal displacement because of disasters on ${esc(r('displacement_stock').period)}`,
         `${esc(r('displacement').statement)} ${esc(r('displacement_stock').statement)}`,
         `${lnk(r('displacement').source_url, 'IPCC AR6 WGII, SPM B.1.7')}; ${lnk(r('displacement_stock').source_url, 'IDMC, Global Report on Internal Displacement 2026')}`),
     ].join('');

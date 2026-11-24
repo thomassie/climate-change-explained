@@ -1116,7 +1116,9 @@
       card('Ocean heat', `+${fmt(ohcN.v - ohc0.v)} ZJ`, `upper 2,000 m, ${ohc0.y}–${ohcN.y}`,
         `A zettajoule is 10²¹ joules. ${ohcRec >= 2 ? `Each of the last ${ohcRec} years set a new record.` : ohcRec === 1 ? `${ohcN.y} set a new record.` : ''}`,
         lnk(DS.get('ncei_ohc').source_url, 'NOAA NCEI'), spark(ohc, 'cce-line--land')),
-      card('Ocean acidity', 'pH', 'surface open ocean', esc(r('ph').statement), lnk(r('ph').source_url, 'IPCC AR6 WGI, SPM A.1.6 and A.2.4')),
+      card('Ocean acidity', `−${fmt(r('ph_rate').low, 3)} to −${fmt(r('ph_rate').high, 3)}`, `pH units per decade, surface open ocean, ${esc(r('ph_rate').period)}`,
+        `${esc(r('ph_rate').statement)} ${esc(r('ph').statement)}`,
+        `${lnk(r('ph_rate').source_url, 'IPCC SROCC, SPM A.2.5')}; ${lnk(r('ph').source_url, 'IPCC AR6 WGI, SPM A.1.6 and A.2.4')}`),
       card('Coral reefs', `${fmt(r('coral_obs').value)}%`, `of reef area hit by bleaching-level heat, ${esc(r('coral_obs').period)}`, esc(r('coral_obs').statement),
         lnk(r('coral_obs').source_url, `NOAA Coral Reef Watch${asOf(r('coral_obs'))}`)),
       card('Coral reefs, ahead', `${fmt(r('coral_proj').low)}–${fmt(r('coral_proj').high)}%`, 'further decline at 1.5 °C', esc(r('coral_proj').statement),
@@ -1127,8 +1129,12 @@
         lnk(r('pnw').source_url, 'Philip et al. 2022')),
       card('People', `${fmt(r('vulnerable').low, 1)}–${fmt(r('vulnerable').high, 1)} bn`, 'people highly vulnerable to climate change', esc(r('vulnerable').statement),
         lnk(r('vulnerable').source_url, 'IPCC AR6 WGII, SPM B.2')),
-      card('Food', 'Slower', 'growth of farm productivity, last 50 years', esc(r('food').statement), lnk(r('food').source_url, 'IPCC AR6 WGII, SPM B.1.3')),
-      card('Displacement', 'Rising', 'people driven from home by extremes', esc(r('displacement').statement), lnk(r('displacement').source_url, 'IPCC AR6 WGII, SPM B.1.7')),
+      card('Food', `−${fmt(r('food_tfp').value)}%`, `global farm productivity since 1961, compared with a world without climate change`,
+        `${esc(r('food').statement)} ${esc(r('food_tfp').statement)}`,
+        `${lnk(r('food_tfp').source_url, 'Ortiz-Bobea et al. 2021, Nature Climate Change')}; ${lnk(r('food').source_url, 'IPCC AR6 WGII, SPM B.1.3')}`),
+      card('Displacement', `${fmt(r('displacement_stock').value, 1)} million`, `people displaced by disasters within their country, ${esc(r('displacement_stock').period)}`,
+        `${esc(r('displacement').statement)} ${esc(r('displacement_stock').statement)}`,
+        `${lnk(r('displacement').source_url, 'IPCC AR6 WGII, SPM B.1.7')}; ${lnk(r('displacement_stock').source_url, 'IDMC, Global Report on Internal Displacement 2026')}`),
     ].join('');
 
 

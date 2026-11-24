@@ -118,17 +118,26 @@
 .cce .cce-lm line { stroke: var(--muted); stroke-width: 1; opacity: 0.75; }
 .cce .cce-lm rect { fill: var(--muted); opacity: 0.09; }
 .cce .cce-lm .cce-lm-hit { stroke: transparent; stroke-width: 12; cursor: pointer; }
-.cce .cce-lm[data-kind="nature"] line:not(.cce-lm-hit) { stroke-dasharray: none; }
-.cce .cce-lm[data-kind="history"] line:not(.cce-lm-hit) { stroke-dasharray: 1 3; }
-.cce .cce-lm[data-kind="policy"] line:not(.cce-lm-hit) { stroke-dasharray: 6 3; }
-.cce .cce-lm[data-kind="science"] line:not(.cce-lm-hit) { stroke: var(--link); stroke-dasharray: 3 2; }
-.cce .cce-lm[data-kind="industry"] line:not(.cce-lm-hit) { stroke: var(--red); stroke-dasharray: 3 2; opacity: 0.8; }
+.cce .cce-lm[data-kind="nature"] line:not(.cce-lm-hit):not(.cce-lm-hl) { stroke-dasharray: none; }
+.cce .cce-lm[data-kind="history"] line:not(.cce-lm-hit):not(.cce-lm-hl) { stroke-dasharray: 1 3; }
+.cce .cce-lm[data-kind="policy"] line:not(.cce-lm-hit):not(.cce-lm-hl) { stroke-dasharray: 6 3; }
+.cce .cce-lm[data-kind="science"] line:not(.cce-lm-hit):not(.cce-lm-hl) { stroke: var(--link); stroke-dasharray: 3 2; }
+.cce .cce-lm[data-kind="industry"] line:not(.cce-lm-hit):not(.cce-lm-hl) { stroke: var(--red); stroke-dasharray: 3 2; opacity: 0.8; }
 .cce .cce-lm text { font-family: var(--font-support); font-size: 12px; fill: var(--ink); paint-order: stroke; stroke: var(--paper); stroke-width: 3px; stroke-linejoin: round; cursor: pointer; }
 .cce .cce-lm text.cce-lm-num { fill: var(--muted); }
 .cce .cce-lm:hover text, .cce .cce-lm:focus text { text-decoration: underline; }
+/* hovering a landmark's line or label highlights both in yellow: a band under the line and a box behind the label
+   (yellow only as a fill, never as a thin line or as text: on light paper it is below 3:1); the label turns dark */
+.cce { --on-yellow: #3E4349; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .cce { --on-yellow: #2D3238; } }
+:root[data-theme="dark"] .cce { --on-yellow: #2D3238; }
+.cce .cce-lm line.cce-lm-hl { stroke: var(--yellow); stroke-width: 6; opacity: 0; stroke-dasharray: none; }
+.cce .cce-lm rect.cce-lm-tb { fill: var(--yellow); opacity: 0; }
+.cce .cce-lm:is(:hover, :focus-visible) :is(line.cce-lm-hl, rect.cce-lm-tb) { opacity: 1; }
+.cce .cce-lm:is(:hover, :focus-visible) text { fill: var(--on-yellow); stroke: var(--yellow); }
 .cce .cce-lm:focus { outline: none; }
 .cce .cce-lm:focus-visible { outline: 2px solid var(--ink); outline-offset: 1px; }
-.cce .cce-lm:focus-visible line:not(.cce-lm-hit) { stroke: var(--ink); stroke-width: 2; }
+.cce .cce-lm:focus-visible line:not(.cce-lm-hit):not(.cce-lm-hl) { stroke: var(--ink); stroke-width: 2; }
 /* skip link: visible only when focused (review F2) */
 .cce .cce-skip { position: absolute; left: -9999px; }
 .cce .cce-skip:focus { position: static; display: inline-block; margin-bottom: 0.4rem; font-family: var(--font-support); font-size: 0.8125rem; color: var(--link); outline: 2px solid var(--ink); }

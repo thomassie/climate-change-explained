@@ -491,7 +491,9 @@
         left.forEach((l) => place(l, String(NUM.get(l.id))));
         const g = gLm.selectAll('g.cce-lm').data(cand, (l) => l.id).join((en) => {
           const e = en.append('g').attr('class', 'cce-lm').attr('tabindex', 0).attr('role', 'button');
-          e.append('rect'); e.append('line').attr('class', 'cce-lm-v'); e.append('line').attr('class', 'cce-lm-hit'); e.append('text');
+          // first rect = the period's span; the yellow band and label box light up on hover (cce.css)
+          e.append('rect'); e.append('line').attr('class', 'cce-lm-hl'); e.append('rect').attr('class', 'cce-lm-tb');
+          e.append('line').attr('class', 'cce-lm-v'); e.append('line').attr('class', 'cce-lm-hit'); e.append('text');
           // keyboard: focus shows the note; Enter or Space keeps it open and moves to its Source link; Escape closes (review F1, F2)
           e.on('mouseenter', (ev, l) => show(l, ev)).on('mouseleave', () => hide(false)).on('click', (ev, l) => { ev.stopPropagation(); show(l, ev, true); })
             .on('focus', (ev, l) => show(l, ev)).on('blur', blurred)
@@ -514,6 +516,9 @@
             .attr('text-anchor', p && p.anchor === 'end' ? 'end' : 'start')
             .classed('cce-lm-num', !!p && p.text !== l.label)
             .text(p ? p.text : '');
+          const bb = p ? sel.select('text').node().getBBox() : null;
+          sel.select('rect.cce-lm-tb').attr('x', bb ? bb.x - 2 : 0).attr('y', bb ? bb.y - 1 : 0)
+            .attr('width', bb ? bb.width + 4 : 0).attr('height', bb ? bb.height + 2 : 0);
         });
       }
       let pinned = false, back = null;

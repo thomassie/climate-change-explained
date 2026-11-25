@@ -159,6 +159,7 @@
           <div class="cce-prose" id="cce-cty-text"></div>
         </div><div class="block__body">
           <div class="cce-tabs" id="cce-cty-tabs" role="group" aria-label="Measure"></div>
+          <div class="cce-tools"><label class="cce-pick" for="cce-cty-pick"><span>Find a country</span><select id="cce-cty-pick"></select></label></div>
           <figure class="cce-fig"><div class="cce-bars" id="cce-cty"></div><figcaption class="cce-src" id="cce-cty-cap"></figcaption></figure>
         </div></div>
       </section>
@@ -1040,6 +1041,7 @@
             const last = lines[lines.length - 1];
             if (last != null && wOf(mLab, `${last} ${w}`) <= maxW) lines[lines.length - 1] = `${last} ${w}`; else lines.push(w);
           });
+          if (r.sep) yAt += 14;   // a gap before a row added from outside the list (the picked country)
           const o = { r, lines, fits, vx, y: yAt };
           yAt += lines.length * lineH + 23;
           return o;
@@ -1136,25 +1138,49 @@
       <strong>${fmt(pct(c1.cum_gtco2, wCum))}%</strong>, and it is the total since then that drives the warming. Per person, among the
       ${big.length} largest emitters, someone in ${esc(cname(ppHi))} emitted about ${fmt(ppHi.tco2_pp, 1)} tonnes in ${cY}, someone in
       ${esc(cname(ppLo))} about ${fmt(ppLo.tco2_pp, 1)}; the world average was ${fmt(wPP, 1)}.</p>`;
+    // The reader can pick any country: its bar turns red (red = the reader's selection); a country outside the list is
+    // added at the bottom, after a gap, with its rank among all countries and territories by that measure.
+    let ctyPick = '';
+    // rank = 1 + the number of countries with a larger value, so equal values share a rank
+    const rankIn = (k) => { const s = cty.filter((c) => c[k] != null); return (c) => [1 + s.filter((x) => x[k] > c[k]).length, s.length]; };
+    const withPick = (list, k, val, outsideLabel) => {
+      const rows = list.map((c) => ({ label: cname(c), v: val(c), c: c.iso3 === ctyPick ? 'red' : 'ink' }));
+      const c = ctyPick && !list.some((x) => x.iso3 === ctyPick) ? cty.find((x) => x.iso3 === ctyPick) : null;
+      if (c && c[k] != null) rows.push({ label: outsideLabel(c), v: val(c), c: 'red', sep: true });
+      return rows;
+    };
+    // shares and amounts small enough for a picked country to need more precision than the 12 largest
+    const share = (p) => (p < 0.05 ? 'under 0.1%' : `${fmt(p, p < 1 ? 1 : 0)}%`);
+    // (countries.json stores Mt to 0.1 and Gt since 1850 to 0.01: never show more digits than that)
+    const mtTxt = (mt) => (mt < 0.1 ? 'under 0.1 Mt' : `${fmt(mt, mt < 10 ? 1 : 0)} Mt`);
+    const rankLabel = (k) => (c) => { const [r, n] = rankIn(k)(c); return `${cname(c)} (no. ${r} of ${n})`; };
     const CT = [
-      ['total', `In ${cY}`, () => top('mtco2', 12).map((c) => ({ label: cname(c), v: c.mtco2 / 1000, c: 'ink' })), (v) => `${fmt(v, 1)} Gt (${fmt(pct(v * 1000, wTot))}%)`, null],
-      ['pp', 'Per person', () => big.slice().sort((a, b) => b.tco2_pp - a.tco2_pp).map((c) => ({ label: cname(c), v: c.tco2_pp, c: 'ink' })), (v) => `${fmt(v, 1)} t`, { v: wPP, t: `world ${fmt(wPP, 1)} t` }],
-      ['cum', 'Since 1850', () => top('cum_gtco2', 12).map((c) => ({ label: cname(c), v: c.cum_gtco2, c: 'ink' })), (v) => `${fmt(v)} Gt (${fmt(pct(v, wCum))}%)`, null],
+      ['total', `In ${cY}`, () => withPick(top('mtco2', 12), 'mtco2', (c) => c.mtco2 / 1000, rankLabel('mtco2')), (v) => `${v < 0.1 ? mtTxt(v * 1000) : `${fmt(v, 1)} Gt`} (${share(pct(v * 1000, wTot))})`, null],
+      ['pp', 'Per person', () => withPick(big.slice().sort((a, b) => b.tco2_pp - a.tco2_pp), 'tco2_pp', (c) => c.tco2_pp,
+        (c) => `${cname(c)} (not among the ${big.length} largest emitters)`), (v) => `${fmt(v, 1)} t`, { v: wPP, t: `world ${fmt(wPP, 1)} t` }],
+      ['cum', 'Since 1850', () => withPick(top('cum_gtco2', 12), 'cum_gtco2', (c) => c.cum_gtco2, rankLabel('cum_gtco2')), (v) => `${v < 0.01 ? 'under 0.01' : fmt(v, v < 1 ? 2 : v < 10 ? 1 : 0)} Gt (${share(pct(v, wCum))})`, null],
     ];
     const CAP = {
       total: `Fossil CO₂ in ${cY}, billion tonnes, the 12 largest emitters; share of the world total including international shipping and aviation.`,
       pp: `Fossil CO₂ per person in ${cY}, tonnes, for the ${big.length} largest emitters.`,
       cum: `Fossil CO₂ 1850–${cY}, billion tonnes, within today’s borders; the 12 largest.`,
     };
-    const ctTabs = root.querySelector('#cce-cty-tabs');
+    const ctTabs = root.querySelector('#cce-cty-tabs'), ctPick = root.querySelector('#cce-cty-pick');
+    let ctyK = 'total';
+    ctPick.innerHTML = `<option value="">None</option>${cty.slice().sort((a, b) => cname(a).localeCompare(cname(b), 'en'))
+      .map((c) => `<option value="${esc(c.iso3)}">${esc(cname(c))}</option>`).join('')}`;
+    ctPick.addEventListener('change', () => { ctyPick = ctPick.value; setCty(ctyK); });
     CT.forEach(([k, t]) => { const b = document.createElement('button'); b.type = 'button'; b.dataset.k = k; b.textContent = t; b.addEventListener('click', () => setCty(k)); ctTabs.appendChild(b); });
     function setCty(k) {
+      ctyK = k;
       const ctyHost = root.querySelector('#cce-cty');
       ctTabs.querySelectorAll('button').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.k === k)));
       const [, t, rows, f, ref] = CT.find((c) => c[0] === k);
       const fresh = ctyHost.cloneNode(false); ctyHost.replaceWith(fresh);   // drops the old resize observer
-      bars(fresh, rows(), { fmtV: f, refLine: ref, aria: `Chart: fossil CO₂ by country, ${t.toLowerCase()}.` });
-      root.querySelector('#cce-cty-cap').innerHTML = `${CAP[k]} Counted where emitted, not where the goods are used; EU countries are shown
+      const rs = rows(), pr = rs.find((r) => r.c === 'red');
+      bars(fresh, rs, { fmtV: f, refLine: ref, aria: `Chart: fossil CO₂ by country, ${t.toLowerCase()}.${pr ? ` Highlighted: ${pr.label}, ${f(pr.v)}.` : ''}` });
+      const picked = ctyPick ? cty.find((c) => c.iso3 === ctyPick) : null;
+      root.querySelector('#cce-cty-cap').innerHTML = `${CAP[k]}${picked ? ` In red: ${esc(cname(picked))}${picked[{ total: 'mtco2', pp: 'tco2_pp', cum: 'cum_gtco2' }[k]] == null ? ' (no figure for this measure)' : ''}.` : ''} Counted where emitted, not where the goods are used; EU countries are shown
         separately. ${dsrc('gcb_country', 'Global Carbon Project 2026')}`;
     }
     setCty('total');

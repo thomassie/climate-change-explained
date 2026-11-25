@@ -1049,7 +1049,7 @@
         mLab.remove(); mVal.remove();
         const H = yAt + (refLine ? 4 : 4);
         svg.attr('viewBox', `0 0 ${W} ${H}`).attr('height', H);
-        const g = svg.selectAll('g.cce-bar').data(lay).join('g').attr('class', (o) => `cce-bar${o.r.head ? ' cce-bar--head' : ''}`)
+        const g = svg.selectAll('g.cce-bar').data(lay).join('g').attr('class', (o) => `cce-bar${o.r.head ? ' cce-bar--head' : ''}${o.r.pick ? ' cce-bar--pick' : ''}`)
           .attr('transform', (o) => `translate(0,${o.y})`);
         g.append('title').text(({ r }) => `${r.label}: ${fmtV(r.v)}${r.lo != null ? ` (range ${fmtV(r.lo)} to ${fmtV(r.hi)})` : ''}`);
         g.append('text').attr('class', 'cce-bar-lab').attr('y', 13).selectAll('tspan').data((o) => o.lines).join('tspan')
@@ -1131,7 +1131,8 @@
     const pop = d3.sum(cty.filter((c) => c.tco2_pp > 0), (c) => c.mtco2 / c.tco2_pp);
     const wPP = wTot / pop;
     const top = (k, n) => cty.slice().sort((a, b) => b[k] - a[k]).slice(0, n);
-    const big = top('mtco2', 15);
+    const NTOP = 15;   // every chart of this section shows the 15 largest (the per-person text compares them too)
+    const big = top('mtco2', NTOP);
     const t1 = big[0], c1 = top('cum_gtco2', 1)[0], ppHi = big.slice().sort((a, b) => b.tco2_pp - a.tco2_pp)[0], ppLo = big.slice().sort((a, b) => a.tco2_pp - b.tco2_pp)[0];
     root.querySelector('#cce-cty-text').innerHTML = `<p>Where the CO₂ comes from depends on how you count. In ${cY}, ${esc(cname(t1))} emitted the most fossil CO₂,
       <strong>${fmt(pct(t1.mtco2, wTot))}%</strong> of the world total. Counted since 1850, ${esc(theName(cname(c1)))} emitted the most,
@@ -1144,9 +1145,9 @@
     // rank = 1 + the number of countries with a larger value, so equal values share a rank
     const rankIn = (k) => { const s = cty.filter((c) => c[k] != null); return (c) => [1 + s.filter((x) => x[k] > c[k]).length, s.length]; };
     const withPick = (list, k, val, outsideLabel) => {
-      const rows = list.map((c) => ({ label: cname(c), v: val(c), c: c.iso3 === ctyPick ? 'red' : 'ink' }));
+      const rows = list.map((c) => ({ label: cname(c), v: val(c), c: c.iso3 === ctyPick ? 'red' : 'ink', pick: c.iso3 === ctyPick }));
       const c = ctyPick && !list.some((x) => x.iso3 === ctyPick) ? cty.find((x) => x.iso3 === ctyPick) : null;
-      if (c && c[k] != null) rows.push({ label: outsideLabel(c), v: val(c), c: 'red', sep: true });
+      if (c && c[k] != null) rows.push({ label: outsideLabel(c), v: val(c), c: 'red', sep: true, pick: true });
       return rows;
     };
     // shares and amounts small enough for a picked country to need more precision than the 12 largest
@@ -1155,15 +1156,15 @@
     const mtTxt = (mt) => (mt < 0.1 ? 'under 0.1 Mt' : `${fmt(mt, mt < 10 ? 1 : 0)} Mt`);
     const rankLabel = (k) => (c) => { const [r, n] = rankIn(k)(c); return `${cname(c)} (no. ${r} of ${n})`; };
     const CT = [
-      ['total', `In ${cY}`, () => withPick(top('mtco2', 12), 'mtco2', (c) => c.mtco2 / 1000, rankLabel('mtco2')), (v) => `${v < 0.1 ? mtTxt(v * 1000) : `${fmt(v, 1)} Gt`} (${share(pct(v * 1000, wTot))})`, null],
+      ['total', `In ${cY}`, () => withPick(top('mtco2', NTOP), 'mtco2', (c) => c.mtco2 / 1000, rankLabel('mtco2')), (v) => `${v < 0.1 ? mtTxt(v * 1000) : `${fmt(v, 1)} Gt`} (${share(pct(v * 1000, wTot))})`, null],
       ['pp', 'Per person', () => withPick(big.slice().sort((a, b) => b.tco2_pp - a.tco2_pp), 'tco2_pp', (c) => c.tco2_pp,
         (c) => `${cname(c)} (not among the ${big.length} largest emitters)`), (v) => `${fmt(v, 1)} t`, { v: wPP, t: `world ${fmt(wPP, 1)} t` }],
-      ['cum', 'Since 1850', () => withPick(top('cum_gtco2', 12), 'cum_gtco2', (c) => c.cum_gtco2, rankLabel('cum_gtco2')), (v) => `${v < 0.01 ? 'under 0.01' : fmt(v, v < 1 ? 2 : v < 10 ? 1 : 0)} Gt (${share(pct(v, wCum))})`, null],
+      ['cum', 'Since 1850', () => withPick(top('cum_gtco2', NTOP), 'cum_gtco2', (c) => c.cum_gtco2, rankLabel('cum_gtco2')), (v) => `${v < 0.01 ? 'under 0.01' : fmt(v, v < 1 ? 2 : v < 10 ? 1 : 0)} Gt (${share(pct(v, wCum))})`, null],
     ];
     const CAP = {
-      total: `Fossil CO₂ in ${cY}, billion tonnes, the 12 largest emitters; share of the world total including international shipping and aviation.`,
+      total: `Fossil CO₂ in ${cY}, billion tonnes, the ${NTOP} largest emitters; share of the world total including international shipping and aviation.`,
       pp: `Fossil CO₂ per person in ${cY}, tonnes, for the ${big.length} largest emitters.`,
-      cum: `Fossil CO₂ 1850–${cY}, billion tonnes, within today’s borders; the 12 largest.`,
+      cum: `Fossil CO₂ 1850–${cY}, billion tonnes, within today’s borders; the ${NTOP} largest.`,
     };
     const ctTabs = root.querySelector('#cce-cty-tabs'), ctPick = root.querySelector('#cce-cty-pick');
     let ctyK = 'total';

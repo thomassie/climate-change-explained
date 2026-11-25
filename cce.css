@@ -222,6 +222,7 @@
 .cce .cce-legend .cce-sq { border: 0; }
 .cce .cce-bar-lab { font-size: 13px; fill: var(--ink); }
 .cce .cce-bar--head .cce-bar-lab { font-weight: 600; }
+.cce .cce-bar--pick .cce-bar-lab { font-weight: 700; }   /* the country the reader picked (its bar is red) */
 .cce .cce-bar-val { font-family: var(--font-support); font-size: 12px; fill: var(--ink); }
 .cce .cce-whisk { stroke: var(--ink); stroke-width: 1.25; fill: none; opacity: 0.7; }
 .cce #cce-cty-tabs { margin-top: 0.25rem; }

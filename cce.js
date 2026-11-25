@@ -373,7 +373,7 @@
       const det = root.querySelector('#cce-lm-all');
       det.querySelector('summary').textContent = `All ${lmSorted.length} landmarks, with notes and sources`;
       det.querySelector('table').innerHTML = `<thead><tr><th scope="col">No.</th><th scope="col">When</th><th scope="col">Kind</th>
-        <th scope="col">Landmark</th><th scope="col">Source</th></tr></thead><tbody>${lmSorted.map((l) => `<tr><td>${NUM.get(l.id)}</td>
+        <th scope="col">Landmark</th><th scope="col">Source</th></tr></thead><tbody>${lmSorted.map((l) => `<tr data-lm="${esc(l.id)}"><td>${NUM.get(l.id)}</td>
         <td>${esc(l.date_label)}</td><td>${esc(KIND[l.kind])}</td><td><b>${esc(l.label)}</b> ${esc(l.note || '')}</td>
         <td><a href="${esc(l.source_url)}">Source</a></td></tr>`).join('')}</tbody>`;
     }
@@ -495,6 +495,8 @@
           e.append('rect'); e.append('line').attr('class', 'cce-lm-hl'); e.append('rect').attr('class', 'cce-lm-tb');
           e.append('line').attr('class', 'cce-lm-v'); e.append('line').attr('class', 'cce-lm-hit'); e.append('text');
           // keyboard: focus shows the note; Enter or Space keeps it open and moves to its Source link; Escape closes (review F1, F2)
+          // the landmark's row in the list below the chart lights up with it (and the other way round, see below)
+          e.on('mouseenter.row focus.row', (ev, l) => rowHl(l.id, true)).on('mouseleave.row blur.row', (ev, l) => rowHl(l.id, false));
           e.on('mouseenter', (ev, l) => show(l, ev)).on('mouseleave', () => hide(false)).on('click', (ev, l) => { ev.stopPropagation(); show(l, ev, true); })
             .on('focus', (ev, l) => show(l, ev)).on('blur', blurred)
             .on('keydown', function (ev, l) {
@@ -519,8 +521,16 @@
           const bb = p ? sel.select('text').node().getBBox() : null;
           sel.select('rect.cce-lm-tb').attr('x', bb ? bb.x - 2 : 0).attr('y', bb ? bb.y - 1 : 0)
             .attr('width', bb ? bb.width + 4 : 0).attr('height', bb ? bb.height + 2 : 0);
+          // the band under the line starts at the top of the label box, so band and box join without a gap
+          if (bb) sel.select('line.cce-lm-hl').attr('y1', Math.min(+sel.select('line.cce-lm-hl').attr('y1'), bb.y - 1));
         });
       }
+      const rowHl = (id, on) => { const r = root.querySelector(`#cce-lm-all tr[data-lm="${CSS.escape(id)}"]`); if (r) r.classList.toggle('is-hl', on); };
+      root.querySelectorAll('#cce-lm-all tr[data-lm]').forEach((r) => {
+        const lm = () => gLm.selectAll('g.cce-lm').filter((l) => l.id === r.dataset.lm);
+        r.addEventListener('mouseenter', () => { r.classList.add('is-hl'); lm().classed('is-hl', true); });
+        r.addEventListener('mouseleave', () => { r.classList.remove('is-hl'); lm().classed('is-hl', false); });
+      });
       let pinned = false, back = null;
       // close the note only once focus has left both the line and its note, so Tab can reach the Source link
       function blurred() { setTimeout(() => { if (!tip.node().contains(document.activeElement)) hide(true); }, 0); }

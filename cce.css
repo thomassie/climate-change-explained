@@ -133,8 +133,8 @@
 :root[data-theme="dark"] .cce { --on-yellow: #2D3238; }
 .cce .cce-lm line.cce-lm-hl { stroke: var(--yellow); stroke-width: 6; opacity: 0; stroke-dasharray: none; }
 .cce .cce-lm rect.cce-lm-tb { fill: var(--yellow); opacity: 0; }
-.cce .cce-lm:is(:hover, :focus-visible) :is(line.cce-lm-hl, rect.cce-lm-tb) { opacity: 1; }
-.cce .cce-lm:is(:hover, :focus-visible) text { fill: var(--on-yellow); stroke: var(--yellow); }
+.cce .cce-lm:is(:hover, :focus-visible, .is-hl) :is(line.cce-lm-hl, rect.cce-lm-tb) { opacity: 1; }
+.cce .cce-lm:is(:hover, :focus-visible, .is-hl) text { fill: var(--on-yellow); stroke: var(--yellow); }
 .cce .cce-lm:focus { outline: none; }
 .cce .cce-lm:focus-visible { outline: 2px solid var(--ink); outline-offset: 1px; }
 .cce .cce-lm:focus-visible line:not(.cce-lm-hit):not(.cce-lm-hl) { stroke: var(--ink); stroke-width: 2; }
@@ -148,6 +148,8 @@
 .cce .cce-lm-all table { border-collapse: collapse; width: 100%; min-width: 34rem; }
 .cce .cce-lm-all th, .cce .cce-lm-all td { text-align: left; vertical-align: top; padding: 0.35rem 0.5rem 0.35rem 0; border-bottom: 1px solid var(--rule); }
 .cce .cce-lm-all thead th { font-family: var(--font-support); font-size: 0.75rem; font-weight: 600; border-bottom: 1px solid var(--ink); }
+.cce .cce-lm-all tr.is-hl td { background: var(--yellow); color: var(--on-yellow); }   /* row of the landmark hovered in the chart */
+.cce .cce-lm-all tr.is-hl a { color: var(--on-yellow); }
 .cce .cce-lm-all td:first-child, .cce .cce-lm-all td:nth-child(2) { font-variant-numeric: tabular-nums; white-space: nowrap; }
 .cce .cce-kinds { display: flex; flex-wrap: wrap; gap: 0.3rem 0.9rem; font-family: var(--font-support); font-size: 0.75rem; color: var(--muted); }
 .cce .cce-kinds label { display: inline-flex; align-items: center; gap: 0.35rem; cursor: pointer; }

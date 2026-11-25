@@ -985,9 +985,10 @@
     // ---------- horizontal bars, label above each bar (works at any width) ----------
     // Horizontal bars. Labels wrap to the width; a value that does not fit right of its bar moves to the right end of the
     // label line (review D3: nothing may run past the edge at 390 px).
-    function bars(host, rows, { domain, fmtV, aria, refLine, columns }) {
+    // keepTop: reserve the reference line's label row even without one, so charts that swap (tabs) keep their rows in place
+    function bars(host, rows, { domain, fmtV, aria, refLine, columns, keepTop }) {
       onSize(host, () => {
-        const W = host.clientWidth, padR = 64, lineH = 15, top = refLine ? 14 : 0;
+        const W = host.clientWidth, padR = 64, lineH = 15, top = refLine || keepTop ? 14 : 0;
         d3.select(host).select('svg').remove();
         const svg = d3.select(host).append('svg').attr('role', 'img').attr('aria-label', aria);
         const mLab = svg.append('text').attr('class', 'cce-bar-lab'), mVal = svg.append('text').attr('class', 'cce-bar-val');
@@ -1182,7 +1183,7 @@
       const [, t, rows, f, ref] = CT.find((c) => c[0] === k);
       const fresh = ctyHost.cloneNode(false); ctyHost.replaceWith(fresh);   // drops the old resize observer
       const rs = rows(), pr = rs.find((r) => r.c === 'red');
-      bars(fresh, rs, { fmtV: f, refLine: ref, aria: `Chart: fossil CO₂ by country, ${t.toLowerCase()}.${pr ? ` Highlighted: ${pr.label}, ${f(pr.v)}.` : ''}` });
+      bars(fresh, rs, { fmtV: f, refLine: ref, keepTop: true, aria: `Chart: fossil CO₂ by country, ${t.toLowerCase()}.${pr ? ` Highlighted: ${pr.label}, ${f(pr.v)}.` : ''}` });
       const picked = ctyPick ? cty.find((c) => c.iso3 === ctyPick) : null;
       root.querySelector('#cce-cty-cap').innerHTML = `${CAP[k]}${picked ? ` In red: ${esc(cname(picked))}${picked[{ total: 'mtco2', pp: 'tco2_pp', cum: 'cum_gtco2' }[k]] == null ? ' (no figure for this measure)' : ''}.` : ''} Counted where emitted, not where the goods are used; EU countries are shown
         separately. ${dsrc('gcb_country', 'Global Carbon Project 2026')}`;

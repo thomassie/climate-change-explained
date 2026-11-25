@@ -1595,7 +1595,8 @@
     // ---------- method ----------
     const mb = root.querySelector('.cce-method__body');
     const ORDER = ['lgmr', 'temp12k', 'pages2k', 'obs_land', 'obs_sea', 'obs_global', `proj_global_ssp245`];
-    mb.innerHTML = `<p>All temperatures are differences from the 1850–1900 average, which the IPCC uses for pre-industrial
+    const updated = meta && meta[0] && meta[0].generated_at ? d3.utcFormat('%-d %B %Y')(new Date(meta[0].generated_at)) : null;
+    mb.innerHTML = `${updated ? `<p class="cce-updated">Data updated ${updated}.</p>` : ''}<p>All temperatures are differences from the 1850–1900 average, which the IPCC uses for pre-industrial
       times. Each measured series is shifted by its own 1850–1900 mean. The reconstructions before 1850 are tied to it
       through the PAGES 2k reconstruction, which overlaps both the thermometer era and the older records.</p>
       <ul>${ORDER.filter((s) => SER.has(s)).map((s) => { const r = SER.get(s);

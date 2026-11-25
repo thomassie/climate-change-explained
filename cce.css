@@ -172,6 +172,7 @@
 .cce .cce-method li { font-size: 0.9375rem; color: var(--muted); }
 .cce .cce-method li strong { color: var(--ink); font-weight: 600; }
 .cce .cce-method p { max-width: 52rem; }
+.cce .cce-method .cce-updated { margin-bottom: 1rem; font-family: var(--font-support); font-size: var(--step--1); color: var(--muted); }
 
 @container cce (max-width: 520px) { .cce .cce-graphic-tabs .cce-tab-x { display: none; } }
 @container cce (max-width: 860px) {

@@ -66,7 +66,7 @@
         <p class="cce-dek">Where we come from, where we are, and where we are heading: Earth’s temperature from the last ice age to 2100.</p>
       </header>`}
       <nav class="cce-nav" id="cce-nav" aria-label="On this page">
-        <a href="#cce-lead">Warming so far and ahead</a><a href="#cce-timeline-h">24,000 years in one chart</a><a href="#cce-daily-h">Day by day</a><a href="#cce-causes-h">Why it warms</a><a href="#cce-drivers-h">What warms, what cools</a><a href="#cce-impacts-h">How it shows up</a><a href="#cce-life-h">Your lifetime</a><a href="#cce-local-h">Where you live</a>${places ? `<a href="#cce-places-h">${places.length} places</a>` : ''}<a href="#cce-decide-h">What decides it</a><a href="#cce-method-h">Sources and method</a>
+        <a href="#cce-lead">Warming so far and ahead</a><a href="#cce-timeline-h">24,000 years in one chart</a><a href="#cce-daily-h">Day by day</a><a href="#cce-causes-h">Why it warms</a><a href="#cce-drivers-h">What warms, what cools</a><a href="#cce-countries-h">Which countries</a><a href="#cce-impacts-h">How it shows up</a><a href="#cce-life-h">Your lifetime</a><a href="#cce-local-h">Where you live</a>${places ? `<a href="#cce-places-h">${places.length} places</a>` : ''}<a href="#cce-decide-h">What decides it</a><a href="#cce-method-h">Sources and method</a>
       </nav>
       <section class="cce-lead" id="cce-lead" aria-labelledby="cce-lead-h">
         <h2 id="cce-lead-h">How much warmer</h2>
@@ -154,8 +154,11 @@
             <figure class="cce-fig"><p class="cce-fig__t" id="cce-sec-t"></p><div class="cce-bars" id="cce-sec"></div><figcaption class="cce-src" id="cce-sec-cap"></figcaption></figure>
           </div>
         </div></div>
+      </section>
+      <section class="cce-countries" aria-labelledby="cce-countries-h">
+        <a class="cce-top" href="#cce-nav">↑ Top</a>
         <div class="block"><div class="block__rail">
-          <h3>Which countries</h3>
+          <h2 id="cce-countries-h">Which countries</h2>
           <div class="cce-prose" id="cce-cty-text"></div>
         </div><div class="block__body">
           <div class="cce-tabs" id="cce-cty-tabs" role="group" aria-label="Measure"></div>
@@ -1158,12 +1161,12 @@
     const CT = [
       ['total', `In ${cY}`, () => withPick(top('mtco2', NTOP), 'mtco2', (c) => c.mtco2 / 1000, rankLabel('mtco2')), (v) => `${v < 0.1 ? mtTxt(v * 1000) : `${fmt(v, 1)} Gt`} (${share(pct(v * 1000, wTot))})`, null],
       ['pp', 'Per person', () => withPick(big.slice().sort((a, b) => b.tco2_pp - a.tco2_pp), 'tco2_pp', (c) => c.tco2_pp,
-        (c) => `${cname(c)} (not among the ${big.length} largest emitters)`), (v) => `${fmt(v, 1)} t`, { v: wPP, t: `world ${fmt(wPP, 1)} t` }],
+        (c) => { const [r, n] = rankIn('tco2_pp')(c); return `${cname(c)} (no. ${r} of ${n} per person)`; }), (v) => `${fmt(v, 1)} t`, { v: wPP, t: `world ${fmt(wPP, 1)} t` }],
       ['cum', 'Since 1850', () => withPick(top('cum_gtco2', NTOP), 'cum_gtco2', (c) => c.cum_gtco2, rankLabel('cum_gtco2')), (v) => `${v < 0.01 ? 'under 0.01' : fmt(v, v < 1 ? 2 : v < 10 ? 1 : 0)} Gt (${share(pct(v, wCum))})`, null],
     ];
     const CAP = {
       total: `Fossil CO₂ in ${cY}, billion tonnes, the ${NTOP} largest emitters; share of the world total including international shipping and aviation.`,
-      pp: `Fossil CO₂ per person in ${cY}, tonnes, for the ${big.length} largest emitters.`,
+      pp: `The ${big.length} largest emitters, compared per person: fossil CO₂ per person in ${cY}, tonnes. A country picked from outside them is shown with its rank among all countries per person.`,
       cum: `Fossil CO₂ 1850–${cY}, billion tonnes, within today’s borders; the ${NTOP} largest.`,
     };
     const ctTabs = root.querySelector('#cce-cty-tabs'), ctPick = root.querySelector('#cce-cty-pick');

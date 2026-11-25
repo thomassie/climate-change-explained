@@ -190,7 +190,7 @@
 /* ---------- Why it warms; what warms, what cools ---------- */
 /* Section blocks (design guide 3.2): every section outside the held story is one or more rows of a rail (heading,
    explanation) and a body (controls, key, graphic, note) on the 4/8 grid; one rule between sections. */
-.cce :is(.cce-causes, .cce-drivers, .cce-impacts, .cce-life, .cce-local, .cce-decide, .cce-daily, .cce-places, .cce-method) {
+.cce :is(.cce-causes, .cce-drivers, .cce-countries, .cce-impacts, .cce-life, .cce-local, .cce-decide, .cce-daily, .cce-places, .cce-method) {
   display: grid; gap: var(--block-pad); padding-block: var(--block-pad); border-top: 1px solid var(--rule); }
 .cce .block { display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); gap: var(--gap); align-items: start; }
 .cce .block__rail { display: grid; gap: 0.875rem; align-content: start; min-width: 0; }
@@ -199,7 +199,7 @@
 .cce .block__rail .cce-prose strong { color: var(--ink); }
 @container cce (max-width: 760px) {
   .cce .block { grid-template-columns: minmax(0, 1fr); gap: 1.25rem; }
-  .cce :is(.cce-causes, .cce-drivers, .cce-impacts, .cce-life, .cce-local, .cce-decide, .cce-daily, .cce-places, .cce-method) { gap: 2.5rem; }
+  .cce :is(.cce-causes, .cce-drivers, .cce-countries, .cce-impacts, .cce-life, .cce-local, .cce-decide, .cce-daily, .cce-places, .cce-method) { gap: 2.5rem; }
 }
 
 .cce .cce-prose { display: grid; gap: 0.75rem; max-width: 46rem; }
